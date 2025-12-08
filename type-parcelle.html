@@ -1,0 +1,955 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>BCF - Type & Parcelles disponibles</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="logo-BCF.png" type="image/png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="BCF-theme.css">
+  <link rel="stylesheet" href="BCF-buttons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    header img{height:50px;width:auto;}
+    .page-title{font-size:2rem;font-weight:700;color:#0a6600;}
+    @media (max-width:768px){.page-title{font-size:1.55rem;text-align:center;}}
+    .type-grid{display:grid;gap:1.3rem;margin-top:1.3rem;}
+    @media (min-width:768px){.type-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    .type-card{background:#fff;border:2px solid #e2e8e2;border-radius:14px;padding:1.1rem 1.2rem;box-shadow:0 4px 10px rgba(0,0,0,.06);transition:.25s;border-left:6px solid transparent;cursor:pointer;position:relative;}
+    .type-card:hover{border-color:#8fbf90;}
+    .type-card.selected{border-color:#006400;border-left-color:#006400;box-shadow:0 0 0 3px rgba(0,100,0,.25);}
+    .type-card h3{font-weight:700;font-size:20px;margin-bottom:.4rem;color:#153d19;}
+    .spec{display:inline-block;background:#eef7ef;color:#0a6600;font-size:.65rem;padding:.3rem .55rem;border-radius:4px;margin:.25rem .3rem 0 0;font-weight:600;letter-spacing:.3px;}
+    .parcelles-wrap{margin-top:2.5rem;display:none;}
+    .parcelles-grid{display:grid;gap:1rem;margin-top:1rem;}
+    @media (min-width:900px){.parcelles-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+    .parcelle-card{background:#fff;border:1px solid #d9e2da;border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:.6rem;box-shadow:0 2px 5px rgba(0,0,0,.05);transition:.25s;}
+    .parcelle-card:hover{border-color:#0a6600;box-shadow:0 4px 12px rgba(0,0,0,.09);}
+    .parcelle-card h4{font-weight:700;color:#0a6600;font-size:1rem;}
+    .parcelle-meta{font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;color:#555;}
+    .btn{padding:8px 16px;border-radius:6px;font-weight:700;transition:.3s;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;font-size:.8rem;}
+    .btn-primary{background:#006400;color:#fff;}
+    .btn-primary:hover{background:#004d00;}
+    .btn-secondary{background:#fff;border:2px solid #006400;color:#006400;}
+    .btn-secondary:hover{background:#f3fff3;}
+    .btn-disabled{opacity:.45;cursor:not-allowed;}
+    .alert{display:none;margin-bottom:1rem;padding:.9rem 1rem;border-radius:8px;font-size:.85rem;font-weight:600;}
+    .alert-error{background:#fde2e2;color:#7a1010;border:1px solid #f5b5b5;}
+    .alert-info{background:#e5f3ff;color:#084a76;border:1px solid #b6dcff;}
+    .site-footer{background:#111827;color:#d1d5db;padding:2.5rem 1rem;margin-top:4rem;}
+    .site-footer a{color:#d1d5db;} .site-footer a:hover{color:#fff;}
+    /* Ajouts mineurs */
+    #parcellesWrapper.hidden {display:none;}
+    .type-hint {
+      background:#fff8e2;
+      border:1px solid #f0d48a;
+      padding:14px 16px;
+      border-radius:10px;
+      font-size:.9rem;
+      color:#644d00;
+      max-width:780px;
+      margin:18px auto;
+    }
+    .type-filter-active {
+      outline:2px solid #a67c00;
+      background:#fff3d1 !important;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+<header class="site-header">
+  <div class="nav-shell">
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo">
+        <img src="logo-BCF.png" alt="BCF">
+      </a>
+      <button id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+    <nav id="navMain" class="nav-main" aria-label="Navigation principale">
+      <ul class="nav-links" id="navMenu">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="conditions.html">Conditions</a></li>
+        <li><a href="souscrire.html">Souscription</a></li>
+        <li><a href="type-parcelle.html">Parcelles</a></li>
+        <li><a href="paiement.html">Paiement</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-mobile-cta" style="display:none;">
+          <a class="nav-cta" href="identification.html"><i class="fa-solid fa-pen-to-square"></i> Souscrire</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <a class="nav-cta" href="identification.html">
+        <i class="fa-solid fa-pen-to-square"></i> Souscrire
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="h-24"></div>
+
+<main class="max-w-7xl mx-auto px-4 pb-24">
+  <h1 class="page-title mb-4 text-center md:text-left">Sélection du type de parcelle</h1>
+  <div id="msgRedirect" class="alert alert-error"></div>
+  <p class="text-gray-600 text-sm">Choisissez un type puis sélectionnez une parcelle disponible.</p>
+
+  <div class="type-grid" id="typeChoices">
+    <div class="type-card" data-type="habitation">
+      <h3>Habitation</h3>
+      <p class="text-sm text-gray-600">Parcelles à usage résidentiel (cadre familial).</p>
+      <div>
+        <span class="spec">Réservation 10%</span>
+        <span class="spec">Usage résidentiel</span>
+        <span class="spec">Zone aménagée</span>
+      </div>
+    </div>
+    <div class="type-card" data-type="commercial">
+      <h3>Commercial</h3>
+      <p class="text-sm text-gray-600">Parcelles à vocation économique (services, commerce).</p>
+      <div>
+        <span class="spec">Réservation 20%</span>
+        <span class="spec">Flux élevé</span>
+        <span class="spec">Potentiel activité</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="typeMessage" class="type-hint">
+    Veuillez choisir un type de parcelle pour afficher les lots disponibles.
+  </div>
+
+  <div id="parcellesWrapper" class="hidden">
+    <!-- Votre grille / liste de cartes parcelles existante -->
+    <!-- Exemple : 
+    <div class="parcelle-card" data-type="habitation" data-code="H-L01-P001">...</div>
+    <div class="parcelle-card" data-type="commercial" data-code="C-L01-P003">...</div>
+    -->
+  </div>
+
+  <section id="parcellesSection" class="parcelles-wrap">
+    <h2 class="text-xl font-bold text-green-800 flex items-center gap-2">
+      Parcelles disponibles <span id="typeLabel" class="text-sm font-medium bg-green-100 text-green-800 px-2 py-1 rounded"></span>
+    </h2>
+    <div id="parcellesGrid" class="parcelles-grid"></div>
+    <div class="flex justify-center mt-8 gap-4">
+      <a href="identification.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Retour Identification</a>
+      <button id="btnSuivant" class="btn btn-primary btn-disabled" disabled>Suivant (si parcelle choisie) <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </section>
+</main>
+
+<!-- Footer unifié BCF -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col footer-brand">
+      <a href="index.html" class="footer-logo">
+        <img src="logo-BCF.png" alt="Logo BCF">
+        <span>BCF</span>
+      </a>
+      <p class="footer-text">
+        Plateforme de sélection et de gestion des parcelles dans les opérations d’aménagement foncier.
+      </p>
+      <a class="footer-wa-btn"
+        href="https://wa.me/224613079246?text=Bonjour%2C%20je%20souhaite%20une%20assistance."
+         target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> Assistance WhatsApp
+      </a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <div class="footer-links">
+        <a href="index.html">Accueil</a>
+        <a href="conditions.html">Conditions</a>
+        <a href="souscrire.html">Souscription</a>
+        <a href="type-parcelle.html">Parcelles</a>
+        <a href="paiement.html">Paiement</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+
+    <div class="footer-col footer-contact">
+      <h4>Contact</h4>
+      <p>Boulevard Léon M’Ba<br>Cotonou – Bénin</p>
+      <p class="tel">(+224) 613 07 92 46</p>
+      <p>contact@BCF.bj</p>
+      <div class="footer-hours">Lun - Ven : 08h00 - 17h30</div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Réseaux sociaux</h4>
+      <div class="social-links">
+        <a href="https://www.facebook.com/share/1CVRTsV4wS/?mibextid=wwXIfr"
+           target="_blank" rel="noopener" aria-label="Facebook BCF">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 BCF. Tous droits réservés.
+  </div>
+</footer>
+
+<script>
+(function(){
+  if(localStorage.getItem('identificationValid')!=='true'){
+    window.location.replace('identification.html');return;
+  }
+
+  // ===== Données parcelles =====
+  // Habitation: liste transcrite (sans villes). Prix/m² = 0 GNF.
+  const habitationParcelles = [
+    {code:'A-L09-P007', surface:654.97},
+    {code:'B-L05-P019', surface:1712.63},
+    {code:'B-L01-P001', surface:1407.74},
+    {code:'A-L06-P013', surface:1833.43},
+    {code:'B-L02-P016', surface:1443.58},
+    {code:'A-L06-P010', surface:1064.01},
+    {code:'A-L03-P002', surface:835.11},
+    {code:'B-L07-P014', surface:1124.68},
+    {code:'B-L02-P004', surface:819.74},
+    {code:'B-L08-P007', surface:1757.99},
+    {code:'A-L01-P011', surface:793.56},
+    {code:'A-L08-P003', surface:694.87},
+    {code:'A-L03-P008', surface:1684.62},
+    {code:'A-L04-P009', surface:1953.67},
+    {code:'B-L04-P017', surface:976.31},
+    {code:'B-L07-P017', surface:1129.66},
+    {code:'B-L06-P019', surface:1462.12},
+    {code:'A-L08-P001', surface:1871.95},
+    {code:'A-L08-P019', surface:1087.19},
+    {code:'A-L08-P005', surface:1152.63},
+    {code:'A-L03-P003', surface:754.01},
+    {code:'B-L08-P006', surface:994.23},
+    {code:'A-L09-P009', surface:1827.62},
+    {code:'B-L08-P011', surface:1306.48},
+    {code:'B-L03-P013', surface:1764.41},
+    {code:'A-L02-P002', surface:1342.59},
+    {code:'B-L04-P010', surface:1805.35},
+    {code:'B-L05-P017', surface:1715.83},
+    {code:'A-L04-P017', surface:904.18},
+    {code:'B-L06-P006', surface:989.7},
+    {code:'B-L08-P019', surface:584.7},
+    {code:'B-L08-P001', surface:1078.49},
+    {code:'A-L04-P001', surface:1595.04},
+    {code:'B-L02-P005', surface:728.11},
+    {code:'B-L07-P012', surface:1629.34},
+    {code:'A-L07-P012', surface:1122.04},
+    {code:'A-L06-P018', surface:913.42},
+    {code:'B-L03-P002', surface:647.44},
+    {code:'A-L02-P007', surface:1974.37},
+    {code:'B-L08-P005', surface:903.26},
+    {code:'A-L07-P013', surface:1020.47},
+    {code:'A-L07-P017', surface:1643.92},
+    {code:'A-L04-P010', surface:1524.53},
+    {code:'B-L06-P008', surface:835.16},
+    {code:'B-L06-P018', surface:1930.68},
+    {code:'A-L10-P019', surface:782.61},
+    {code:'A-L03-P020', surface:555.74},
+    {code:'B-L04-P007', surface:887.81},
+    {code:'B-L05-P011', surface:1687.12},
+    {code:'A-L07-P020', surface:980.35},
+    {code:'A-L06-P011', surface:1361.18},
+    {code:'A-L10-P005', surface:1284.06},
+    {code:'A-L01-P020', surface:855.3},
+    {code:'A-L04-P002', surface:1305.06},
+    {code:'A-L06-P016', surface:1377.65},
+    {code:'B-L02-P007', surface:1938.03},
+    {code:'A-L02-P010', surface:1750.29},
+    {code:'B-L07-P001', surface:1464.75},
+    {code:'B-L08-P013', surface:1550.45},
+    {code:'A-L07-P003', surface:671.34},
+    {code:'A-L01-P012', surface:1032.26},
+    {code:'A-L09-P010', surface:1682.32},
+    {code:'A-L10-P016', surface:1221.6},
+    {code:'B-L08-P015', surface:1163.26},
+    {code:'B-L07-P002', surface:1702.95},
+    {code:'B-L01-P002', surface:1894.1},
+    {code:'B-L01-P015', surface:1949.59},
+    {code:'B-L07-P006', surface:1088.17},
+    {code:'A-L05-P013', surface:775.03},
+    {code:'B-L04-P018', surface:1629.49},
+    {code:'B-L04-P004', surface:1604.6},
+    {code:'A-L04-P016', surface:1677.62},
+    {code:'B-L06-P001', surface:1261.78},
+    {code:'B-L01-P020', surface:818.15},
+    {code:'A-L09-P006', surface:1031.34},
+    {code:'B-L06-P011', surface:1526.12},
+    {code:'B-L04-P014', surface:1313.67},
+    {code:'B-L07-P007', surface:1400.59},
+    {code:'B-L05-P015', surface:1371.22},
+    {code:'B-L08-P002', surface:1274.41},
+    {code:'B-L01-P017', surface:1062.61},
+    {code:'A-L03-P006', surface:1689.86},
+    {code:'B-L04-P009', surface:1964.12},
+    {code:'B-L01-P019', surface:1064.91},
+    {code:'A-L07-P019', surface:1027.63},
+    {code:'A-L01-P004', surface:1343.01},
+    {code:'B-L01-P012', surface:1458.47},
+    {code:'A-L04-P020', surface:1917.64},
+    {code:'B-L04-P003', surface:1713.58},
+    {code:'A-L10-P008', surface:1571.84},
+    {code:'A-L05-P015', surface:757.02},
+    {code:'B-L05-P020', surface:1194.03},
+    {code:'A-L08-P010', surface:679.26},
+    {code:'B-L08-P010', surface:618.58},
+    {code:'B-L06-P002', surface:1225.59},
+    {code:'A-L07-P014', surface:1784.52},
+    {code:'A-L10-P012', surface:679.93},
+    {code:'B-L02-P008', surface:1294.71},
+    {code:'A-L08-P018', surface:1178.5},
+    {code:'B-L05-P018', surface:982.11},
+    {code:'A-L09-P004', surface:695.93},
+    {code:'A-L09-P012', surface:710.15},
+    {code:'B-L03-P012', surface:1266.78},
+    {code:'B-L03-P006', surface:1766.26},
+    {code:'B-L04-P005', surface:1549.15},
+    {code:'B-L03-P010', surface:629.06},
+    {code:'A-L10-P020', surface:761.22},
+    {code:'B-L06-P007', surface:1302.81},
+    {code:'B-L07-P016', surface:1560.14},
+    {code:'A-L04-P012', surface:1557.48},
+    {code:'A-L06-P009', surface:1093.34},
+    {code:'A-L02-P001', surface:1108.28},
+    {code:'A-L09-P002', surface:931.13},
+    {code:'A-L02-P005', surface:550.13},
+    {code:'A-L06-P017', surface:1095.86},
+    {code:'B-L02-P001', surface:1465.61},
+    {code:'A-L01-P009', surface:1425.68},
+    {code:'A-L07-P018', surface:1227.63},
+    {code:'B-L03-P009', surface:680.76},
+    {code:'A-L02-P019', surface:725.65},
+    {code:'A-L03-P011', surface:1038.16},
+    {code:'B-L04-P008', surface:1945.55},
+    {code:'B-L05-P005', surface:1363.82},
+    {code:'A-L03-P014', surface:659.57},
+    {code:'A-L08-P014', surface:946.48},
+    {code:'A-L03-P004', surface:801.22},
+    {code:'A-L05-P006', surface:925.68},
+    {code:'A-L06-P002', surface:503.41},
+    {code:'A-L02-P017', surface:1807.52},
+    {code:'A-L10-P013', surface:977.05},
+    {code:'A-L04-P008', surface:1955.35},
+    {code:'B-L01-P016', surface:1374.73},
+    {code:'A-L05-P010', surface:1838.98},
+    {code:'A-L05-P009', surface:520.9},
+    {code:'A-L02-P008', surface:674.48},
+    {code:'B-L03-P017', surface:596.7},
+    {code:'B-L02-P014', surface:1783.59},
+    {code:'B-L05-P007', surface:1333.97},
+    {code:'A-L09-P001', surface:1017.05},
+    {code:'B-L07-P018', surface:1416.17},
+    {code:'A-L02-P004', surface:910},
+    {code:'B-L02-P010', surface:1343.34},
+    {code:'B-L08-P009', surface:1827.85},
+    {code:'B-L01-P009', surface:588.55},
+    {code:'A-L05-P019', surface:790.43},
+    {code:'A-L10-P017', surface:906.82},
+    {code:'A-L06-P005', surface:974.94},
+    {code:'A-L04-P003', surface:1431.78},
+    {code:'B-L06-P014', surface:1433.09},
+    {code:'B-L06-P016', surface:768.78},
+    {code:'A-L02-P006', surface:759.5},
+    {code:'B-L05-P010', surface:691.36},
+    {code:'A-L06-P004', surface:1967.36},
+    {code:'A-L04-P019', surface:1321.71},
+    {code:'A-L02-P011', surface:1353.54},
+    {code:'A-L09-P008', surface:1670.39},
+    {code:'B-L07-P003', surface:1179.2},
+    {code:'B-L03-P011', surface:1312.39},
+    {code:'B-L05-P014', surface:1855.2},
+    {code:'B-L02-P011', surface:1604.27},
+    {code:'A-L10-P007', surface:943.26},
+    {code:'A-L02-P014', surface:1540.22},
+    {code:'A-L08-P006', surface:1967.13},
+    {code:'B-L04-P020', surface:1429.83},
+    {code:'A-L09-P003', surface:1030.11},
+    {code:'A-L03-P005', surface:942.99},
+    {code:'A-L02-P009', surface:1043.77},
+    {code:'A-L01-P006', surface:624.4},
+    {code:'B-L01-P008', surface:1027.72},
+    {code:'B-L07-P020', surface:802.22},
+    {code:'B-L07-P008', surface:1803.8},
+    {code:'B-L04-P015', surface:897.24},
+    {code:'A-L10-P001', surface:899.08},
+    {code:'A-L05-P012', surface:1739.14},
+    {code:'A-L10-P018', surface:1734.16},
+    {code:'B-L07-P015', surface:1167.12},
+    {code:'A-L01-P016', surface:1558.54},
+    {code:'A-L09-P019', surface:1433.36},
+    {code:'B-L06-P012', surface:1632.24},
+    {code:'A-L07-P001', surface:1859.69},
+    {code:'B-L05-P012', surface:1831.1},
+    {code:'A-L08-P016', surface:1328.93},
+    {code:'A-L07-P009', surface:609.51},
+    {code:'B-L02-P006', surface:1947.31},
+    {code:'A-L04-P006', surface:1444.72},
+    {code:'A-L08-P020', surface:1042.2},
+    {code:'B-L06-P010', surface:538.67},
+    {code:'B-L04-P013', surface:1005.72},
+    {code:'B-L03-P007', surface:697.84},
+    {code:'A-L09-P018', surface:1654.62},
+    {code:'A-L05-P016', surface:1786.42},
+    {code:'A-L04-P014', surface:1152},
+    {code:'A-L03-P015', surface:1171.03},
+    {code:'A-L03-P019', surface:995.23},
+    {code:'A-L01-P008', surface:1780.44},
+    {code:'A-L02-P003', surface:525.75},
+    {code:'A-L08-P008', surface:1831.42},
+    {code:'A-L04-P011', surface:883.12},
+    {code:'A-L03-P017', surface:914.35},
+    {code:'B-L05-P003', surface:1888.78},
+    {code:'B-L06-P004', surface:1031.28},
+    {code:'A-L09-P011', surface:518.53},
+    {code:'A-L05-P020', surface:1940.45},
+    {code:'A-L07-P006', surface:1323.49},
+    {code:'A-L05-P014', surface:565.22},
+    {code:'A-L05-P007', surface:1976.29},
+    {code:'B-L07-P011', surface:672.14},
+    {code:'B-L07-P004', surface:1066.28},
+    {code:'A-L04-P007', surface:1576.78},
+    {code:'A-L10-P001', surface:834.49},
+    {code:'A-L04-P004', surface:1961.3},
+    {code:'B-L05-P002', surface:1458.27},
+    {code:'B-L07-P005', surface:641.51},
+    {code:'B-L08-P018', surface:1471.15},
+    {code:'A-L09-P014', surface:1998.06},
+    {code:'A-L02-P015', surface:975.26},
+    {code:'B-L02-P017', surface:1758.07},
+    {code:'A-L10-P004', surface:1286.51},
+    {code:'A-L08-P013', surface:1728.84},
+    {code:'B-L01-P010', surface:1930.96},
+    {code:'A-L10-P003', surface:573.17},
+    {code:'B-L03-P004', surface:1899.14},
+    {code:'B-L03-P001', surface:1101.76},
+    {code:'A-L06-P001', surface:1261.71},
+    {code:'B-L03-P005', surface:1150.34},
+    {code:'B-L03-P016', surface:1825.52},
+    {code:'B-L01-P007', surface:1936.35},
+    {code:'A-L02-P016', surface:1662.99},
+    {code:'A-L02-P012', surface:964.62},
+    {code:'A-L03-P016', surface:1313.4},
+    {code:'A-L06-P007', surface:648.78},
+    {code:'A-L08-P004', surface:547.87},
+    {code:'A-L07-P004', surface:785.65},
+    {code:'A-L03-P010', surface:1415.67},
+    {code:'B-L03-P014', surface:1104.8},
+    {code:'A-L10-P11', surface:1492.63},
+    {code:'A-L04-P05', surface:1873.76},
+    {code:'A-L06-P19', surface:1493.32},
+    {code:'A-L10-P10', surface:574.9},
+    {code:'B-L07-P09', surface:665.77},
+    {code:'A-L07-P10', surface:952.02},
+    {code:'B-L06-P03', surface:1424.24},
+    {code:'B-L02-P13', surface:1855.02},
+    {code:'B-L05-P06', surface:1111.86},
+    {code:'A-L09-P16', surface:612.18},
+    {code:'A-L01-P17', surface:1698.26},
+    {code:'A-L09-P13', surface:1310.18},
+    {code:'B-L08-P12', surface:1253.78},
+    {code:'B-L04-P16', surface:713.5},
+    {code:'A-L06-P12', surface:1294.32},
+    {code:'A-L07-P05', surface:1389.28},
+    {code:'B-L08-P03', surface:1005.25},
+    {code:'B-L08-P16', surface:1123.13},
+    {code:'A-L01-P13', surface:1970.98},
+    {code:'A-L05-P05', surface:566.41},
+    {code:'B-L01-P13', surface:1724.48},
+    {code:'A-L05-P11', surface:1752.52},
+    {code:'A-L09-P17', surface:1167.27},
+    {code:'A-L03-P13', surface:1762.31},
+    {code:'B-L07-P19', surface:1739.3},
+    {code:'A-L07-P02', surface:994.98},
+    {code:'A-L07-P07', surface:627.76},
+    {code:'A-L05-P02', surface:1782.34},
+    {code:'B-L06-P15', surface:798.77},
+    {code:'B-L08-P14', surface:1664.54},
+    {code:'A-L05-P04', surface:1259.57},
+    {code:'B-L02-P19', surface:1525.22},
+    {code:'A-L03-P07', surface:1126.49},
+    {code:'A-L03-P12', surface:979.15},
+    {code:'B-L05-P16', surface:1845.3},
+    {code:'A-L08-P17', surface:534.25},
+    {code:'B-L03-P19', surface:1469.54},
+    {code:'B-L06-P05', surface:778.17},
+    {code:'A-L01-P03', surface:813.59},
+    {code:'B-L06-P13', surface:769.43},
+    {code:'A-L06-P06', surface:811.59},
+    {code:'A-L07-P16', surface:666.1},
+    {code:'A-L08-P09', surface:1772.16},
+    {code:'B-L03-P08', surface:1866.7},
+    {code:'A-L01-P07', surface:1099.84},
+    {code:'B-L05-P01', surface:1701.93},
+    {code:'B-L06-P09', surface:1134.74},
+    {code:'B-L03-P03', surface:880.48},
+    {code:'B-L04-P12', surface:977.11},
+    {code:'B-L04-P06', surface:1491.43},
+    {code:'B-L08-P20', surface:859.98},
+    {code:'A-L09-P20', surface:1828.25},
+    {code:'B-L01-P11', surface:1386.38},
+    {code:'B-L04-P19', surface:1163.54},
+    {code:'A-L05-P18', surface:1284.86},
+    {code:'A-L06-P15', surface:786.62},
+    {code:'A-L05-P08', surface:727.34},
+    {code:'A-L01-P19', surface:1183.27},
+    {code:'B-L05-P08', surface:1830.66},
+    {code:'B-L04-P11', surface:1617.49},
+    {code:'A-L10-P15', surface:1143.06},
+    {code:'A-L07-P11', surface:588.8},
+    {code:'B-L02-P15', surface:683.99},
+    {code:'A-L01-P05', surface:1695.98},
+    {code:'B-L03-P20', surface:1690.67},
+    {code:'A-L03-P18', surface:1037.97},
+    {code:'B-L02-P09', surface:1158.14},
+    {code:'A-L06-P08', surface:523.6},
+    {code:'A-L08-P02', surface:1238.97},
+    {code:'B-L08-P04', surface:1629.19},
+    {code:'A-L01-P01', surface:830.87},
+    {code:'A-L02-P13', surface:1643.88},
+    {code:'A-L01-P02', surface:1068.13},
+    {code:'B-L01-P14', surface:1629.84},
+    {code:'B-L06-P20', surface:1401.15},
+    {code:'A-L10-P09', surface:1880.6},
+    {code:'A-L08-P12', surface:543.72},
+    {code:'B-L07-P13', surface:910.2},
+    {code:'A-L05-P17', surface:1624.77},
+    {code:'A-L02-P18', surface:1368.02},
+    {code:'B-L06-P17', surface:1412.99},
+    {code:'A-L05-P01', surface:528.85},
+    {code:'B-L01-P06', surface:1140.55},
+    {code:'A-L06-P20', surface:647.35},
+    {code:'A-L09-P15', surface:662.57},
+    {code:'A-L04-P13', surface:641.07},
+    {code:'A-L06-P03', surface:1210.42},
+    {code:'A-L01-P15', surface:1100.56},
+    {code:'B-L08-P08', surface:1955.72},
+    {code:'B-L04-P01', surface:903.78},
+    {code:'B-L01-P03', surface:804.22},
+    {code:'B-L02-P18', surface:913.15},
+    {code:'A-L08-P15', surface:913.48},
+    {code:'B-L03-P15', surface:619.57},
+    {code:'B-L07-P10', surface:903.48},
+    {code:'A-L07-P15', surface:722.67},
+    {code:'A-L08-P11', surface:1456.42},
+    {code:'B-L01-P04', surface:1242.34},
+    {code:'B-L01-P05', surface:1359.45},
+    {code:'B-L08-P17', surface:1873.01},
+    {code:'A-L07-P08', surface:1513.96},
+    {code:'A-L03-P09', surface:873.27},
+    {code:'A-L04-P18', surface:576.75},
+    {code:'A-L04-P15', surface:1107.4},
+    {code:'B-L02-P20', surface:1254.88},
+    {code:'A-L06-P14', surface:673.23},
+    {code:'A-L08-P07', surface:1502.77},
+    {code:'B-L03-P18', surface:912.62},
+    {code:'A-L01-P18', surface:1734.98},
+    {code:'B-L01-P18', surface:1822.91},
+    {code:'B-L05-P09', surface:1771.75},
+    {code:'A-L10-P14', surface:1944.5},
+    {code:'B-L05-P13', surface:1596.85},
+    {code:'A-L10-P06', surface:816.57},
+    {code:'A-L05-P03', surface:594.82},
+    {code:'B-L04-P02', surface:1939.82},
+    {code:'B-L02-P02', surface:983.21},
+    {code:'B-L02-P12', surface:1883.97},
+    {code:'B-L05-P04', surface:1756.31},
+    {code:'A-L02-P20', surface:1467.17},
+    {code:'A-L01-P14', surface:1149.23},
+    {code:'A-L01-P10', surface:559.04},
+    {code:'A-L09-P05', surface:936.72},
+    {code:'B-L02-P03', surface:982.56},
+    {code:'A-L03-P01', surface:1844.35}
+  ];
+  const PRIX_M2_HAB = 37879; // prix/m² habitation (GNF)
+  const PRIX_M2_COM = 75758;  // prix/m² commercial (GNF)
+
+  const commercialParcelles = [
+    {code:'C-L01-P011',surface:1453.73},
+    {code:'C-L02-P003',surface:1349.32},
+    {code:'C-L01-P003',surface:1732.20},
+    {code:'C-L01-P005',surface:1811.47},
+    {code:'B-L10-P011',surface:592.13},
+    {code:'C-L04-P007',surface:1992.99},
+    {code:'C-L04-P016',surface:572.98},
+    {code:'C-L02-P016',surface:1634.56},
+    {code:'C-L04-P015',surface:1491.33},
+    {code:'C-L01-P016',surface:881.24},
+    {code:'C-L03-P011',surface:1867.89},
+    {code:'C-L03-P018',surface:703.87},
+    {code:'C-L04-P014',surface:1416.92},
+    {code:'C-L02-P009',surface:1961.69},
+    {code:'B-L10-P015',surface:668.89},
+    {code:'C-L03-P019',surface:975.26},
+    {code:'B-L10-P014',surface:1473.56},
+    {code:'C-L01-P007',surface:891.50},
+    {code:'B-L09-P003',surface:1313.31},
+    {code:'B-L10-P016',surface:938.99},
+    {code:'C-L03-P014',surface:1244.90},
+    {code:'B-L09-P019',surface:1798.85},
+    {code:'B-L10-P002',surface:1216.33},
+    {code:'C-L01-P004',surface:1863.49},
+    {code:'C-L03-P001',surface:1148.47},
+    {code:'C-L01-P010',surface:1052.13},
+    {code:'C-L03-P003',surface:1550.56},
+    {code:'C-L02-P010',surface:843.89},
+    {code:'B-L10-P010',surface:1031.08},
+    {code:'B-L10-P004',surface:1108.54},
+    {code:'C-L01-P014',surface:638.63},
+    {code:'B-L09-P016',surface:915.04},
+    {code:'C-L04-P001',surface:826.61},
+    {code:'B-L09-P014',surface:1548.23},
+    {code:'C-L01-P002',surface:1450.04},
+    {code:'B-L09-P001',surface:575.23},
+    {code:'C-L03-P005',surface:679.66},
+    {code:'B-L09-P005',surface:1863.37},
+    {code:'C-L04-P002',surface:1984.57},
+    {code:'C-L04-P005',surface:1155.49},
+    {code:'C-L04-P012',surface:899.07},
+    {code:'C-L03-P020',surface:1690.00},
+    {code:'B-L09-P009',surface:763.79},
+    {code:'C-L01-P018',surface:1488.20},
+    {code:'B-L10-P019',surface:1761.73},
+    {code:'C-L02-P007',surface:1068.14},
+    {code:'B-L09-P007',surface:1759.02},
+    {code:'C-L03-P002',surface:1730.88},
+    {code:'B-L10-P012',surface:1966.63},
+    {code:'C-L01-P012',surface:1654.73},
+    {code:'B-L09-P020',surface:561.96},
+    {code:'C-L03-P015',surface:1770.82},
+    {code:'C-L02-P012',surface:586.60},
+    {code:'C-L01-P008',surface:653.90},
+    {code:'C-L04-P010',surface:1324.02},
+    {code:'C-L01-P006',surface:1142.51},
+    {code:'C-L02-P008',surface:1714.47},
+    {code:'C-L02-P018',surface:1497.28},
+    {code:'B-L10-P017',surface:1322.70},
+    {code:'C-L02-P019',surface:1344.30},
+    {code:'C-L02-P006',surface:730.69},
+    {code:'B-L09-P017',surface:1033.39},
+    {code:'B-L10-P005',surface:1130.03},
+    {code:'B-L10-P001',surface:1988.58},
+    {code:'B-L09-P018',surface:900.02},
+    {code:'C-L03-P006',surface:527.52},
+    {code:'C-L03-P009',surface:869.13},
+    {code:'C-L01-P015',surface:1533.47},
+    {code:'B-L10-P003',surface:714.03},
+    {code:'B-L10-P020',surface:1968.06},
+    {code:'C-L01-P019',surface:1782.26},
+    {code:'B-L09-P015',surface:1650.48},
+    {code:'B-L09-P002',surface:1683.60},
+    {code:'C-L03-P016',surface:1437.45},
+    {code:'C-L03-P012',surface:731.73},
+    {code:'B-L10-P06',surface:983.80},
+    {code:'C-L02-P13',surface:1725.40},
+    {code:'B-L09-P06',surface:1212.28},
+    {code:'C-L03-P07',surface:897.95},
+    {code:'C-L01-P09',surface:1391.65},
+    {code:'B-L10-P09',surface:1278.16},
+    {code:'C-L01-P17',surface:1443.28},
+    {code:'B-L10-P07',surface:1013.94},
+    {code:'B-L10-P18',surface:1666.42},
+    {code:'B-L09-P12',surface:1599.68},
+    {code:'C-L04-P18',surface:520.84},
+    {code:'C-L04-P09',surface:517.95},
+    {code:'C-L02-P02',surface:1906.92},
+    {code:'C-L04-P08',surface:1445.68},
+    {code:'C-L04-P03',surface:1773.45},
+    {code:'C-L02-P15',surface:1670.47},
+    {code:'B-L10-P08',surface:1416.56},
+    {code:'C-L03-P17',surface:876.26},
+    {code:'C-L04-P06',surface:1047.23},
+    {code:'C-L01-P01',surface:535.61},
+    {code:'C-L02-P04',surface:977.75},
+    {code:'C-L03-P13',surface:1596.81},
+    {code:'C-L04-P13',surface:658.14},
+    {code:'C-L04-P19',surface:1272.89},
+    {code:'C-L02-P11',surface:1378.66},
+    {code:'B-L10-P13',surface:535.85},
+    {code:'C-L04-P20',surface:1490.36},
+    {code:'C-L01-P13',surface:1844.27},
+    {code:'B-L09-P08',surface:1504.79},
+    {code:'B-L09-P13',surface:918.44},
+    {code:'C-L02-P20',surface:1566.22},
+    {code:'C-L02-P01',surface:875.35},
+    {code:'C-L02-P17',surface:1011.44},
+    {code:'C-L04-P11',surface:990.80},
+    {code:'C-L04-P04',surface:822.34},
+    {code:'C-L03-P08',surface:1813.41},
+    {code:'C-L02-P14',surface:511.16},
+    {code:'B-L09-P11',surface:773.50},
+    {code:'C-L01-P20',surface:969.20},
+    {code:'C-L03-P10',surface:1694.79},
+    {code:'B-L09-P04',surface:799.54},
+    {code:'C-L04-P17',surface:1956.67},
+    {code:'C-L02-P05',surface:1923.34},
+    {code:'B-L09-P10',surface:954.98},
+    {code:'C-L03-P04',surface:1875.67}
+  ];
+
+  const typeCards = document.querySelectorAll('.type-card');
+  const section   = document.getElementById('parcellesSection');
+  const grid      = document.getElementById('parcellesGrid');
+  const typeLabel = document.getElementById('typeLabel');
+  const btnSuivant= document.getElementById('btnSuivant'); // reste optionnel
+  let selectedType = null;
+  let parcelleChoisie = null;
+
+  function formatNumber(n){
+    return new Intl.NumberFormat('fr-FR').format(Math.round(n));
+  }
+
+  function prixTotal(surface, prixM2){
+    return Math.round(surface * prixM2);
+  }
+
+  function onChooseParcelle(parcelleObj, prixM2){
+    // Normaliser surface
+    const surfaceNum = parseFloat(parcelleObj.surface || parcelleObj.superficie || 0) || 0;
+
+    // Conversion FCFA -> GNF si besoin
+    const FCFA_TO_GNF = 15.1515151515;
+    function parseAndNormalizeAmount(val){
+      if(val === null || typeof val === 'undefined') return 0;
+      if(typeof val === 'number') return Math.round(val);
+      const s = String(val).trim();
+      // detect currency tokens
+      const hasFCFA = /fcfa|cfa/i.test(s);
+      const hasGNF  = /gnf/i.test(s);
+      // extract numeric portion (allow decimals)
+      const numStr = s.replace(/\s/g,'').replace(/,/g,'.').replace(/[^\d\.\-]/g,'');
+      const n = parseFloat(numStr) || 0;
+      if(hasFCFA) return Math.round(n * FCFA_TO_GNF);
+      if(hasGNF) return Math.round(n);
+      // no currency token: assume already GNF (numeric)
+      return Math.round(n);
+    }
+
+    // prixM2 peut être déjà en GNF ou en FCFA, normaliser
+    const fallbackPrice = selectedType === 'commercial' ? PRIX_M2_COM : PRIX_M2_HAB;
+    const pricePerM2_gnf = parseAndNormalizeAmount(prixM2 || fallbackPrice);
+    // prix total : si objet fournit total -> normaliser, sinon calculer
+    const prixTotalRaw = parcelleObj.prix || parcelleObj.total || parcelleObj.price || parcelleObj.priceTotal || null;
+    const priceTotal_gnf = prixTotalRaw ? parseAndNormalizeAmount(prixTotalRaw) : Math.round(surfaceNum * pricePerM2_gnf);
+
+    const payload = {
+      code: parcelleObj.code || parcelleObj.id || '',
+      type: selectedType || '',
+      section: parcelleObj.zone || parcelleObj.section || '',
+      lot: parcelleObj.lot || parcelleObj.code || '',
+      surface: Number(surfaceNum),
+      pricePerM2: Number(pricePerM2_gnf),
+      priceTotal: Number(priceTotal_gnf),
+      currency: 'GNF',
+      savedAt: Date.now()
+    };
+
+    const payloadStr = JSON.stringify(payload);
+
+    // Stockage temporaire pour paiement
+    try {
+      sessionStorage.setItem('selectedParcel', payloadStr);
+    } catch(e){
+      console.warn('Impossible de stocker selectedParcel dans sessionStorage', e);
+    }
+
+    // Stockage local pour compatibilité / reprise
+    try {
+      localStorage.setItem('selectedParcel', payloadStr);
+      localStorage.setItem('parcelleChoisie', payloadStr);
+    } catch(e){
+      console.warn('Impossible de stocker selectedParcel localement', e);
+    }
+
+    // conserver minimalement l'état
+    localStorage.setItem('typeParcelle', selectedType || '');
+    localStorage.setItem('parcelleValid','true');
+
+    // redirection vers paiement
+    window.location.href='paiement.html';
+  }
+
+  function renderParcelles(list, hideZone, prixM2){
+    const LIMIT = 6;
+    let expanded = false;
+
+    function formatNumber(n){
+      return new Intl.NumberFormat('fr-FR').format(Math.round(n));
+    }
+
+    function attachChooseHandlers(){
+      document.querySelectorAll('.choose-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const code = btn.dataset.code;
+          const found = list.find(p=>p.code===code);
+          if(found){
+            onChooseParcelle(found, prixM2);
+          }
+        });
+      });
+    }
+
+    function draw(){
+      grid.innerHTML = '';
+      const subset = expanded ? list : list.slice(0, LIMIT);
+
+      subset.forEach(p=>{
+        const total = prixTotal(p.surface, prixM2);
+        const card = document.createElement('div');
+        card.className='parcelle-card';
+        card.innerHTML = `
+          <h4>${p.code}</h4>
+          <p class="text-xs text-gray-600">Surface: <strong>${formatNumber(p.surface)} m²</strong></p>
+          <p class="text-xs text-gray-600">Prix/m²: <strong>${formatNumber(prixM2)} GNF</strong></p>
+          <p class="text-xs text-gray-600">Prix total: <strong>${formatNumber(total)} GNF</strong></p>
+          ${(!hideZone && p.zone)? `<p class="text-[10px] text-gray-500">Zone: ${p.zone}</p>`: '' }
+          <button class="btn btn-primary w-full choose-btn"
+            data-code="${p.code}"
+            data-surface="${p.surface}"
+            data-total="${total}">
+            Choisir <i class="fas fa-check"></i>
+          </button>
+        `;
+        grid.appendChild(card);
+      });
+
+      if(!expanded && list.length > LIMIT){
+        const wrapper = document.createElement('div');
+        wrapper.className='col-span-full flex justify-center mt-4';
+        wrapper.innerHTML = `
+          <button id="btnVoirPlus"
+                  class="btn btn-secondary px-6 py-2 text-sm">
+            Voir plus
+          </button>`;
+        grid.appendChild(wrapper);
+        wrapper.querySelector('#btnVoirPlus').addEventListener('click', ()=>{
+          expanded = true;
+          draw();
+        });
+      }
+
+      attachChooseHandlers();
+    }
+
+    draw();
+  }
+
+  function handleTypeSelection(type){
+    selectedType = type;
+    typeCards.forEach(c=>c.classList.remove('selected'));
+    const active = document.querySelector('.type-card[data-type="'+type+'"]');
+    if(active) active.classList.add('selected');
+
+    typeLabel.textContent = type.charAt(0).toUpperCase()+type.slice(1);
+    section.style.display='block';
+
+    if(type==='habitation'){
+      renderParcelles(habitationParcelles, true, PRIX_M2_HAB);
+    } else if(type==='commercial'){
+      renderParcelles(commercialParcelles, false, PRIX_M2_COM);
+    }
+
+    parcelleChoisie = null;
+    btnSuivant.disabled = true;
+    btnSuivant.classList.add('btn-disabled');
+  }
+
+  typeCards.forEach(card=>{
+    card.addEventListener('click', ()=> {
+      handleTypeSelection(card.dataset.type);
+    });
+  });
+
+  btnSuivant.addEventListener('click', ()=>{
+    if(!parcelleChoisie){
+      alert('Veuillez choisir une parcelle.');
+    }
+  });
+
+  // Restauration (si retour arrière)
+  const prevType = localStorage.getItem('typeParcelle');
+  const prevParcelle = localStorage.getItem('parcelleChoisie');
+  if(prevType){
+    handleTypeSelection(prevType);
+    if(prevParcelle){
+      try{
+        parcelleChoisie = JSON.parse(prevParcelle);
+        // On laisse l'utilisateur re-choisir si besoin
+      }catch(e){}
+    }
+  }
+})();
+
+(function(){
+  // Sélecteurs (adapter si vos boutons ont d’autres IDs/classes)
+  const btnHab = document.getElementById('btnHabitation') || document.querySelector('[data-parcelle-type="habitation"]');
+  const btnCom = document.getElementById('btnCommercial') || document.querySelector('[data-parcelle-type="commercial"]');
+  const wrapper = document.getElementById('parcellesWrapper');
+  const msg = document.getElementById('typeMessage');
+
+  // Toutes les cartes (adapter la classe si différente)
+  function allCards(){
+    return Array.from(wrapper.querySelectorAll('[data-type]'));
+  }
+
+  // Cache initial
+  function hideAll(){
+    allCards().forEach(c=>c.style.display='none');
+  }
+
+  // Affichage filtré
+  function showType(type){
+    hideAll();
+    let count = 0;
+    allCards().forEach(c=>{
+      if(c.dataset.type === type){
+        c.style.display='';
+        count++;
+      }
+    });
+    if(count===0){
+      wrapper.innerHTML = `<div style="padding:1.3rem;font-size:.9rem;color:#555;">Aucune parcelle disponible pour ce type actuellement.</div>`;
+    }
+  }
+
+  // Reset état boutons
+  function resetActive(){
+    [btnHab, btnCom].forEach(b=>b && b.classList.remove('type-filter-active'));
+  }
+
+  // État initial
+  hideAll();
+  wrapper.classList.add('hidden');
+  if(msg) msg.style.display='block';
+
+  function onChoose(type, btn){
+    localStorage.setItem('typeParcelle', type);
+    wrapper.classList.remove('hidden');
+    if(msg) msg.style.display='none';
+    resetActive();
+    btn && btn.classList.add('type-filter-active');
+    showType(type);
+  }
+
+  btnHab && btnHab.addEventListener('click', ()=>{
+    onChoose('habitation', btnHab);
+  });
+
+  btnCom && btnCom.addEventListener('click', ()=>{
+    onChoose('commercial', btnCom);
+  });
+
+  // Si type précédemment choisi (navigation arrière)
+  const savedType = (localStorage.getItem('typeParcelle')||'').toLowerCase();
+  if(savedType === 'habitation' && btnHab){
+    onChoose('habitation', btnHab);
+  } else if(savedType === 'commercial' && btnCom){
+    onChoose('commercial', btnCom);
+  }
+})();
+</script>
+</body>
+</html>
+

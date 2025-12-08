@@ -1,0 +1,236 @@
+﻿/* Styles des boutons BCF - Version améliorée */
+
+/* Container pour boutons alignés */
+.btn-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.btn-container.center {
+    justify-content: center;
+}
+
+/* Boutons BCF - Version améliorée */
+.btn-BCF, .btn-BCF-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+    min-width: 160px;
+    text-align: center;
+}
+
+.btn-BCF {
+    background: linear-gradient(135deg, #006400, #228B22);
+    color: white;
+    border-color: #006400;
+    box-shadow: 0 2px 4px rgba(0, 100, 0, 0.2);
+}
+
+.btn-BCF:hover {
+    background: linear-gradient(135deg, #004d00, #1e7b1e);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 100, 0, 0.3);
+}
+
+.btn-BCF-outline {
+    background: transparent;
+    color: #006400;
+    border: 2px solid #006400;
+    box-shadow: 0 2px 4px rgba(0, 100, 0, 0.1);
+}
+
+.btn-BCF-outline:hover {
+    background: linear-gradient(135deg, #006400, #228B22);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 100, 0, 0.3);
+}
+
+/* Variante petite pour boutons dans les cartes */
+.btn-BCF.text-sm, .btn-BCF-outline.text-sm {
+    padding: 10px 20px;
+    font-size: 14px;
+    min-width: 120px;
+}
+
+/* Boutons responsives */
+@media (max-width: 640px) {
+    .btn-container {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .btn-BCF, .btn-BCF-outline {
+        width: 100%;
+        min-width: unset;
+        padding: 16px 24px;
+    }
+    
+    .btn-BCF.text-sm, .btn-BCF-outline.text-sm {
+        width: 100%;
+        min-width: unset;
+        padding: 14px 20px;
+    }
+}
+
+/* Amélioration des images */
+img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Placeholder pour images manquantes */
+.img-placeholder {
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
+    border-radius: 8px;
+    min-height: 200px;
+    position: relative;
+}
+
+.img-placeholder::before {
+    content: "📷";
+    font-size: 48px;
+    opacity: 0.5;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* CSS pour le logo */
+header img {
+    height: 50px;
+    width: auto;
+}
+
+/* CSS responsive pour les cartes et images */
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Groupe de boutons centré */
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+  background-color:#006400;
+  color:#fff;
+  padding:10px 20px;
+  border-radius:6px;
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  transition:background .3s ease, transform .2s;
+  text-decoration:none;
+}
+
+.btn:hover { background-color:#228B22; }
+
+.btn:active { transform:scale(.97); }
+
+.btn-outline {
+  background:transparent;
+  border:2px solid #006400;
+  color:#006400;
+}
+
+.btn-outline:hover {
+  background:#006400;
+  color:#fff;
+  transform: translateY(-2px);
+}
+
+/* Classes utilitaires pour les couleurs BCF */
+.BCF-green {
+    background-color: #006400;
+}
+
+.BCF-green-hover:hover {
+    background-color: #004d00;
+}
+
+.BCF-gold {
+    background-color: #FFD700;
+    color: #006400;
+}
+
+button, .btn {
+  padding:10px 20px;
+  border-radius:6px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .3s ease;
+}
+.btn-primary{background:#006400;color:#fff;border:none;}
+.btn-secondary{background:#fff;border:2px solid #006400;color:#006400;}
+.btn-primary:hover,.btn-secondary:hover{opacity:.85;}
+.btn-disabled{opacity:.45;cursor:not-allowed;}
+
+.btn-base {
+  display:inline-flex;align-items:center;justify-content:center;
+  font-weight:600;border-radius:6px;padding:0.75rem 1.4rem;
+  transition:.25s ease;gap:.5rem;line-height:1.1;
+  box-shadow:0 2px 4px rgba(0,0,0,.08);
+}
+.btn-base:focus { outline:2px solid #154f17; outline-offset:2px; }
+.btn-prev {
+  background:#fff;color:#006400;border:2px solid #006400;
+}
+.btn-prev:hover { background:#f3fff3; box-shadow:0 4px 10px rgba(0,0,0,.12); }
+.btn-next {
+  background:#8B6914;color:#fff;border:2px solid #8B6914;
+}
+.btn-next:hover { background:#73540F; box-shadow:0 4px 10px rgba(0,0,0,.15); }
+.btn-pay {
+  background:#006400;color:#fff;border:2px solid #006400;
+}
+.btn-pay:hover { background:#004d00; box-shadow:0 4px 10px rgba(0,0,0,.15); }
+.btn-disabled { opacity:.55; cursor:not-allowed; box-shadow:none; }
+.form-grid { display:grid; gap:1.25rem; }
+@media (min-width:768px){
+  .form-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+.field-group label {
+  font-weight:600;font-size:.85rem;letter-spacing:.5px;
+  text-transform:uppercase;color:#064d15;display:block;margin-bottom:.35rem;
+}
+.field-group input, .field-group select {
+  width:100%;border:1px solid #cdd8ce;border-radius:6px;
+  padding:.65rem .85rem;font-size:.95rem;background:#fff;
+  transition:border-color .2s, box-shadow .2s;
+}
+.field-group input:focus, .field-group select:focus {
+  border-color:#0a6600; box-shadow:0 0 0 3px rgba(10,102,0,.15);
+  outline:none;
+}
+.error-msg {
+  font-size:.7rem;color:#b80000;margin-top:.25rem;display:none;
+}
+.error-msg.active { display:block; }
+.form-section-title {
+  font-size:1.15rem;font-weight:700;color:#0a6600;margin:1.5rem 0 .75rem;
+  border-left:5px solid #0a6600;padding-left:.6rem;
+}

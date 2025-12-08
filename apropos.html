@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez l'BCF, Agence Nationale du Domaine et du Foncier du Bénin - notre histoire, nos missions et nos services.">
+    <title>BCF - Agence Nationale du Domaine et du Foncier (B�nin)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="BCF-theme.css">`n    <link rel="stylesheet" href="BCF-buttons.css">
+    <link rel="stylesheet" href="https://BCF.bj/assets/css/styles.css">
+    <link rel="icon" href="logo-BCF.png" type="image/png">
+    <script>
+        // Fonction pour formater les nombres
+        function formatNumber(number) {
+            return new Intl.NumberFormat('fr-FR').format(number);
+        }
+    </script>
+    <style>
+      header img{height:50px;width:auto;}
+      .page-title{font-size:2rem;font-weight:700;color:#0a6600;}
+      @media (max-width:768px){.page-title{font-size:1.6rem;text-align:center;}}
+      .image-container img{width:100%;height:auto;object-fit:cover;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.15);}
+      .btn{background:#006400;color:#fff;padding:10px 20px;border-radius:6px;font-weight:700;display:inline-flex;align-items:center;gap:.5rem;transition:.3s;}
+      .btn:hover{background:#228B22;}
+      .btn-outline{background:transparent;border:2px solid #006400;color:#006400;}
+      .btn-outline:hover{background:#006400;color:#fff;}
+      .site-footer{background:#111827;color:#d1d5db;padding:2.5rem 1rem;margin-top:4rem;}
+      .site-footer a{color:#d1d5db;}
+      .site-footer a:hover{color:#fff;}
+      .gradient-bg {
+    background: linear-gradient(135deg, #8B6914 0%, #6B4F0F 100%);
+}
+
+.BCF-green {
+    background-color: #8B6914;
+}
+
+.BCF-green-hover:hover {
+    background-color: #6B4F0F;
+}
+
+.header-scroll {
+    transition: background-color 0.3s ease;
+}
+
+/* Écran de chargement */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.loader-container {
+    text-align: center;
+}
+
+.loader {
+    width: 80px;
+    height: 80px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #8B6914;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+
+
+.loading-text {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #8B6914;
+}
+
+.loading-dots:after {
+    content: '';
+    animation: dots 1.5s infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes dots {
+    0%, 20% { content: ''; }
+    40% { content: '.'; }
+    60% { content: '..'; }
+    80%, 100% { content: '...'; }
+}
+
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Écran de chargement -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader-container">
+        <div class="loader"></div>
+           
+        </div>
+    </div>
+
+    <header class="site-header">
+  <div class="nav-shell">
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo">
+        <img src="logo-BCF.png" alt="BCF">
+      </a>
+      <button id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+    <nav id="navMain" class="nav-main" aria-label="Navigation principale">
+      <ul class="nav-links" id="navMenu">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="conditions.html">Conditions</a></li>
+        <li><a href="souscrire.html">Souscription</a></li>
+        <li><a href="type-parcelle.html">Parcelles</a></li>
+        <li><a href="paiement.html">Paiement</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-mobile-cta" style="display:none;">
+          <a class="nav-cta" href="identification.html"><i class="fa-solid fa-pen-to-square"></i> Souscrire</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <a class="nav-cta" href="identification.html">
+        <i class="fa-solid fa-pen-to-square"></i> Souscrire
+      </a>
+    </div>
+  </div>
+</header>
+
+    <div class="h-20"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const header = document.querySelector('header');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.style.backgroundColor = 'rgba(139, 105, 20, 0.95)';
+                } else {
+                    header.style.backgroundColor = '#8B6914';
+                }
+            });
+
+            function toggleMenu() {
+                if (mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.remove('hidden');
+                } else {
+                    mobileMenu.classList.add('hidden');
+                }
+            }
+
+            mobileMenuButton.addEventListener('click', toggleMenu);
+        });
+        
+        // Gestion de l'écran de chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            
+            // S'assurer que l'écran de chargement est visible au début
+            loadingScreen.style.display = 'flex';
+            loadingScreen.style.opacity = '1';
+
+            // Attendre que tout soit chargé
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }, 500);
+            });
+        });
+    </script>
+
+    <div class="max-w-7xl mx-auto px-4 py-16 text-center">
+        <h1 class="text-4xl font-extrabold mb-4">Bienvenue à l'BCF</h1>
+        <p class="text-lg text-gray-700 mb-8">
+            L'Agence Nationale du Domaine et du Foncier du Bénin est dédiée à vous fournir les meilleurs services en matière de gestion foncière.
+        </p>
+
+        <div class="mt-8 flex flex-wrap justify-center gap-4">
+  <a href="souscrire.html" class="btn">Souscrire</a>
+  <a href="contact.html" class="btn-outline btn">Contact</a>
+</div>
+    </div>
+
+    <!-- Footer unifié BCF -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col footer-brand">
+      <a href="index.html" class="footer-logo">
+        <img src="logo-BCF.png" alt="Logo BCF">
+        <span>BCF</span>
+      </a>
+      <p class="footer-text">
+        Plateforme de sélection et de gestion des parcelles dans les opérations d’aménagement foncier.
+      </p>
+      <a class="footer-wa-btn"
+        href="https://wa.me/224613079246?text=Bonjour%2C%20je%20souhaite%20une%20assistance."
+         target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> Assistance WhatsApp
+      </a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <div class="footer-links">
+        <a href="index.html">Accueil</a>
+        <a href="conditions.html">Conditions</a>
+        <a href="souscrire.html">Souscription</a>
+        <a href="type-parcelle.html">Parcelles</a>
+        <a href="paiement.html">Paiement</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+
+    <div class="footer-col footer-contact">
+      <h4>Contact</h4>
+      <p>Boulevard Léon M’Ba<br>Cotonou – Bénin</p>
+      <p class="tel">(+224) 613 07 92 46</p>
+      <p>contact@BCF.bj</p>
+      <div class="footer-hours">Lun - Ven : 08h00 - 17h30</div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Réseaux sociaux</h4>
+      <div class="social-links">
+        <a href="https://www.facebook.com/share/1CVRTsV4wS/?mibextid=wwXIfr"
+           target="_blank" rel="noopener" aria-label="Facebook BCF">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 BCF. Tous droits réservés.
+  </div>
+</footer>
+
+    <script>
+        // Empêcher la perte des données lors du rafraîchissement
+        window.addEventListener('beforeunload', function (e) {
+            // Si on est dans le processus de souscription (étapes 1 à 6)
+            const currentEtape = parseInt(localStorage.getItem('currentEtape') || '0');
+            if (currentEtape > 0 && currentEtape < 7) {
+                return;
+            }
+        });
+    </script>
+</body>
+</html>

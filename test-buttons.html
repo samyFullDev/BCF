@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCF - Agence Nationale du Domaine et du Foncier (B�nin)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="BCF-buttons.css">
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8 text-center">Test des Boutons BCF</h1>
+        
+        <!-- Boutons côte à côte (desktop) -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Boutons côte à côte</h2>
+            <div class="btn-container">
+                <a href="#" class="btn-BCF">
+                    <i class="fas fa-home mr-2"></i>Souscrire maintenant
+                </a>
+                <a href="#" class="btn-BCF-outline">
+                    <i class="fas fa-info-circle mr-2"></i>En savoir plus
+                </a>
+            </div>
+        </div>
+        
+        <!-- Boutons centrés -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Boutons centrés</h2>
+            <div class="btn-container center">
+                <a href="#" class="btn-BCF">
+                    <i class="fas fa-check-circle mr-2"></i>Je commence ma souscription
+                </a>
+            </div>
+        </div>
+        
+        <!-- Boutons petits -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Boutons petits</h2>
+            <div class="btn-container">
+                <a href="#" class="btn-BCF text-sm">Accéder</a>
+                <a href="#" class="btn-BCF-outline text-sm">Découvrir</a>
+            </div>
+        </div>
+        
+        <!-- Test images -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Test des images</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <img src="assets/images/hero-image.jpg" alt="Hero" class="rounded-lg">
+                <img src="assets/images/cotonou.jpg" alt="Cotonou" class="rounded-lg">
+                <img src="assets/images/porto-novo.jpg" alt="Porto-Novo" class="rounded-lg">
+            </div>
+        </div>
+        
+        <!-- Test responsive -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Test responsive (redimensionnez la fenêtre)</h2>
+            <p class="text-gray-600 mb-4">Sur mobile, les boutons devraient s'empiler verticalement avec pleine largeur.</p>
+            <div class="btn-container">
+                <a href="#" class="btn-BCF">Bouton principal</a>
+                <a href="#" class="btn-BCF-outline">Bouton secondaire</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
