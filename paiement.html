@@ -4,1444 +4,188 @@
 <meta charset="UTF-8">
 <title>BCF - Souscription de Parcelles</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="BCF-theme.css"><!-- Votre thème global -->
-<style>
-  :root {
-    --gold:#a67c00;
-    --gold-hover:#c08d00;
-    --bg:#f5f7fa;
-    --txt:#1c2b27;
-    --radius:10px;
-    --border:#e4e1d5;
-  }
-  body {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    background:var(--bg); color:var(--txt); margin:0;
-  }
-  header {
-    background:#fff; border-bottom:1px solid #e3e3e3;
-  }
-  .topbar {
-    max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;
-    padding:.6rem 1rem; position:relative;
-  }
-  .logo-box img {
-    max-height:80px; width:auto; display:block;
-  }
-  .timer-badge {
-    background:#153c2e; color:#fff; font-weight:600;
-    padding:.55rem .9rem; border-radius:8px;
-    font-variant-numeric:tabular-nums;
-    display:flex; align-items:center; gap:.45rem;
-    font-size:.85rem;
-  }
-  main {max-width:1180px; margin:0 auto; padding:1.2rem clamp(.8rem,3vw,2rem) 2.2rem;}
-  h1.main-title {
-    text-align:center; font-size:1.5rem; margin:1rem 0 1.2rem;
-    color:#153c2e; font-weight:700; letter-spacing:.5px;
-  }
-  .info-box {
-    background:#e6f1ff; border-left:4px solid #1d6fd8;
-    padding:1rem 1.2rem; border-radius:8px; display:flex; gap:.85rem;
-    font-size:.9rem; line-height:1.35rem; color:#134a91; margin-bottom:1.4rem;
-  }
-  .warn-box {
-    background:#fff7e1; border-left:4px solid #e3ae15;
-    padding:.9rem 1.05rem; border-radius:8px; font-size:.8rem;
-    line-height:1.2rem; color:#7a5800; display:flex; gap:.7rem; margin-top:1.2rem;
-  }
-  .panel {
-    background:#fff; border:1px solid var(--gold);
-    border-radius:var(--radius); padding:1.3rem 1.4rem 1.6rem;
-    box-shadow:0 2px 4px rgba(0,0,0,.04);
-    margin-bottom:1.3rem;
-  }
-  .panel h3 {
-    margin:0 0 .9rem; font-size:1.05rem; font-weight:600;
-    display:flex; align-items:center; gap:.55rem; color:#153c2e;
-  }
-  table.data {
-    width:100%; border-collapse:collapse; font-size:.83rem;
-  }
-  table.data tr td:first-child {
-    width:38%; font-weight:500; color:#4b5954;
-    padding:.55rem .65rem;
-  }
-  table.data tr td:last-child {
-    padding:.55rem .65rem; font-weight:600; color:#111;
-  }
-  table.data tr:nth-child(odd){background:#fafafa;}
-  table.data tr {border-bottom:1px dashed #e0dfdc;}
-  table.data tr:last-child {border-bottom:none;}
-  .price-highlight {color:var(--gold);}
-  .pay-area {text-align:center; margin-top:1.3rem;}
-  .btn-gold {
-    background:var(--gold); color:#fff; border:none;
-    padding:.95rem 2.4rem; font-size:.95rem;
-    font-weight:600; border-radius:50px;
-    cursor:pointer; display:inline-flex; align-items:center;
-    gap:.65rem; letter-spacing:.4px;
-    box-shadow:0 3px 6px rgba(0,0,0,.15);
-    transition:.25s;
-  }
-  .btn-gold:hover {background:var(--gold-hover);}
-  .grid-2 {display:grid; gap:1rem;}
-  @media (min-width:720px){
-    .grid-2 {grid-template-columns:repeat(2,minmax(0,1fr));}
-  }
-  @media (max-width:780px){
-    .topbar {flex-direction:column; gap:.6rem;}
-    .timer-badge {order:2;}
-    .logo-box {order:1;}
-    .btn-gold {width:100%; justify-content:center;}
-    table.data tr td:first-child {width:44%;}
-  }
-
-  /* Ajoutez ou complétez les styles */
-  .card{
-    background:#fff;
-    border-radius:14px;
-    padding:22px 24px 24px;
-    margin-bottom:28px;
-    box-shadow:0 4px 12px -2px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.08);
-    border:1px solid #eceae4;
-  }
-  .card h3{
-    margin:0 0 .9rem;
-    display:flex;
-    align-items:center;
-    gap:.6rem;
-    font-size:1.05rem;
-    color:#153c2e;
-  }
-  .recap-group-title{
-    font-size:.72rem;
-    letter-spacing:.9px;
-    text-transform:uppercase;
-    color:#54625d;
-    font-weight:700;
-    margin:1.1rem 0 .45rem;
-  }
-  .recap-rows{border:1px solid #e9ece9;border-radius:10px;overflow:hidden;}
-  .recap-row{
-    display:flex;
-    justify-content:space-between;
-    gap:1rem;
-    padding:11px 15px;
-    font-size:.84rem;
-    border-bottom:1px solid #eee;
-    background:#fff;
-  }
-  .recap-row:nth-child(odd){background:#fafafa;}
-  .recap-row:last-child{border-bottom:none;}
-  .recap-label{color:#4c5b55;font-weight:500;max-width:50%;}
-  .recap-value{color:#15211e;font-weight:600;text-align:right;max-width:50%;word-break:break-word;}
-  .price-highlight{color:#a67c00;font-weight:700;}
-  .btn-gold{
-    background:#a67c00;color:#fff;border:none;
-    padding:.95rem 2.2rem;border-radius:40px;
-    font-weight:600;font-size:.95rem;
-    display:inline-flex;align-items:center;gap:.6rem;
-    cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.15);
-    transition:.25s;
-  }
-  .btn-gold:hover{background:#c08d00;}
-  @media(max-width:640px){
-    .recap-row{flex-direction:column;}
-    .recap-value{text-align:left;}
-    .btn-gold{width:100%;justify-content:center;}
-  }
-
-  /* ===== Styles Modal Paiement ===== */
-.mmodal{
-  position:fixed;
-  inset:0;
-  display:none;
-  z-index:1600;
-  font-family:inherit;
-}
-.mmodal.open{display:block;}
-.mmodal__backdrop{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.48);
-  backdrop-filter:blur(3px);
-}
-.mmodal__dialog{
-  position:relative;
-  width:100%;
-  max-width:660px;
-  margin: clamp(40px,7vh,110px) auto;
-  background:#ffffff;
-  border-radius:22px;
-  padding:1.6rem 1.55rem 2rem;
-  box-shadow:0 10px 30px -6px rgba(0,0,0,.28),0 4px 14px rgba(0,0,0,.15);
-  border:1px solid #ece9e0;
-  animation:modalPop .35s cubic-bezier(.25,.75,.25,1);
-}
-@keyframes modalPop {
-  from {opacity:0; transform:translateY(18px) scale(.97);}
-  to {opacity:1; transform:translateY(0) scale(1);}
-}
-.mmodal__close{
-  position:absolute;
-  top:10px; right:10px;
-  width:42px; height:42px;
-  border:none;
-  background:#f3f5f4;
-  border-radius:50%;
-  cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.05rem; color:#2d3a37;
-  transition:.25s;
-}
-.mmodal__close:hover{background:#e6ece9;}
-.mmodal__header{display:flex;flex-direction:column;gap:.9rem;margin-bottom:.8rem;}
-.mmodal__selector{display:flex;flex-direction:column;gap:.4rem;}
-.mmodal__label{
-  font-size:.62rem;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  font-weight:600;
-  color:#49605a;
-}
-.mmodal__select{
-  padding:.65rem .85rem;
-  border:1px solid #cfd6d2;
-  border-radius:8px;
-  background:#fff;
-  font-size:.85rem;
-  font-weight:500;
-  cursor:pointer;
-  transition:.25s;
-}
-.mmodal__select:focus{
-  outline:2px solid #00640044;
-  border-color:#006400;
-}
-.mmodal__title{
-  font-size:1.15rem;
-  font-weight:700;
-  margin:0;
-  color:#0f3d2e;
-  display:flex;
-  align-items:center;
-  gap:.55rem;
-}
-.mmodal__content{
-  background:#fafdfb;
-  border:1px solid #edf1ed;
-  border-radius:16px;
-  padding:1rem 1.05rem 1.15rem;
-}
-.pay-steps{
-  list-style:none;
-  margin:0;
-  padding:0;
-  display:flex;
-  flex-direction:column;
-  gap:.65rem;
-}
-.pay-steps li{
-  font-size:.85rem;
-  line-height:1.25rem;
-  font-weight:500;
-  color:#213630;
-  position:relative;
-  padding-left:30px;
-}
-.pay-steps li:before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:4px;
-  width:20px;
-  height:20px;
-  border-radius:6px;
-  background:linear-gradient(135deg,#0a6d0a,#179742);
-  box-shadow:0 2px 5px rgba(0,0,0,.18);
-}
-.beneficiary{
-  margin:1rem 0 .1rem;
-  background:#f0faf3;
-  border:1px solid #c4e4ce;
-  padding:.75rem .85rem;
-  border-radius:10px;
-  font-size:.8rem;
-  font-weight:600;
-  color:#17452d;
-  display:flex;
-  flex-direction:column;
-  gap:.18rem;
-}
-.mmodal__alert{
-  margin-top:1rem;
-  background:#fff7d9;
-  border:1px solid #f0cd5a;
-  padding:.8rem .9rem;
-  border-radius:10px;
-  font-size:.78rem;
-  font-weight:600;
-  color:#5d4805;
-}
-.mmodal__actions{
-  margin-top:1.2rem;
-  display:flex;
-  flex-wrap:wrap;
-  gap:.85rem;
-  align-items:center;
-  justify-content:space-between;
-}
-.btn-wapp{
-  background:#25D366;
-  color:#fff;
-  text-decoration:none;
-  padding:.85rem 1.25rem;
-  border-radius:40px;
-  font-size:.85rem;
-  font-weight:600;
-  display:inline-flex;
-  align-items:center;
-  gap:.55rem;
-  box-shadow:0 4px 10px -2px rgba(0,0,0,.25);
-  transition:.28s;
-}
-.btn-wapp:hover{background:#1bbb59;}
-.btn-close-secondary{
-  background:#f0f3f1;
-  border:1px solid #d6ddd9;
-  padding:.75rem 1.1rem;
-  font-size:.8rem;
-  border-radius:10px;
-  font-weight:600;
-  cursor:pointer;
-  color:#2a3d37;
-  transition:.25s;
-}
-.btn-close-secondary:hover{background:#e6ece9;}
-@media (max-width:640px){
-  .mmodal__dialog{margin:40px 14px;padding:1.35rem 1.1rem 1.65rem;}
-  .mmodal__actions{flex-direction:column;align-items:stretch;}
-  .btn-wapp,.btn-close-secondary{width:100%;justify-content:center;}
-}
-
-/* === Compteur paiement (vert, haut droite) === */
-.payment-countdown{
-  position:fixed;
-  top:.75rem;right:.75rem;
-  background:#28a745;
-  color:#ffffff;
-  display:flex;
-  align-items:center;
-  gap:.55rem;
-  padding:.55rem .8rem;
-  border-radius:14px;
-  font-size:.78rem;
-  font-weight:600;
-  letter-spacing:.4px;
-  z-index:1600;
-  box-shadow:0 4px 14px -6px rgba(0,0,0,.25);
-  font-family:inherit;
-}
-.payment-countdown .pc-time{
-  font-variant-numeric:tabular-nums;
-  font-size:1rem;
-  font-weight:700;
-}
-.payment-countdown .pc-label{
-  display:none;
-}
-@media (min-width:640px){
-  .payment-countdown .pc-label{display:inline;}
-}
-
-/* Message expiration sous le bouton */
-.payment-expire-msg{
-  margin:1rem 0 0;
-  font-size:.82rem;
-  font-weight:600;
-  letter-spacing:.3px;
-  text-align:center;
-  display:none;
-  padding:.85rem 1rem;
-  border-radius:12px;
-}
-.payment-expire-msg.show{
-  display:block;
-  background:#ffe8e8;
-  border:1px solid #f2b1b1;
-  color:#7d1212;
-}
-
-/* Désactivation bouton */
-#btnPayer:disabled{
-  background:#b7c5c0 !important;
-  cursor:not-allowed;
-  box-shadow:none;
-  opacity:.9;
-}
-
-/* === Modale info 20 minutes === */
-.pay-info-modal{
-  position:fixed;inset:0;
-  background:rgba(15,25,30,.55);
-  backdrop-filter:blur(4px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:2rem 1rem;
-  z-index:1700;
-}
-.pay-info-modal[aria-hidden="true"]{display:none;}
-.pim-dialog{
-  width:100%;max-width:520px;
-  background:#ffffff;
-  border-radius:22px;
-  padding:1.6rem 1.4rem 1.9rem;
-  box-shadow:0 18px 46px -10px rgba(0,0,0,.28);
-  display:flex;
-  flex-direction:column;
-  gap:1.1rem;
-}
-.pim-dialog h2{
-  margin:0;
-  font-size:1.3rem;
-  font-weight:700;
-  color:#123d2e;
-}
-.pim-text{
-  margin:0;
-  font-size:.9rem;
-  line-height:1.3rem;
-  color:#264538;
-}
-.pim-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.85rem;
-  margin-top:.4rem;
-}
-.pim-btn{
-  flex:1 1 180px;
-  border:none;
-  cursor:pointer;
-  font-size:.85rem;
-  font-weight:600;
-  padding:.9rem 1.1rem;
-  border-radius:14px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:.45rem;
-  transition:.25s;
-  text-align:center;
-  line-height:1;
-}
-.pim-btn-confirm{
-  background:#28a745;
-  color:#fff;
-  box-shadow:0 6px 18px -6px rgba(40,167,69,.45);
-}
-.pim-btn-confirm:hover{background:#23923d;}
-.pim-btn-cancel{
-  background:#d42c2c;
-  color:#fff;
-  box-shadow:0 6px 18px -6px rgba(212,44,44,.45);
-}
-.pim-btn-cancel:hover{background:#b92222;}
-@media (max-width:600px){
-  .pim-dialog{padding:1.3rem 1.05rem 1.6rem;}
-  .pim-dialog h2{font-size:1.15rem;}
-  .pim-text{font-size:.85rem;}
-  .pim-btn{flex:1 1 100%;font-size:.83rem;}
-}
-  /* ========== AJOUT / MISE À JOUR CSS (placer dans <head> ou fichier global) ========== */
-  /* Paiement Moov unique */
-.pay-box-highlight{
-  background:#f4fbf6;
-  border:1px solid #cfe9d7;
-  padding:.85rem 1rem;
-  border-radius:12px;
-  font-size:.85rem;
-  line-height:1.2rem;
-  margin:.9rem 0 1.2rem;
-  color:#134a36;
-  display:flex;
-  flex-direction:column;
-  gap:.35rem;
-}
-.pay-box-highlight .hl{
-  font-weight:700;
-  color:#007a33;
-  font-size:.9rem;
-}
-.price-badge{
-  display:inline-block;
-  background:#007a33;
-  color:#fff;
-  font-weight:600;
-  padding:.45rem .85rem;
-  border-radius:30px;
-  font-size:.85rem;
-  margin-top:.4rem;
-  box-shadow:0 4px 12px -4px rgba(0,122,51,.45);
-}
-.moov-steps{
-  list-style:none;
-  padding:0;
-  margin:0 0 1rem;
-  display:flex;
-  flex-direction:column;
-  gap:.55rem;
-  font-size:.82rem;
-}
-.moov-steps li{
-  background:#ffffff;
-  border:1px solid #e4ede8;
-  padding:.65rem .75rem;
-  border-radius:10px;
-  display:flex;
-  gap:.55rem;
-  line-height:1.15rem;
-  box-shadow:0 2px 6px -2px rgba(0,0,0,.06);
-}
-.moov-steps li span.step-index{
-  min-width:22px;
-  height:22px;
-  border-radius:6px;
-  background:#007a33;
-  color:#fff;
-  font-size:.7rem;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:600;
-  margin-top:.1rem;
-}
-.payment-modal{
-  position:fixed;inset:0;
-  background:rgba(15,25,30,.55);
-  backdrop-filter:blur(4px);
-  display:none;
-  align-items:flex-start;
-  justify-content:center;
-  overflow-y:auto;
-  padding:4rem 1rem 3rem;
-  z-index:1500;
-}
-.payment-modal.open{display:flex;}
-.pm-dialog{
-  width:100%;
-  max-width:520px;
-  background:#fff;
-  border-radius:22px;
-  padding:1.4rem 1.35rem 1.7rem;
-  box-shadow:0 14px 40px -8px rgba(0,0,0,.25);
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  gap:1rem;
-}
-.pm-title{
-  margin:0 0 .2rem;
-  font-size:1.25rem;
-  font-weight:700;
-  color:#0d3d2d;
-}
-.pm-close{
-  position:absolute;
-  top:.6rem;right:.6rem;
-  background:#f0f4f2;
-  border:none;
-  width:40px;height:40px;
-  border-radius:14px;
-  cursor:pointer;
-  font-size:1.2rem;
-  font-weight:600;
-  color:#19352b;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:.25s;
-}
-.pm-close:hover{background:#e3ece8;}
-.beneficiary-box{
-  background:#f6fbf8;
-  border:1px solid #cfe6d9;
-  padding:.85rem .9rem;
-  border-radius:14px;
-  font-size:.78rem;
-  line-height:1.15rem;
-  display:grid;
-  gap:.4rem;
-}
-.beneficiary-box .label{
-  font-size:.68rem;
-  letter-spacing:.7px;
-  text-transform:uppercase;
-  color:#4c6a5d;
-  font-weight:600;
-  display:block;
-}
-.beneficiary-box .value{
-  font-weight:600;
-  color:#0f402d;
-  font-size:.82rem;
-}
-.beneficiary-box .value.hl{
-  color:#007a33;
-  font-size:.95rem;
-}
-.whatsapp-pay-btn{
-  margin-top:.4rem;
-  width:100%;
-  background:#21d366;
-  color:#fff;
-  border:none;
-  padding:.85rem 1rem;
-  border-radius:14px;
-  font-size:.85rem;
-  font-weight:600;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:.55rem;
-  cursor:pointer;
-  text-decoration:none;
-  box-shadow:0 6px 16px -6px rgba(0,0,0,.35);
-  transition:.28s;
-}
-.whatsapp-pay-btn:hover{background:#18bd59;}
-.pay-actions-inline{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.8rem;
-  margin-top:1.2rem;
-  align-items:center;
-}
-/* Override bouton WhatsApp (centré & conforme specs) */
-.whatsapp-pay-wrapper{
-  width:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin:20px 0 14px;
-}
-
-.whatsapp-pay-btn{
-  background:#28a745 !important;
-  color:#fff !important;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:.55rem;
-  padding:.9rem 1.4rem;
-  font-size:.9rem;
-  font-weight:600;
-  line-height:1;
-  border:none;
-  border-radius:8px !important;
-  cursor:pointer;
-  width:auto;
-  max-width:420px;
-  box-shadow:0 6px 16px -6px rgba(0,0,0,.30);
-  transition:background .25s, box-shadow .25s;
-  margin:0 auto;
-}
-.whatsapp-pay-btn i{font-size:1rem;}
-.whatsapp-pay-btn:hover{
-  background:#218838 !important;
-  box-shadow:0 8px 20px -6px rgba(0,0,0,.40);
-}
-.whatsapp-pay-btn:active{
-  transform:translateY(1px);
-}
-@media (max-width:560px){
-  .whatsapp-pay-btn{
-    font-size:.85rem;
-    width:90%;
-    max-width:400px;
-  }
-}
-</style>
+<link rel="stylesheet"      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="BCF-theme.css">
+<!-- Votre thème global -->
+<style>  :root {    --gold:#a67c00;    --gold-hover:#c08d00;    --bg:#f5f7fa;    --txt:#1c2b27;    --radius:10px;    --border:#e4e1d5;  }  body {    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;    background:var(--bg); color:var(--txt); margin:0;  }  header {    background:#fff; border-bottom:1px solid #e3e3e3;  }  .topbar {    max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;    padding:.6rem 1rem; position:relative;  }  .logo-box img {    max-height:80px; width:auto; display:block;  }  .timer-badge {    background:#153c2e; color:#fff; font-weight:600;    padding:.55rem .9rem; border-radius:8px;    font-variant-numeric:tabular-nums;    display:flex; align-items:center; gap:.45rem;    font-size:.85rem;  }  main {max-width:1180px; margin:0 auto; padding:1.2rem clamp(.8rem,3vw,2rem) 2.2rem;}  h1.main-title {    text-align:center; font-size:1.5rem; margin:1rem 0 1.2rem;    color:#153c2e; font-weight:700; letter-spacing:.5px;  }  .info-box {    background:#e6f1ff; border-left:4px solid #1d6fd8;    padding:1rem 1.2rem; border-radius:8px; display:flex; gap:.85rem;    font-size:.9rem; line-height:1.35rem; color:#134a91; margin-bottom:1.4rem;  }  .warn-box {    background:#fff7e1; border-left:4px solid #e3ae15;    padding:.9rem 1.05rem; border-radius:8px; font-size:.8rem;    line-height:1.2rem; color:#7a5800; display:flex; gap:.7rem; margin-top:1.2rem;  }  .panel {    background:#fff; border:1px solid var(--gold);    border-radius:var(--radius); padding:1.3rem 1.4rem 1.6rem;    box-shadow:0 2px 4px rgba(0,0,0,.04);    margin-bottom:1.3rem;  }  .panel h3 {    margin:0 0 .9rem; font-size:1.05rem; font-weight:600;    display:flex; align-items:center; gap:.55rem; color:#153c2e;  }  table.data {    width:100%; border-collapse:collapse; font-size:.83rem;  }  table.data tr td:first-child {    width:38%; font-weight:500; color:#4b5954;    padding:.55rem .65rem;  }  table.data tr td:last-child {    padding:.55rem .65rem; font-weight:600; color:#111;  }  table.data tr:nth-child(odd){background:#fafafa;}  table.data tr {border-bottom:1px dashed #e0dfdc;}  table.data tr:last-child {border-bottom:none;}  .price-highlight {color:var(--gold);}  .pay-area {text-align:center; margin-top:1.3rem;}  .btn-gold {    background:var(--gold); color:#fff; border:none;    padding:.95rem 2.4rem; font-size:.95rem;    font-weight:600; border-radius:50px;    cursor:pointer; display:inline-flex; align-items:center;    gap:.65rem; letter-spacing:.4px;    box-shadow:0 3px 6px rgba(0,0,0,.15);    transition:.25s;  }  .btn-gold:hover {background:var(--gold-hover);}  .grid-2 {display:grid; gap:1rem;}  @media (min-width:720px){    .grid-2 {grid-template-columns:repeat(2,minmax(0,1fr));}  }  @media (max-width:780px){    .topbar {flex-direction:column; gap:.6rem;}    .timer-badge {order:2;}    .logo-box {order:1;}    .btn-gold {width:100%; justify-content:center;}    table.data tr td:first-child {width:44%;}  }  /* Ajoutez ou complétez les styles */  .card{    background:#fff;    border-radius:14px;    padding:22px 24px 24px;    margin-bottom:28px;    box-shadow:0 4px 12px -2px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.08);    border:1px solid #eceae4;  }  .card h3{    margin:0 0 .9rem;    display:flex;    align-items:center;    gap:.6rem;    font-size:1.05rem;    color:#153c2e;  }  .recap-group-title{    font-size:.72rem;    letter-spacing:.9px;    text-transform:uppercase;    color:#54625d;    font-weight:700;    margin:1.1rem 0 .45rem;  }  .recap-rows{border:1px solid #e9ece9;border-radius:10px;overflow:hidden;}  .recap-row{    display:flex;    justify-content:space-between;    gap:1rem;    padding:11px 15px;    font-size:.84rem;    border-bottom:1px solid #eee;    background:#fff;  }  .recap-row:nth-child(odd){background:#fafafa;}  .recap-row:last-child{border-bottom:none;}  .recap-label{color:#4c5b55;font-weight:500;max-width:50%;}  .recap-value{color:#15211e;font-weight:600;text-align:right;max-width:50%;word-break:break-word;}  .price-highlight{color:#a67c00;font-weight:700;}  .btn-gold{    background:#a67c00;color:#fff;border:none;    padding:.95rem 2.2rem;border-radius:40px;    font-weight:600;font-size:.95rem;    display:inline-flex;align-items:center;gap:.6rem;    cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.15);    transition:.25s;  }  .btn-gold:hover{background:#c08d00;}  @media(max-width:640px){    .recap-row{flex-direction:column;}    .recap-value{text-align:left;}    .btn-gold{width:100%;justify-content:center;}  }  /* ===== Styles Modal Paiement ===== */.mmodal{  position:fixed;  inset:0;  display:none;  z-index:1600;  font-family:inherit;}.mmodal.open{display:block;}.mmodal__backdrop{  position:absolute;  inset:0;  background:rgba(0,0,0,.48);  backdrop-filter:blur(3px);}.mmodal__dialog{  position:relative;  width:100%;  max-width:660px;  margin: clamp(40px,7vh,110px) auto;  background:#ffffff;  border-radius:22px;  padding:1.6rem 1.55rem 2rem;  box-shadow:0 10px 30px -6px rgba(0,0,0,.28),0 4px 14px rgba(0,0,0,.15);  border:1px solid #ece9e0;  animation:modalPop .35s cubic-bezier(.25,.75,.25,1);}@keyframes modalPop {  from {opacity:0; transform:translateY(18px) scale(.97);}  to {opacity:1; transform:translateY(0) scale(1);}}.mmodal__close{  position:absolute;  top:10px; right:10px;  width:42px; height:42px;  border:none;  background:#f3f5f4;  border-radius:50%;  cursor:pointer;  display:flex; align-items:center; justify-content:center;  font-size:1.05rem; color:#2d3a37;  transition:.25s;}.mmodal__close:hover{background:#e6ece9;}.mmodal__header{display:flex;flex-direction:column;gap:.9rem;margin-bottom:.8rem;}.mmodal__selector{display:flex;flex-direction:column;gap:.4rem;}.mmodal__label{  font-size:.62rem;  text-transform:uppercase;  letter-spacing:1px;  font-weight:600;  color:#49605a;}.mmodal__select{  padding:.65rem .85rem;  border:1px solid #cfd6d2;  border-radius:8px;  background:#fff;  font-size:.85rem;  font-weight:500;  cursor:pointer;  transition:.25s;}.mmodal__select:focus{  outline:2px solid #00640044;  border-color:#006400;}.mmodal__title{  font-size:1.15rem;  font-weight:700;  margin:0;  color:#0f3d2e;  display:flex;  align-items:center;  gap:.55rem;}.mmodal__content{  background:#fafdfb;  border:1px solid #edf1ed;  border-radius:16px;  padding:1rem 1.05rem 1.15rem;}.pay-steps{  list-style:none;  margin:0;  padding:0;  display:flex;  flex-direction:column;  gap:.65rem;}.pay-steps li{  font-size:.85rem;  line-height:1.25rem;  font-weight:500;  color:#213630;  position:relative;  padding-left:30px;}.pay-steps li:before{  content:"";  position:absolute;  left:0;  top:4px;  width:20px;  height:20px;  border-radius:6px;  background:linear-gradient(135deg,#0a6d0a,#179742);  box-shadow:0 2px 5px rgba(0,0,0,.18);}.beneficiary{  margin:1rem 0 .1rem;  background:#f0faf3;  border:1px solid #c4e4ce;  padding:.75rem .85rem;  border-radius:10px;  font-size:.8rem;  font-weight:600;  color:#17452d;  display:flex;  flex-direction:column;  gap:.18rem;}.mmodal__alert{  margin-top:1rem;  background:#fff7d9;  border:1px solid #f0cd5a;  padding:.8rem .9rem;  border-radius:10px;  font-size:.78rem;  font-weight:600;  color:#5d4805;}.mmodal__actions{  margin-top:1.2rem;  display:flex;  flex-wrap:wrap;  gap:.85rem;  align-items:center;  justify-content:space-between;}.btn-wapp{  background:#25D366;  color:#fff;  text-decoration:none;  padding:.85rem 1.25rem;  border-radius:40px;  font-size:.85rem;  font-weight:600;  display:inline-flex;  align-items:center;  gap:.55rem;  box-shadow:0 4px 10px -2px rgba(0,0,0,.25);  transition:.28s;}.btn-wapp:hover{background:#1bbb59;}.btn-close-secondary{  background:#f0f3f1;  border:1px solid #d6ddd9;  padding:.75rem 1.1rem;  font-size:.8rem;  border-radius:10px;  font-weight:600;  cursor:pointer;  color:#2a3d37;  transition:.25s;}.btn-close-secondary:hover{background:#e6ece9;}@media (max-width:640px){  .mmodal__dialog{margin:40px 14px;padding:1.35rem 1.1rem 1.65rem;}  .mmodal__actions{flex-direction:column;align-items:stretch;}  .btn-wapp,.btn-close-secondary{width:100%;justify-content:center;}}/* === Compteur paiement (vert, haut droite) === */.payment-countdown{  position:fixed;  top:.75rem;right:.75rem;  background:#28a745;  color:#ffffff;  display:flex;  align-items:center;  gap:.55rem;  padding:.55rem .8rem;  border-radius:14px;  font-size:.78rem;  font-weight:600;  letter-spacing:.4px;  z-index:1600;  box-shadow:0 4px 14px -6px rgba(0,0,0,.25);  font-family:inherit;}.payment-countdown .pc-time{  font-variant-numeric:tabular-nums;  font-size:1rem;  font-weight:700;}.payment-countdown .pc-label{  display:none;}@media (min-width:640px){  .payment-countdown .pc-label{display:inline;}}/* Message expiration sous le bouton */.payment-expire-msg{  margin:1rem 0 0;  font-size:.82rem;  font-weight:600;  letter-spacing:.3px;  text-align:center;  display:none;  padding:.85rem 1rem;  border-radius:12px;}.payment-expire-msg.show{  display:block;  background:#ffe8e8;  border:1px solid #f2b1b1;  color:#7d1212;}/* Désactivation bouton */#btnPayer:disabled{  background:#b7c5c0 !important;  cursor:not-allowed;  box-shadow:none;  opacity:.9;}/* === Modale info 20 minutes === */.pay-info-modal{  position:fixed;inset:0;  background:rgba(15,25,30,.55);  backdrop-filter:blur(4px);  display:flex;  align-items:center;  justify-content:center;  padding:2rem 1rem;  z-index:1700;}.pay-info-modal[aria-hidden="true"]{display:none;}.pim-dialog{  width:100%;max-width:520px;  background:#ffffff;  border-radius:22px;  padding:1.6rem 1.4rem 1.9rem;  box-shadow:0 18px 46px -10px rgba(0,0,0,.28);  display:flex;  flex-direction:column;  gap:1.1rem;}.pim-dialog h2{  margin:0;  font-size:1.3rem;  font-weight:700;  color:#123d2e;}.pim-text{  margin:0;  font-size:.9rem;  line-height:1.3rem;  color:#264538;}.pim-actions{  display:flex;  flex-wrap:wrap;  gap:.85rem;  margin-top:.4rem;}.pim-btn{  flex:1 1 180px;  border:none;  cursor:pointer;  font-size:.85rem;  font-weight:600;  padding:.9rem 1.1rem;  border-radius:14px;  display:inline-flex;  align-items:center;  justify-content:center;  gap:.45rem;  transition:.25s;  text-align:center;  line-height:1;}.pim-btn-confirm{  background:#28a745;  color:#fff;  box-shadow:0 6px 18px -6px rgba(40,167,69,.45);}.pim-btn-confirm:hover{background:#23923d;}.pim-btn-cancel{  background:#d42c2c;  color:#fff;  box-shadow:0 6px 18px -6px rgba(212,44,44,.45);}.pim-btn-cancel:hover{background:#b92222;}@media (max-width:600px){  .pim-dialog{padding:1.3rem 1.05rem 1.6rem;}  .pim-dialog h2{font-size:1.15rem;}  .pim-text{font-size:.85rem;}  .pim-btn{flex:1 1 100%;font-size:.83rem;}}  /* ========== AJOUT / MISE À JOUR CSS (placer dans <head> ou fichier global) ========== */  /* Paiement Moov unique */.pay-box-highlight{  background:#f4fbf6;  border:1px solid #cfe9d7;  padding:.85rem 1rem;  border-radius:12px;  font-size:.85rem;  line-height:1.2rem;  margin:.9rem 0 1.2rem;  color:#134a36;  display:flex;  flex-direction:column;  gap:.35rem;}.pay-box-highlight .hl{  font-weight:700;  color:#007a33;  font-size:.9rem;}.price-badge{  display:inline-block;  background:#007a33;  color:#fff;  font-weight:600;  padding:.45rem .85rem;  border-radius:30px;  font-size:.85rem;  margin-top:.4rem;  box-shadow:0 4px 12px -4px rgba(0,122,51,.45);}.moov-steps{  list-style:none;  padding:0;  margin:0 0 1rem;  display:flex;  flex-direction:column;  gap:.55rem;  font-size:.82rem;}.moov-steps li{  background:#ffffff;  border:1px solid #e4ede8;  padding:.65rem .75rem;  border-radius:10px;  display:flex;  gap:.55rem;  line-height:1.15rem;  box-shadow:0 2px 6px -2px rgba(0,0,0,.06);}.moov-steps li span.step-index{  min-width:22px;  height:22px;  border-radius:6px;  background:#007a33;  color:#fff;  font-size:.7rem;  display:inline-flex;  align-items:center;  justify-content:center;  font-weight:600;  margin-top:.1rem;}.payment-modal{  position:fixed;inset:0;  background:rgba(15,25,30,.55);  backdrop-filter:blur(4px);  display:none;  align-items:flex-start;  justify-content:center;  overflow-y:auto;  padding:4rem 1rem 3rem;  z-index:1500;}.payment-modal.open{display:flex;}.pm-dialog{  width:100%;  max-width:520px;  background:#fff;  border-radius:22px;  padding:1.4rem 1.35rem 1.7rem;  box-shadow:0 14px 40px -8px rgba(0,0,0,.25);  position:relative;  display:flex;  flex-direction:column;  gap:1rem;}.pm-title{  margin:0 0 .2rem;  font-size:1.25rem;  font-weight:700;  color:#0d3d2d;}.pm-close{  position:absolute;  top:.6rem;right:.6rem;  background:#f0f4f2;  border:none;  width:40px;height:40px;  border-radius:14px;  cursor:pointer;  font-size:1.2rem;  font-weight:600;  color:#19352b;  display:flex;  align-items:center;  justify-content:center;  transition:.25s;}.pm-close:hover{background:#e3ece8;}.beneficiary-box{  background:#f6fbf8;  border:1px solid #cfe6d9;  padding:.85rem .9rem;  border-radius:14px;  font-size:.78rem;  line-height:1.15rem;  display:grid;  gap:.4rem;}.beneficiary-box .label{  font-size:.68rem;  letter-spacing:.7px;  text-transform:uppercase;  color:#4c6a5d;  font-weight:600;  display:block;}.beneficiary-box .value{  font-weight:600;  color:#0f402d;  font-size:.82rem;}.beneficiary-box .value.hl{  color:#007a33;  font-size:.95rem;}.whatsapp-pay-btn{  margin-top:.4rem;  width:100%;  background:#21d366;  color:#fff;  border:none;  padding:.85rem 1rem;  border-radius:14px;  font-size:.85rem;  font-weight:600;  display:inline-flex;  align-items:center;  justify-content:center;  gap:.55rem;  cursor:pointer;  text-decoration:none;  box-shadow:0 6px 16px -6px rgba(0,0,0,.35);  transition:.28s;}.whatsapp-pay-btn:hover{background:#18bd59;}.pay-actions-inline{  display:flex;  flex-wrap:wrap;  gap:.8rem;  margin-top:1.2rem;  align-items:center;}/* Override bouton WhatsApp (centré & conforme specs) */.whatsapp-pay-wrapper{  width:100%;  display:flex;  justify-content:center;  align-items:center;  margin:20px 0 14px;}.whatsapp-pay-btn{  background:#28a745 !important;  color:#fff !important;  text-decoration:none;  display:inline-flex;  align-items:center;  justify-content:center;  gap:.55rem;  padding:.9rem 1.4rem;  font-size:.9rem;  font-weight:600;  line-height:1;  border:none;  border-radius:8px !important;  cursor:pointer;  width:auto;  max-width:420px;  box-shadow:0 6px 16px -6px rgba(0,0,0,.30);  transition:background .25s, box-shadow .25s;  margin:0 auto;}.whatsapp-pay-btn i{font-size:1rem;}.whatsapp-pay-btn:hover{  background:#218838 !important;  box-shadow:0 8px 20px -6px rgba(0,0,0,.40);}.whatsapp-pay-btn:active{  transform:translateY(1px);}@media (max-width:560px){  .whatsapp-pay-btn{    font-size:.85rem;    width:90%;    max-width:400px;  }}</style>
 </head>
 <body>
-
 <header class="site-header">
-  <div class="nav-shell">
-    <div class="nav-left">
-      <a href="index.html" class="nav-logo">
-        <img src="logo-BCF.png" alt="BCF">
-      </a>
-      <button id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-    </div>
-    <nav id="navMain" class="nav-main" aria-label="Navigation principale">
-      <ul class="nav-links" id="navMenu">
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="conditions.html">Conditions</a></li>
-        <li><a href="souscrire.html">Souscription</a></li>
-        <li><a href="type-parcelle.html">Parcelles</a></li>
-        <li><a href="paiement.html">Paiement</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li class="nav-mobile-cta" style="display:none;">
-          <a class="nav-cta" href="identification.html"><i class="fa-solid fa-pen-to-square"></i> Souscrire</a>
-        </li>
-      </ul>
-    </nav>
-    <div class="nav-right">
-      <a class="nav-cta" href="identification.html">
-        <i class="fa-solid fa-pen-to-square"></i> Souscrire
-      </a>
-    </div>
-  </div>
+<div class="nav-shell">
+<div class="nav-left">
+<a href="index.html" class="nav-logo">
+<img src="logo-bcf.png" alt="BCF">
+</a>
+<button id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+<i class="fa-solid fa-bars">
+</i>
+</button>
+</div>
+<nav id="navMain" class="nav-main" aria-label="Navigation principale">
+<ul class="nav-links" id="navMenu">
+<li>
+<a href="index.html">Accueil</a>
+</li>
+<li>
+<a href="conditions.html">Conditions</a>
+</li>
+<li>
+<a href="souscrire.html">Souscription</a>
+</li>
+<li>
+<a href="type-parcelle.html">Parcelles</a>
+</li>
+<li>
+<a href="paiement.html">Paiement</a>
+</li>
+<li>
+<a href="contact.html">Contact</a>
+</li>
+<li class="nav-mobile-cta" style="display:none;">
+<a class="nav-cta" href="identification.html">
+<i class="fa-solid fa-pen-to-square">
+</i> Souscrire</a>
+</li>
+</ul>
+</nav>
+<div class="nav-right">
+<a class="nav-cta" href="identification.html">
+<i class="fa-solid fa-pen-to-square">
+</i> Souscrire      </a>
+</div>
+</div>
 </header>
-
 <!-- (Ajouter juste après l'ouverture du <body> ou après le header) -->
 <!-- COMPTEUR (haut droite) -->
 <div id="paymentCountdown" class="payment-countdown" role="status" aria-live="polite">
-  <span class="pc-label">Temps restant</span>
-  <span class="pc-time" id="pcTime">25:00</span>
+<span class="pc-label">Temps restant</span>
+<span class="pc-time" id="pcTime">25:00</span>
 </div>
-
 <!-- MESSAGE EXPIRATION (apparaîtra sous le bouton) -->
-<div id="paymentExpireMsg" class="payment-expire-msg" aria-live="polite"></div>
-
+<div id="paymentExpireMsg" class="payment-expire-msg" aria-live="polite">
+</div>
 <!-- MODALE D'INFO 20 MINUTES -->
 <div id="paymentInfoModal" class="pay-info-modal" aria-hidden="true" role="dialog" aria-labelledby="pimTitle">
-  <div class="pim-dialog">
-    <h2 id="pimTitle">Information paiement</h2>
-    <p class="pim-text">
-      ⚠️ Vous disposez de 25 minutes pour effectuer le dépôt, passé ce délai le bouton sera désactivé et vous devrez recommencer la procédure.
-    </p>
-    <div class="pim-actions">
-      <button id="pimProceed" class="pim-btn pim-btn-confirm">
-        <i class="fa-solid fa-check"></i> Procéder au paiement
-      </button>
-      <button id="pimCancel" class="pim-btn pim-btn-cancel">
-        <i class="fa-solid fa-xmark"></i> Annuler
-      </button>
-    </div>
-  </div>
+<div class="pim-dialog">
+<h2 id="pimTitle">Information paiement</h2>
+<p class="pim-text">      ?? Vous disposez de 25 minutes pour effectuer le dépôt, passé ce délai le bouton sera désactivé et vous devrez recommencer la procédure.    </p>
+<div class="pim-actions">
+<button id="pimProceed" class="pim-btn pim-btn-confirm">
+<i class="fa-solid fa-check">
+</i> Procéder au paiement      </button>
+<button id="pimCancel" class="pim-btn pim-btn-cancel">
+<i class="fa-solid fa-xmark">
+</i> Annuler      </button>
 </div>
-
+</div>
+</div>
 <main>
-  <h1 class="main-title">BCF - Souscription de Parcelles</h1>
-
-  <div class="card" id="recap-wrapper">
-    <h3 style="margin:0 0 .9rem;display:flex;align-items:center;gap:.6rem;font-size:1.05rem;color:#153c2e;">
-      <i class="fa-solid fa-clipboard-list"></i> Récapitulatif de souscription
-    </h3>
-
-    <div class="recap-group-title">Informations personnelles</div>
-    <div class="recap-rows" id="rows-personnel"></div>
-
-    <div class="recap-group-title">Pièce d’identité</div>
-    <div class="recap-rows" id="rows-piece"></div>
-
-    <div class="recap-group-title">Contacts</div>
-    <div class="recap-rows" id="rows-contacts"></div>
-
-    <div class="recap-group-title">Adresse & Profession</div>
-    <div class="recap-rows" id="rows-adresse"></div>
-
-    <div class="recap-group-title">Parcelle sélectionnée</div>
-    <div class="recap-rows" id="rows-parcelle"></div>
-
-    <div class="recap-group-title">Prix & Paiement</div>
-    <div class="recap-rows" id="rows-prix"></div>
-
-    <div style="text-align:center;margin-top:1.5rem;">
-      <!-- ========== BOUTON POUR OUVRIR LA MODALE (adapter si existant) ========== -->
-      <button id="btnPayer" type="button" class="nav-cta">
-        <i class="fa-solid fa-wallet"></i> Procéder au paiement (Orange Money)
-      </button>
-    </div>
-  </div>
+<h1 class="main-title">BCF - Souscription de Parcelles</h1>
+<div class="card" id="recap-wrapper">
+<h3 style="margin:0 0 .9rem;display:flex;align-items:center;gap:.6rem;font-size:1.05rem;color:#153c2e;">
+<i class="fa-solid fa-clipboard-list">
+</i> Récapitulatif de souscription    </h3>
+<div class="recap-group-title">Informations personnelles</div>
+<div class="recap-rows" id="rows-personnel">
+</div>
+<div class="recap-group-title">Pièce d’identité</div>
+<div class="recap-rows" id="rows-piece">
+</div>
+<div class="recap-group-title">Contacts</div>
+<div class="recap-rows" id="rows-contacts">
+</div>
+<div class="recap-group-title">Adresse & Profession</div>
+<div class="recap-rows" id="rows-adresse">
+</div>
+<div class="recap-group-title">Parcelle sélectionnée</div>
+<div class="recap-rows" id="rows-parcelle">
+</div>
+<div class="recap-group-title">Prix & Paiement</div>
+<div class="recap-rows" id="rows-prix">
+</div>
+<div style="text-align:center;margin-top:1.5rem;">
+<!-- ========== BOUTON POUR OUVRIR LA MODALE (adapter si existant) ========== -->
+<button id="btnPayer" type="button" class="nav-cta">
+<i class="fa-solid fa-wallet">
+</i> Procéder au paiement (Orange Money)      </button>
+</div>
+</div>
 </main>
-
 <!-- ==== MODAL PAIEMENT (unique, masquée par défaut) ==== -->
 <div id="paymentModal" class="payment-modal" aria-hidden="true">
-  <div class="pm-dialog" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
-    <button class="pm-close" data-close-modal>&times;</button>
-    <h2 id="pmTitle" class="pm-title">Paiement Orange Money</h2>
-
-    <div class="pay-box-highlight">
-      <div><span class="hl">Montant à payer : 1 000 000 GNF</span></div>
-      <div>Effectuez ce paiement unique pour valider votre inscription. Après confirmation, vous pourrez suivre votre dossier.</div>
-    </div>
-
-    <ul class="moov-steps">
-      <li><span class="step-index">1</span><span>Composez <strong>#144#</strong> sur votre téléphone.</span></li>
-      <li><span class="step-index">2</span><span>Choisissez <strong>« Transfert d’argent »</strong>.</span></li>
-      <li><span class="step-index">3</span><span>Saisissez le numéro bénéficiaire : <strong>+224 613 47 55 74</strong>.</span></li>
-      <li><span class="step-index">4</span><span>Entrez le montant : <strong>1 000 000 GNF</strong>.</span></li>
-      <li><span class="step-index">5</span><span>Validez avec votre code PIN.</span></li>
-      <li><span class="step-index">6</span><span>Conservez le SMS de confirmation et envoyez la capture via WhatsApp.</span></li>
-    </ul>
-    <div class="beneficiary-box">
-      <div>
-        <span class="label">Numéro bénéficiaire</span>
-        <span class="value hl">(+224) 613 47 55 74</span>
-      </div>
-      <div>
-        <span class="label">Nom bénéficiaire</span>
-        <span class="value hl">Odile Beindia</span>
-      </div>
-      <!-- <div>
-        <span class="label">Devise</span>
-        <span class="value">GNF </span>
-      </div> -->
-      <div>
-        <span class="label">Montant à payer</span>
-        <span class="value hl">1 000 000 GNF</span>
-      </div>
-    </div>
-
-    <div class="whatsapp-pay-wrapper">
-      <a id="whatsappPayBtn"
-         class="whatsapp-pay-btn"
-         target="_blank" rel="noopener"
-         href="https://wa.me/224613079246?text=Je%20viens%20d'effectuer%20le%20paiement%20Orange%20Money%20de%201%20000%20000%20GNF%20.%20Voici%20ma%20capture:">
-        <i class="fa-brands fa-whatsapp"></i> Envoyer la capture via WhatsApp
-      </a>
-    </div>
-  </div>
+<div class="pm-dialog" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+<button class="pm-close" data-close-modal>&times;</button>
+<h2 id="pmTitle" class="pm-title">Paiement Orange Money</h2>
+<div class="pay-box-highlight">
+<div>
+<span class="hl">Montant à payer : 1 000 000 GNF</span>
 </div>
-
-<script>
-/* ========== RÉCAP UTILISATEUR & CALCULS (frais d’inscription fixe) ========== */
-(function(){
-  const ls = localStorage;
-  const nf = n => new Intl.NumberFormat('fr-FR').format(isFinite(n)? n : 0);
-  const valUser = k => {
-    let u={}; try{u=JSON.parse(ls.getItem('userData')||'{}')}catch(e){}
-    const v = u[k]; return (v===undefined||v===null||v==='')?'---':v;
-  };
-  const row = (l,v)=>`<div class="recap-row"><div class="recap-label">${l}</div><div class="recap-value">${v}</div></div>`;
-
-  // Identité
-  document.getElementById('rows-personnel').innerHTML = [
-    row('Nom', valUser('nom')),
-    row('Prénom', valUser('prenom')),
-    row('Date de naissance', valUser('date_naissance')),
-    row('Lieu de naissance', valUser('lieu_naissance')),
-    row('Nationalité', valUser('nationalite'))
-  ].join('');
-  document.getElementById('rows-piece').innerHTML = [
-    row('Type de document', valUser('type_document')),
-    row('Numéro de pièce', valUser('numero_piece')),
-    row('Date d’établissement', valUser('date_etablissement')),
-    row('Lieu d’établissement', valUser('lieu_etablissement'))
-  ].join('');
-  document.getElementById('rows-contacts').innerHTML = [
-    row('Téléphone', valUser('telephone')),
-    row('Email', valUser('email'))
-  ].join('');
-  const adresseComplete = [
-    valUser('adresse_ville'), valUser('adresse_region'), valUser('adresse_pays')
-  ].filter(x=>x && x!=='---').join(', ') || '---';
-  document.getElementById('rows-adresse').innerHTML = [
-    row('Profession', valUser('profession')),
-    row('Pays', valUser('adresse_pays')),
-    row('Région', valUser('adresse_region')),
-    row('Ville', valUser('adresse_ville')),
-    row('Adresse complète', adresseComplete)
-  ].join('');
-
-  // Parcelle
-  let parcelle={}; try{parcelle=JSON.parse(ls.getItem('parcelleChoisie')||'{}')}catch(e){}
-  const typeParcelle=(ls.getItem('typeParcelle')||'').toLowerCase();
-  const code = parcelle.id || parcelle.code || '';
-  function parseCode(c){ if(!c) return {section:'',lot:''}; const p=c.split('-'); return {section:p[1]||'', lot:p[2]||''}; }
-  const {section,lot} = parseCode(code);
-
-  let surface = parcelle.surface ?? parcelle.superficie;
-  if(typeof surface === 'string') surface=parseFloat(surface.replace(/[^\d.,]/g,'').replace(',','.'));
-  if(!Number.isFinite(surface)) surface=0;
-
-  let priceFromSelection = parseFloat(parcelle.pricePerM2 || parcelle.prixUnitaire || parcelle.prix_m2);
-  if(!Number.isFinite(priceFromSelection) || priceFromSelection<=0){
-    // Essayer sessionStorage.selectedParcel, plus fiable
-    try {
-      const rawSelected = sessionStorage.getItem('selectedParcel') || localStorage.getItem('selectedParcel');
-      if(rawSelected){
-        const parsedSelected = JSON.parse(rawSelected);
-        const altPrice = parseFloat(parsedSelected?.pricePerM2);
-        if(Number.isFinite(altPrice) && altPrice>0){
-          priceFromSelection = altPrice;
-        }
-      }
-    } catch(e){ console.warn('Lecture selectedParcel impossible', e); }
-  }
-  // Valeur par défaut si toujours invalide (fallback raisonnable)
-  if(!Number.isFinite(priceFromSelection) || priceFromSelection<=0) priceFromSelection = 50000;
-
-  let prixM2 = priceFromSelection;
-
-  // Calcul du prix total
-  let prixTotal = Math.round(surface * prixM2);
-  if(!Number.isFinite(prixTotal) || prixTotal<0) prixTotal=0;
-
-  // Frais d’inscription fixe
-  const FRAIS_INSCRIPTION = 1000000;
-  const reste = prixTotal; // NE PAS déduire les frais
-
-  document.getElementById('rows-parcelle').innerHTML = [
-    row('Type de parcelle', typeParcelle? typeParcelle.charAt(0).toUpperCase()+typeParcelle.slice(1):'---'),
-    row('Code', code || '---'),
-    row('Section', section || '---'),
-    row('Lot', lot || '---'),
-    row('Surface', surface? nf(surface)+' m²':'---')
-  ].join('');
-
-  // Tableau paiement mis à jour
-  document.getElementById('rows-prix').innerHTML = [
-    row('Prix / m²', nf(prixM2)+' GNF'),
-    row('Prix total', nf(prixTotal)+' GNF'),
-    row('Frais d’inscription', '<span class="price-highlight">'+nf(FRAIS_INSCRIPTION)+' GNF</span>'),
-    row('Reste à payer', '<span class="price-highlight">'+nf(reste)+' GNF</span>')
-  ].join('');
-
-  // Expose pour la modale
-  window.__paiementCalculs = {
-    code,typeParcelle,surface,prixM2,prixTotal,
-    fraisInscription: FRAIS_INSCRIPTION,
-    reste
-  };
-
-  // Bouton ouvre modale
-  document.getElementById('btnPayer')?.addEventListener('click', ()=>{
-    ls.setItem('paiementIntent', JSON.stringify({
-      code,typeParcelle,surface,prixM2,prixTotal,
-      fraisInscription: FRAIS_INSCRIPTION,
-      reste,
-      ts:Date.now()
-    }));
-    if(typeof window.openPaymentModal==='function') window.openPaymentModal();
-  });
-
-  // Timer existant
-  const countdownEl=document.getElementById('countdown');
-  if(countdownEl){
-    const D=20*60*1000,start=Date.now();
-    const intv=setInterval(()=>{
-      const diff=D-(Date.now()-start);
-      if(diff<=0){countdownEl.textContent='00:00';clearInterval(intv);return;}
-      const m=Math.floor(diff/60000),s=Math.floor((diff%60000)/1000);
-      countdownEl.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    },1000);
-  }
-})();
-</script>
-
-<script>
-/* Compteur 20 minutes */
-(function(){
-  const DISPLAY = document.getElementById('pcTime');
-  const MSG = document.getElementById('paymentTimeMessage');
-  const BTN = document.getElementById('btnPayer');
-  if(!DISPLAY || !MSG || !BTN) return;
-
-  const DURATION_SEC = 25 * 60; // 25 minutes
-  let remaining = DURATION_SEC;
-
-  function format(sec){
-    const m = Math.floor(sec/60), s = sec % 60;
-    return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-  }
-  DISPLAY.textContent = format(remaining);
-
-  const tick = setInterval(()=>{
-    remaining--;
-    if(remaining <= 0){
-      clearInterval(tick);
-      DISPLAY.textContent = '00:00';
-      BTN.disabled = true;
-      MSG.classList.add('expired');
-      MSG.textContent = '⛔ Temps écoulé, veuillez recommencer la procédure.';
-      return;
-    }
-    DISPLAY.textContent = format(remaining);
-  },1000);
-
-  // Empêche ouverture modale si désactivé
-  BTN.addEventListener('click', e=>{
-    if(BTN.disabled){
-      e.preventDefault();
-      return;
-    }
-  }, true);
-})();
-</script>
-
-<script>
-/* ========== MODALE INSTRUCTIONS (frais fixe) ========== */
-(function(){
-  const modal = document.getElementById('paymentModal');
-  const openBtn = document.getElementById('btnPayer');
-  const closeEls = modal?.querySelectorAll('[data-close-modal]');
-  if(!modal || !openBtn) return;
-
-  function openModal(){
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden','false');
-    document.body.style.overflow='hidden';
-  }
-  function closeModal(){
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden','true');
-    document.body.style.overflow='';
-  }
-  openBtn.addEventListener('click', openModal);
-  closeEls.forEach(el=>el.addEventListener('click', closeModal));
-  modal.addEventListener('click', e=>{
-    if(e.target === modal) closeModal();
-  });
-  document.addEventListener('keydown', e=>{
-    if(e.key === 'Escape' && modal.classList.contains('open')) closeModal();
-  });
-})();
-</script>
+<div>Effectuez ce paiement unique pour valider votre inscription. Après confirmation, vous pourrez suivre votre dossier.</div>
+</div>
+<ul class="moov-steps">
+<li>
+<span class="step-index">1</span>
+<span>Composez <strong>#144#</strong> sur votre téléphone.</span>
+</li>
+<li>
+<span class="step-index">2</span>
+<span>Choisissez <strong>« Transfert d’argent »</strong>.</span>
+</li>
+<li>
+<span class="step-index">3</span>
+<span>Saisissez le numéro bénéficiaire : <strong>+224 613 47 55 74</strong>.</span>
+</li>
+<li>
+<span class="step-index">4</span>
+<span>Entrez le montant : <strong>1 000 000 GNF</strong>.</span>
+</li>
+<li>
+<span class="step-index">5</span>
+<span>Validez avec votre code PIN.</span>
+</li>
+<li>
+<span class="step-index">6</span>
+<span>Conservez le SMS de confirmation et envoyez la capture via WhatsApp.</span>
+</li>
+</ul>
+<div class="beneficiary-box">
+<div>
+<span class="label">Numéro bénéficiaire</span>
+<span class="value hl">(+224) 613 47 55 74</span>
+</div>
+<div>
+<span class="label">Nom bénéficiaire</span>
+<span class="value hl">Odile Beindia</span>
+</div>
+<!-- <div>
+<span class="label">Devise</span>
+<span class="value">GNF </span>
+</div> -->
+<div>
+<span class="label">Montant à payer</span>
+<span class="value hl">1 000 000 GNF</span>
+</div>
+</div>
+<div class="whatsapp-pay-wrapper">
+<a id="whatsappPayBtn"         class="whatsapp-pay-btn"         target="_blank" rel="noopener"         href="https://wa.me/224613079246?text=Je%20viens%20d'effectuer%20le%20paiement%20Orange%20Money%20de%201%20000%20000%20GNF%20.%20Voici%20ma%20capture:">
+<i class="fa-brands fa-whatsapp">
+</i> Envoyer la capture via WhatsApp      </a>
+</div>
+</div>
+</div>
+<script>/* ========== RÉCAP UTILISATEUR & CALCULS (frais d’inscription fixe) ========== */(function(){  const ls = localStorage;  const nf = n => new Intl.NumberFormat('fr-FR').format(isFinite(n)? n : 0);  const valUser = k => {    let u={}; try{u=JSON.parse(ls.getItem('userData')||'{}')}catch(e){}    const v = u[k]; return (v===undefined||v===null||v==='')?'---':v;  };  const row = (l,v)=>`<div class="recap-row">
+<div class="recap-label">${l}</div>
+<div class="recap-value">${v}</div>
+</div>`;  // Identité  document.getElementById('rows-personnel').innerHTML = [    row('Nom', valUser('nom')),    row('Prénom', valUser('prenom')),    row('Date de naissance', valUser('date_naissance')),    row('Lieu de naissance', valUser('lieu_naissance')),    row('Nationalité', valUser('nationalite'))  ].join('');  document.getElementById('rows-piece').innerHTML = [    row('Type de document', valUser('type_document')),    row('Numéro de pièce', valUser('numero_piece')),    row('Date d’établissement', valUser('date_etablissement')),    row('Lieu d’établissement', valUser('lieu_etablissement'))  ].join('');  document.getElementById('rows-contacts').innerHTML = [    row('Téléphone', valUser('telephone')),    row('Email', valUser('email'))  ].join('');  const adresseComplete = [    valUser('adresse_ville'), valUser('adresse_region'), valUser('adresse_pays')  ].filter(x=>x && x!=='---').join(', ') || '---';  document.getElementById('rows-adresse').innerHTML = [    row('Profession', valUser('profession')),    row('Pays', valUser('adresse_pays')),    row('Région', valUser('adresse_region')),    row('Ville', valUser('adresse_ville')),    row('Adresse complète', adresseComplete)  ].join('');  // Parcelle  let parcelle={}; try{parcelle=JSON.parse(ls.getItem('parcelleChoisie')||'{}')}catch(e){}  const typeParcelle=(ls.getItem('typeParcelle')||'').toLowerCase();  const code = parcelle.id || parcelle.code || '';  function parseCode(c){ if(!c) return {section:'',lot:''}; const p=c.split('-'); return {section:p[1]||'', lot:p[2]||''}; }  const {section,lot} = parseCode(code);  let surface = parcelle.surface ?? parcelle.superficie;  if(typeof surface === 'string') surface=parseFloat(surface.replace(/[^\d.,]/g,'').replace(',','.'));  if(!Number.isFinite(surface)) surface=0;  let priceFromSelection = parseFloat(parcelle.pricePerM2 || parcelle.prixUnitaire || parcelle.prix_m2);  if(!Number.isFinite(priceFromSelection) || priceFromSelection<=0){    // Essayer sessionStorage.selectedParcel, plus fiable    try {      const rawSelected = sessionStorage.getItem('selectedParcel') || localStorage.getItem('selectedParcel');      if(rawSelected){        const parsedSelected = JSON.parse(rawSelected);        const altPrice = parseFloat(parsedSelected?.pricePerM2);        if(Number.isFinite(altPrice) && altPrice>0){          priceFromSelection = altPrice;        }      }    } catch(e){ console.warn('Lecture selectedParcel impossible', e); }  }  // Valeur par défaut si toujours invalide (fallback raisonnable)  if(!Number.isFinite(priceFromSelection) || priceFromSelection<=0) priceFromSelection = 50000;  let prixM2 = priceFromSelection;  // Calcul du prix total  let prixTotal = Math.round(surface * prixM2);  if(!Number.isFinite(prixTotal) || prixTotal<0) prixTotal=0;  // Frais d’inscription fixe  const FRAIS_INSCRIPTION = 1000000;  const reste = prixTotal; // NE PAS déduire les frais  document.getElementById('rows-parcelle').innerHTML = [    row('Type de parcelle', typeParcelle? typeParcelle.charAt(0).toUpperCase()+typeParcelle.slice(1):'---'),    row('Code', code || '---'),    row('Section', section || '---'),    row('Lot', lot || '---'),    row('Surface', surface? nf(surface)+' m²':'---')  ].join('');  // Tableau paiement mis à jour  document.getElementById('rows-prix').innerHTML = [    row('Prix / m²', nf(prixM2)+' GNF'),    row('Prix total', nf(prixTotal)+' GNF'),    row('Frais d’inscription', '<span class="price-highlight">'+nf(FRAIS_INSCRIPTION)+' GNF</span>'),    row('Reste à payer', '<span class="price-highlight">'+nf(reste)+' GNF</span>')  ].join('');  // Expose pour la modale  window.__paiementCalculs = {    code,typeParcelle,surface,prixM2,prixTotal,    fraisInscription: FRAIS_INSCRIPTION,    reste  };  // Bouton ouvre modale  document.getElementById('btnPayer')?.addEventListener('click', ()=>{    ls.setItem('paiementIntent', JSON.stringify({      code,typeParcelle,surface,prixM2,prixTotal,      fraisInscription: FRAIS_INSCRIPTION,      reste,      ts:Date.now()    }));    if(typeof window.openPaymentModal==='function') window.openPaymentModal();  });  // Timer existant  const countdownEl=document.getElementById('countdown');  if(countdownEl){    const D=20*60*1000,start=Date.now();    const intv=setInterval(()=>{      const diff=D-(Date.now()-start);      if(diff<=0){countdownEl.textContent='00:00';clearInterval(intv);return;}      const m=Math.floor(diff/60000),s=Math.floor((diff%60000)/1000);      countdownEl.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');    },1000);  }})();</script>
+<script>/* Compteur 20 minutes */(function(){  const DISPLAY = document.getElementById('pcTime');  const MSG = document.getElementById('paymentTimeMessage');  const BTN = document.getElementById('btnPayer');  if(!DISPLAY || !MSG || !BTN) return;  const DURATION_SEC = 25 * 60; // 25 minutes  let remaining = DURATION_SEC;  function format(sec){    const m = Math.floor(sec/60), s = sec % 60;    return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');  }  DISPLAY.textContent = format(remaining);  const tick = setInterval(()=>{    remaining--;    if(remaining <= 0){      clearInterval(tick);      DISPLAY.textContent = '00:00';      BTN.disabled = true;      MSG.classList.add('expired');      MSG.textContent = '? Temps écoulé, veuillez recommencer la procédure.';      return;    }    DISPLAY.textContent = format(remaining);  },1000);  // Empêche ouverture modale si désactivé  BTN.addEventListener('click', e=>{    if(BTN.disabled){      e.preventDefault();      return;    }  }, true);})();</script>
+<script>/* ========== MODALE INSTRUCTIONS (frais fixe) ========== */(function(){  const modal = document.getElementById('paymentModal');  const openBtn = document.getElementById('btnPayer');  const closeEls = modal?.querySelectorAll('[data-close-modal]');  if(!modal || !openBtn) return;  function openModal(){    modal.classList.add('open');    modal.setAttribute('aria-hidden','false');    document.body.style.overflow='hidden';  }  function closeModal(){    modal.classList.remove('open');    modal.setAttribute('aria-hidden','true');    document.body.style.overflow='';  }  openBtn.addEventListener('click', openModal);  closeEls.forEach(el=>el.addEventListener('click', closeModal));  modal.addEventListener('click', e=>{    if(e.target === modal) closeModal();  });  document.addEventListener('keydown', e=>{    if(e.key === 'Escape' && modal.classList.contains('open')) closeModal();  });})();</script>
 <!-- ========== AJUSTEMENT DU RÉCAP (si texte ancien "Acompte" encore présent) ========== -->
-<script>
-// S'assurer que le libellé est correct si déjà généré ailleurs
-document.querySelectorAll('.recap-label').forEach(l=>{
-  if(/acompte/i.test(l.textContent)) l.textContent = 'Frais d’inscription';
-});
-</script>
-<script>
-/* Compteur + modale d'information */
-(function(){
-  const timeSpan = document.getElementById('pcTime');
-  const expireMsg = document.getElementById('paymentExpireMsg');
-  const btnPay = document.getElementById('btnPayer');
-  const modal = document.getElementById('paymentInfoModal');
-  const btnProceed = document.getElementById('pimProceed');
-  const btnCancel = document.getElementById('pimCancel');
-
-  if(!timeSpan || !btnPay || !modal) return;
-
-  const TOTAL = 25*60; // 25 minutes en secondes
-  let remaining = TOTAL;
-  let intervalId;
-
-  function format(sec){
-    const m=Math.floor(sec/60), s=sec%60;
-    return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-  }
-
-  function tick(){
-    remaining--;
-    if(remaining<=0){
-      clearInterval(intervalId);
-      timeSpan.textContent='00:00';
-      btnPay.disabled=true;
-      expireMsg.textContent='⛔ Temps écoulé, veuillez recommencer la procédure.';
-      expireMsg.classList.add('show');
-      return;
-    }
-    timeSpan.textContent=format(remaining);
-  }
-
-  // Démarrage immédiat
-  timeSpan.textContent = format(remaining);
-  intervalId = setInterval(tick,1000);
-
-  // Modale ouverte au chargement
-  modal.setAttribute('aria-hidden','false');
-
-  btnProceed.addEventListener('click', ()=>{
-    modal.setAttribute('aria-hidden','true');
-  });
-
-  btnCancel.addEventListener('click', ()=>{
-    // Stop timer et retour accueil
-    clearInterval(intervalId);
-    window.location.href='index.html';
-  });
-
-  // Empêcher ouverture modale paiement si temps écoulé
-  btnPay.addEventListener('click', e=>{
-    if(btnPay.disabled){
-      e.preventDefault();
-      return;
-    }
-  }, true);
-})();
-</script>
-
-<script>
-(function(){
-  // Récupère la parcelle choisie depuis sessionStorage
-  const raw = sessionStorage.getItem('parcelleChoisie') || localStorage.getItem('parcelleChoisie');
-  if(!raw) return; // rien à faire si pas de sélection
-
-  let p;
-  try{ p = JSON.parse(raw); }catch(e){ return; }
-
-  // Formatage nombre en FR (espaces milliers)
-  const fmt = n => new Intl.NumberFormat('fr-FR').format(Math.round(n));
-
-  // Valeurs attendues dans l'objet p : code, type, surface, prixUnitaire, prix, devise
-  const fields = {
-    code: p.code || p.id || '',
-    type: p.type || '',
-    surface: (typeof p.surface !== 'undefined') ? fmt(p.surface) + ' m²' : '',
-    prixUnitaire: (typeof p.prixUnitaire !== 'undefined') ? fmt(p.prixUnitaire) + ' ' + (p.devise||'GNF') : '',
-    prix: (typeof p.prix !== 'undefined') ? fmt(p.prix) + ' ' + (p.devise||'GNF') : ''
-  };
-
-  // Helper : met à jour éléments par id, data-field, name ou id
-  function setIfExists(selector, value){
-    const el = document.querySelector(selector);
-    if(!el) return false;
-    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'){
-      el.value = value.replace(/\s?GNF/,'').trim(); // inputs numériques : sans label devise si besoin
-    } else {
-      el.textContent = value;
-    }
-    return true;
-  }
-
-  // Mise à jour par id (si la page possède ces ids)
-  setIfExists('#parcelleCode', fields.code);
-  setIfExists('#parcelleType', fields.type);
-  setIfExists('#parcelleSurface', fields.surface);
-  setIfExists('#parcellePrixM2', fields.prixUnitaire);
-  setIfExists('#parcellePrixTotal', fields.prix);
-
-  // Mise à jour pour éléments data-field
-  Object.keys(fields).forEach(k=>{
-    document.querySelectorAll('[data-field="'+k+'"]').forEach(el=>{
-      if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'){
-        // pour inputs, mettre valeur brute sans devise
-        el.value = (k === 'prix' || k === 'prixUnitaire') ? (p[k] || '') : (p[k] || '');
-      } else {
-        el.textContent = fields[k];
-      }
-    });
-  });
-
-  // Mise à jour pour inputs/hidden qui portent le nom correspondant
-  ['code','type','surface','prixUnitaire','prix'].forEach(name=>{
-    const byName = document.querySelectorAll('input[name="'+name+'"], input#'+name+', textarea#'+name);
-    byName.forEach(inp=>{
-      if(inp.type === 'hidden' || inp.tagName === 'INPUT') {
-        // stocker valeur brute (numérique) pour traitement serveur
-        if(name === 'surface') inp.value = p.surface || '';
-        else if(name === 'prixUnitaire') inp.value = p.prixUnitaire || '';
-        else if(name === 'prix') inp.value = p.prix || '';
-        else inp.value = p[name] || '';
-      }
-    });
-  });
-
-  // Optionnel : indique visuellement que la parcelle est chargée
-  const badge = document.querySelector('#parcelleLoadedBadge');
-  if(badge){
-    badge.textContent = 'Parcelle sélectionnée';
-    badge.classList.remove('hidden');
-  }
-
-  // Nettoyage sessionStorage si vous voulez empêcher réutilisation accidentelle après paiement
-  // sessionStorage.removeItem('parcelleChoisie');
-
-})();
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', ()=>{
-
-  const FCFA_TO_GNF = 15.1515151515;
-  const FRAIS_INSCRIPTION_GNF = 1000000;
-
-  // Récupère la sélection : plusieurs clefs possibles selon l'app
-  const rawStr = sessionStorage.getItem('selectedParcel')
-               || sessionStorage.getItem('parcelleChoisie')
-               || localStorage.getItem('parcelleChoisie')
-               || sessionStorage.getItem('selected_parcel')
-               || null;
-  if(!rawStr) return;
-
-  let parcel;
-  try { parcel = JSON.parse(rawStr); } catch(e){ console.warn('selectedParcel JSON invalide'); return; }
-
-  // Normalize/parse montant (retourne {value:Number, currency:'GNF'|'FCFA'|'unknown'})
-  function parseAmount(v){
-    if(v === null || typeof v === 'undefined') return {value:0,currency:'unknown'};
-    if(typeof v === 'number') return {value: v, currency:'unknown'};
-    const s = String(v).trim();
-    // Detect currency tokens
-    const hasFCFA = /fcfa/i.test(s) || /cfa/i.test(s);
-    const hasGNF = /gnf/i.test(s);
-    // Extract digits
-    const digits = s.replace(/[^\d\-]/g,'');
-    const n = digits === '' ? 0 : Number(digits);
-    if(hasFCFA) return {value: n, currency:'FCFA'};
-    if(hasGNF) return {value: n, currency:'GNF'};
-    // If no unit, assume number is already in GNF if large (heuristic), else keep unknown
-    return {value: n, currency:'unknown'};
-  }
-
-  function convertFcfaToGnf(n){
-    return Math.round(n * FCFA_TO_GNF);
-  }
-
-  function ensureGnfAmount(field){
-    // field may be number or string
-    const parsed = parseAmount(field);
-    if(parsed.currency === 'FCFA'){
-      return convertFcfaToGnf(parsed.value);
-    }
-    // if currency GNF already, return as-is
-    if(parsed.currency === 'GNF') return Math.round(parsed.value);
-    // unknown -> assume it's already GNF numeric
-    return Math.round(parsed.value);
-  }
-
-  function fmt(n){
-    return new Intl.NumberFormat('fr-FR').format(Math.round(n)) + ' GNF';
-  }
-
-  // Assure présence des champs attendus dans l'objet
-  const code = parcel.code || parcel.id || parcel.ref || '';
-  const type = parcel.type || parcel.category || parcel.parcelType || '';
-  const section = parcel.section || parcel.zone || '';
-  const lot = parcel.lot || parcel.sub || '';
-  const surfaceRaw = parcel.surface || parcel.superficie || parcel.surface_m2 || 0;
-  const surfaceNum = Number(parseFloat(surfaceRaw) || 0);
-
-  // Prix unité et total : normaliser / convertir en GNF si nécessaire
-  const prixUnitaireRaw = parcel.prixUnitaire || parcel.pricePerM2 || parcel.prix_m2 || parcel.PRIX_M2 || parcel.prixUnitaireGNF || 0;
-  const prixTotalRaw = parcel.prix || parcel.priceTotal || parcel.prix_total || parcel.total || 0;
-
-  const pricePerM2_gnf = ensureGnfAmount(prixUnitaireRaw);
-  const priceTotal_gnf = ensureGnfAmount(prixTotalRaw) || Math.round(surfaceNum * pricePerM2_gnf);
-
-  const frais = FRAIS_INSCRIPTION_GNF;
-  const reste = Math.round(priceTotal_gnf + frais);
-
-  // Liste sélecteurs pour mise à jour : ids courants, data-field et inputs name
-  const selectorsText = [
-    '#parcelleCode','#code','#parcelCode',
-    '#parcelleType','#type',
-    '#parcelleSection','#section',
-    '#parcelleLot','#lot',
-    '#parcelleSurface','#surface','#surfaceValue'
-  ];
-
-  const selectorsPricePerM2 = ['#parcellePrixM2','#pricePerM2','#prix_m2','#prixUnitaire'];
-  const selectorsPriceTotal = ['#parcellePrixTotal','#priceTotal','#prix_total','#totalPrice'];
-  const selectorsFrais = ['#fraisInscription','#frais','[data-field="frais"]'];
-  const selectorsReste = ['#resteAPayer','#reste','#remainingAmount','[data-field="reste"]'];
-
-  function setTextIfFound(selList, text){
-    selList.forEach(s=>{
-      document.querySelectorAll(s).forEach(el=>{
-        if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'){
-          // pour inputs, on laisse la valeur numérique brute (sans étiquette)
-          try{ el.value = String(text).replace(/\s?GNF/,'').replace(/\s/g,''); }catch(e){}
-        } else {
-          el.textContent = text;
-        }
-      });
-    });
-  }
-
-  // Mise à jour ids / spans
-  setTextIfFound(selectorsText, ''); // reset textual fields first
-  // affectations spécifiques
-  document.querySelectorAll('#parcelleCode, #code, #parcelCode, [data-field="code"]').forEach(e=> e.textContent = code || '');
-  document.querySelectorAll('#parcelleType, #type, [data-field="type"]').forEach(e=> e.textContent = type || '');
-  document.querySelectorAll('#parcelleSection, #section, [data-field="section"]').forEach(e=> e.textContent = section || '');
-  document.querySelectorAll('#parcelleLot, #lot, [data-field="lot"]').forEach(e=> e.textContent = lot || '');
-  document.querySelectorAll('#parcelleSurface, #surface, #surfaceValue, [data-field="surface"]').forEach(e=>{
-    const txt = (surfaceNum ? (new Intl.NumberFormat('fr-FR').format(Math.round(surfaceNum)) + ' m²') : '');
-    if(e.tagName === 'INPUT' || e.tagName === 'SELECT' || e.tagName === 'TEXTAREA') e.value = String(surfaceNum);
-    else e.textContent = txt;
-  });
-
-  // Prix affichés formatés
-  setTextIfFound(selectorsPricePerM2, fmt(pricePerM2_gnf));
-  setTextIfFound(selectorsPriceTotal, fmt(priceTotal_gnf));
-  setTextIfFound(selectorsFrais, fmt(frais));
-  setTextIfFound(selectorsReste, fmt(reste));
-
-  // Mise à jour d'éléments portant data-field pour compatibilité
-  const dataMap = {
-    code: code,
-    type: type,
-    section: section,
-    lot: lot,
-    surface: surfaceNum,
-    prixUnitaire: pricePerM2_gnf,
-    prix: priceTotal_gnf,
-    frais: frais,
-    reste: reste,
-    devise: 'GNF'
-  };
-  Object.keys(dataMap).forEach(k=>{
-    document.querySelectorAll('[data-field="'+k+'"]').forEach(el=>{
-      if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'){
-        el.value = String(dataMap[k]);
-      } else {
-        if(k === 'prixUnitaire' || k === 'prix' || k === 'frais' || k === 'reste'){
-          el.textContent = fmt(Number(dataMap[k]));
-        } else if(k === 'surface'){
-          el.textContent = (dataMap[k] ? (new Intl.NumberFormat('fr-FR').format(Math.round(dataMap[k])) + ' m²') : '');
-        } else {
-          el.textContent = String(dataMap[k]);
-        }
-      }
-    });
-  });
-
-  // Mettre à jour inputs nommés (valeurs brutes pour envoi serveur)
-  ['code','type','section','lot','surface','prixUnitaire','prix','frais','reste','devise'].forEach(name=>{
-    document.querySelectorAll('input[name="'+name+'"], input#'+name+', textarea[name="'+name+'"]').forEach(inp=>{
-      if(inp) {
-        if(name === 'surface') inp.value = String(surfaceNum);
-        else if(name === 'prixUnitaire' || name === 'prix' || name === 'frais' || name === 'reste') inp.value = String(Math.round(dataMap[name]));
-        else inp.value = String(dataMap[name] || '');
-      }
-    });
-  });
-
-  // Optionnel : log console résumé des transformations
-  console.info('selectedParcel injecté :', {
-    code, type, section, lot,
-    surface: surfaceNum,
-    pricePerM2_gnf: pricePerM2_gnf,
-    priceTotal_gnf: priceTotal_gnf,
-    frais_gnf: frais,
-    reste_gnf: reste
-  });
-
-});
-</script>
+<script>// S'assurer que le libellé est correct si déjà généré ailleursdocument.querySelectorAll('.recap-label').forEach(l=>{  if(/acompte/i.test(l.textContent)) l.textContent = 'Frais d’inscription';});</script>
+<script>/* Compteur + modale d'information */(function(){  const timeSpan = document.getElementById('pcTime');  const expireMsg = document.getElementById('paymentExpireMsg');  const btnPay = document.getElementById('btnPayer');  const modal = document.getElementById('paymentInfoModal');  const btnProceed = document.getElementById('pimProceed');  const btnCancel = document.getElementById('pimCancel');  if(!timeSpan || !btnPay || !modal) return;  const TOTAL = 25*60; // 25 minutes en secondes  let remaining = TOTAL;  let intervalId;  function format(sec){    const m=Math.floor(sec/60), s=sec%60;    return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');  }  function tick(){    remaining--;    if(remaining<=0){      clearInterval(intervalId);      timeSpan.textContent='00:00';      btnPay.disabled=true;      expireMsg.textContent='? Temps écoulé, veuillez recommencer la procédure.';      expireMsg.classList.add('show');      return;    }    timeSpan.textContent=format(remaining);  }  // Démarrage immédiat  timeSpan.textContent = format(remaining);  intervalId = setInterval(tick,1000);  // Modale ouverte au chargement  modal.setAttribute('aria-hidden','false');  btnProceed.addEventListener('click', ()=>{    modal.setAttribute('aria-hidden','true');  });  btnCancel.addEventListener('click', ()=>{    // Stop timer et retour accueil    clearInterval(intervalId);    window.location.href='index.html';  });  // Empêcher ouverture modale paiement si temps écoulé  btnPay.addEventListener('click', e=>{    if(btnPay.disabled){      e.preventDefault();      return;    }  }, true);})();</script>
+<script>(function(){  // Récupère la parcelle choisie depuis sessionStorage  const raw = sessionStorage.getItem('parcelleChoisie') || localStorage.getItem('parcelleChoisie');  if(!raw) return; // rien à faire si pas de sélection  let p;  try{ p = JSON.parse(raw); }catch(e){ return; }  // Formatage nombre en FR (espaces milliers)  const fmt = n => new Intl.NumberFormat('fr-FR').format(Math.round(n));  // Valeurs attendues dans l'objet p : code, type, surface, prixUnitaire, prix, devise  const fields = {    code: p.code || p.id || '',    type: p.type || '',    surface: (typeof p.surface !== 'undefined') ? fmt(p.surface) + ' m²' : '',    prixUnitaire: (typeof p.prixUnitaire !== 'undefined') ? fmt(p.prixUnitaire) + ' ' + (p.devise||'GNF') : '',    prix: (typeof p.prix !== 'undefined') ? fmt(p.prix) + ' ' + (p.devise||'GNF') : ''  };  // Helper : met à jour éléments par id, data-field, name ou id  function setIfExists(selector, value){    const el = document.querySelector(selector);    if(!el) return false;    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'){      el.value = value.replace(/\s?GNF/,'').trim(); // inputs numériques : sans label devise si besoin    } else {      el.textContent = value;    }    return true;  }  // Mise à jour par id (si la page possède ces ids)  setIfExists('#parcelleCode', fields.code);  setIfExists('#parcelleType', fields.type);  setIfExists('#parcelleSurface', fields.surface);  setIfExists('#parcellePrixM2', fields.prixUnitaire);  setIfExists('#parcellePrixTotal', fields.prix);  // Mise à jour pour éléments data-field  Object.keys(fields).forEach(k=>{    document.querySelectorAll('[data-field="'+k+'"]').forEach(el=>{      if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'){        // pour inputs, mettre valeur brute sans devise        el.value = (k === 'prix' || k === 'prixUnitaire') ? (p[k] || '') : (p[k] || '');      } else {        el.textContent = fields[k];      }    });  });  // Mise à jour pour inputs/hidden qui portent le nom correspondant  ['code','type','surface','prixUnitaire','prix'].forEach(name=>{    const byName = document.querySelectorAll('input[name="'+name+'"], input#'+name+', textarea#'+name);    byName.forEach(inp=>{      if(inp.type === 'hidden' || inp.tagName === 'INPUT') {        // stocker valeur brute (numérique) pour traitement serveur        if(name === 'surface') inp.value = p.surface || '';        else if(name === 'prixUnitaire') inp.value = p.prixUnitaire || '';        else if(name === 'prix') inp.value = p.prix || '';        else inp.value = p[name] || '';      }    });  });  // Optionnel : indique visuellement que la parcelle est chargée  const badge = document.querySelector('#parcelleLoadedBadge');  if(badge){    badge.textContent = 'Parcelle sélectionnée';    badge.classList.remove('hidden');  }  // Nettoyage sessionStorage si vous voulez empêcher réutilisation accidentelle après paiement  // sessionStorage.removeItem('parcelleChoisie');})();</script>
+<script>document.addEventListener('DOMContentLoaded', ()=>{  const FCFA_TO_GNF = 15.1515151515;  const FRAIS_INSCRIPTION_GNF = 1000000;  // Récupère la sélection : plusieurs clefs possibles selon l'app  const rawStr = sessionStorage.getItem('selectedParcel')               || sessionStorage.getItem('parcelleChoisie')               || localStorage.getItem('parcelleChoisie')               || sessionStorage.getItem('selected_parcel')               || null;  if(!rawStr) return;  let parcel;  try { parcel = JSON.parse(rawStr); } catch(e){ console.warn('selectedParcel JSON invalide'); return; }  // Normalize/parse montant (retourne {value:Number, currency:'GNF'|'FCFA'|'unknown'})  function parseAmount(v){    if(v === null || typeof v === 'undefined') return {value:0,currency:'unknown'};    if(typeof v === 'number') return {value: v, currency:'unknown'};    const s = String(v).trim();    // Detect currency tokens    const hasFCFA = /fcfa/i.test(s) || /cfa/i.test(s);    const hasGNF = /gnf/i.test(s);    // Extract digits    const digits = s.replace(/[^\d\-]/g,'');    const n = digits === '' ? 0 : Number(digits);    if(hasFCFA) return {value: n, currency:'FCFA'};    if(hasGNF) return {value: n, currency:'GNF'};    // If no unit, assume number is already in GNF if large (heuristic), else keep unknown    return {value: n, currency:'unknown'};  }  function convertFcfaToGnf(n){    return Math.round(n * FCFA_TO_GNF);  }  function ensureGnfAmount(field){    // field may be number or string    const parsed = parseAmount(field);    if(parsed.currency === 'FCFA'){      return convertFcfaToGnf(parsed.value);    }    // if currency GNF already, return as-is    if(parsed.currency === 'GNF') return Math.round(parsed.value);    // unknown -> assume it's already GNF numeric    return Math.round(parsed.value);  }  function fmt(n){    return new Intl.NumberFormat('fr-FR').format(Math.round(n)) + ' GNF';  }  // Assure présence des champs attendus dans l'objet  const code = parcel.code || parcel.id || parcel.ref || '';  const type = parcel.type || parcel.category || parcel.parcelType || '';  const section = parcel.section || parcel.zone || '';  const lot = parcel.lot || parcel.sub || '';  const surfaceRaw = parcel.surface || parcel.superficie || parcel.surface_m2 || 0;  const surfaceNum = Number(parseFloat(surfaceRaw) || 0);  // Prix unité et total : normaliser / convertir en GNF si nécessaire  const prixUnitaireRaw = parcel.prixUnitaire || parcel.pricePerM2 || parcel.prix_m2 || parcel.PRIX_M2 || parcel.prixUnitaireGNF || 0;  const prixTotalRaw = parcel.prix || parcel.priceTotal || parcel.prix_total || parcel.total || 0;  const pricePerM2_gnf = ensureGnfAmount(prixUnitaireRaw);  const priceTotal_gnf = ensureGnfAmount(prixTotalRaw) || Math.round(surfaceNum * pricePerM2_gnf);  const frais = FRAIS_INSCRIPTION_GNF;  const reste = Math.round(priceTotal_gnf + frais);  // Liste sélecteurs pour mise à jour : ids courants, data-field et inputs name  const selectorsText = [    '#parcelleCode','#code','#parcelCode',    '#parcelleType','#type',    '#parcelleSection','#section',    '#parcelleLot','#lot',    '#parcelleSurface','#surface','#surfaceValue'  ];  const selectorsPricePerM2 = ['#parcellePrixM2','#pricePerM2','#prix_m2','#prixUnitaire'];  const selectorsPriceTotal = ['#parcellePrixTotal','#priceTotal','#prix_total','#totalPrice'];  const selectorsFrais = ['#fraisInscription','#frais','[data-field="frais"]'];  const selectorsReste = ['#resteAPayer','#reste','#remainingAmount','[data-field="reste"]'];  function setTextIfFound(selList, text){    selList.forEach(s=>{      document.querySelectorAll(s).forEach(el=>{        if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'){          // pour inputs, on laisse la valeur numérique brute (sans étiquette)          try{ el.value = String(text).replace(/\s?GNF/,'').replace(/\s/g,''); }catch(e){}        } else {          el.textContent = text;        }      });    });  }  // Mise à jour ids / spans  setTextIfFound(selectorsText, ''); // reset textual fields first  // affectations spécifiques  document.querySelectorAll('#parcelleCode, #code, #parcelCode, [data-field="code"]').forEach(e=> e.textContent = code || '');  document.querySelectorAll('#parcelleType, #type, [data-field="type"]').forEach(e=> e.textContent = type || '');  document.querySelectorAll('#parcelleSection, #section, [data-field="section"]').forEach(e=> e.textContent = section || '');  document.querySelectorAll('#parcelleLot, #lot, [data-field="lot"]').forEach(e=> e.textContent = lot || '');  document.querySelectorAll('#parcelleSurface, #surface, #surfaceValue, [data-field="surface"]').forEach(e=>{    const txt = (surfaceNum ? (new Intl.NumberFormat('fr-FR').format(Math.round(surfaceNum)) + ' m²') : '');    if(e.tagName === 'INPUT' || e.tagName === 'SELECT' || e.tagName === 'TEXTAREA') e.value = String(surfaceNum);    else e.textContent = txt;  });  // Prix affichés formatés  setTextIfFound(selectorsPricePerM2, fmt(pricePerM2_gnf));  setTextIfFound(selectorsPriceTotal, fmt(priceTotal_gnf));  setTextIfFound(selectorsFrais, fmt(frais));  setTextIfFound(selectorsReste, fmt(reste));  // Mise à jour d'éléments portant data-field pour compatibilité  const dataMap = {    code: code,    type: type,    section: section,    lot: lot,    surface: surfaceNum,    prixUnitaire: pricePerM2_gnf,    prix: priceTotal_gnf,    frais: frais,    reste: reste,    devise: 'GNF'  };  Object.keys(dataMap).forEach(k=>{    document.querySelectorAll('[data-field="'+k+'"]').forEach(el=>{      if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'){        el.value = String(dataMap[k]);      } else {        if(k === 'prixUnitaire' || k === 'prix' || k === 'frais' || k === 'reste'){          el.textContent = fmt(Number(dataMap[k]));        } else if(k === 'surface'){          el.textContent = (dataMap[k] ? (new Intl.NumberFormat('fr-FR').format(Math.round(dataMap[k])) + ' m²') : '');        } else {          el.textContent = String(dataMap[k]);        }      }    });  });  // Mettre à jour inputs nommés (valeurs brutes pour envoi serveur)  ['code','type','section','lot','surface','prixUnitaire','prix','frais','reste','devise'].forEach(name=>{    document.querySelectorAll('input[name="'+name+'"], input#'+name+', textarea[name="'+name+'"]').forEach(inp=>{      if(inp) {        if(name === 'surface') inp.value = String(surfaceNum);        else if(name === 'prixUnitaire' || name === 'prix' || name === 'frais' || name === 'reste') inp.value = String(Math.round(dataMap[name]));        else inp.value = String(dataMap[name] || '');      }    });  });  // Optionnel : log console résumé des transformations  console.info('selectedParcel injecté :', {    code, type, section, lot,    surface: surfaceNum,    pricePerM2_gnf: pricePerM2_gnf,    priceTotal_gnf: priceTotal_gnf,    frais_gnf: frais,    reste_gnf: reste  });});</script>
 <!-- Insérer avant </body> : lecture de sessionStorage.selectedParcel et injection dans le tableau PRIX & PAIEMENT -->
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-
-  const FCFA_TO_GNF = 15.1515151515;
-  const FRAIS_INSCRIPTION_GNF = 1000000;
-
-  // Récupère l'objet sélectionné (sessionStorage preferred)
-  let raw = sessionStorage.getItem('selectedParcel') || localStorage.getItem('selectedParcel') || sessionStorage.getItem('parcelleChoisie') || localStorage.getItem('parcelleChoisie');
-  if(!raw) return;
-
-  let parcel;
-  try { parcel = JSON.parse(raw); } catch(e) { console.warn('selectedParcel JSON invalide'); return; }
-
-  // utilitaire parse amount (gère "2 500 FCFA", "2500", "3,634,325 FCFA", "12 345 GNF")
-  function parseAmountToGnf(v){
-    if(v === null || typeof v === 'undefined') return 0;
-    if(typeof v === 'number') return Math.round(v);
-    const s = String(v).trim();
-    // detect tokens
-    const hasFCFA = /fcfa|cfa/i.test(s);
-    const hasGNF  = /gnf/i.test(s);
-    // remove spaces and non-numeric (keep dot and comma)
-    let num = s.replace(/\s/g,'').replace(/,/g,'.').replace(/[^\d\.\-]/g,'');
-    num = num === '' ? '0' : num;
-    const n = parseFloat(num) || 0;
-    if(hasFCFA) return Math.round(n * FCFA_TO_GNF);
-    if(hasGNF) return Math.round(n);
-    // no token: assume GNF
-    return Math.round(n);
-  }
-
-  // Valeurs attendues
-  const code = parcel.code || parcel.id || '';
-  const type = parcel.type || '';
-  const section = parcel.section || parcel.zone || '';
-  const lot = parcel.lot || '';
-  const surface = Number(parcel.surface || parcel.superficie || 0);
-
-  // normaliser prix/m2 et prix total en GNF
-  const pricePerM2 = parseAmountToGnf(parcel.pricePerM2 || parcel.prixUnitaire || parcel.pricePerM2 || parcel.prix_m2 || 0);
-  const priceTotal  = parseAmountToGnf(parcel.priceTotal || parcel.price || parcel.total || Math.round(surface * pricePerM2));
-
-  const frais = FRAIS_INSCRIPTION_GNF;
-  const reste = Math.round(priceTotal + frais);
-
-  // formatage FR avec espace milliers et suffixe GNF
-  const fmt = (n) => new Intl.NumberFormat('fr-FR').format(Math.round(n)) + ' GNF';
-
-  // injecter dans le tableau PRIX & PAIEMENT — rechercher éléments probables
-  const setText = (selectorList, text, rawValueForInput) => {
-    selectorList.forEach(sel => {
-      document.querySelectorAll(sel).forEach(el => {
-        if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'){
-          // mettre valeur brute (numérique) sans suffixe
-          el.value = (typeof rawValueForInput !== 'undefined') ? String(rawValueForInput) : String(text).replace(/\s?GNF/,'').replace(/\s/g,'');
-        } else {
-          el.textContent = text;
-        }
-      });
-    });
-  };
-
-  // Selecteurs ciblés (ajoutez ceux présents dans votre page)
-  const selPricePerM2 = ['#prixM2', '#parcellePrixM2', '.prix-m2', '[data-field="prixUnitaire"]', 'td.prix-m2'];
-  const selPriceTotal = ['#prixTotal', '#parcellePrixTotal', '.prix-total', '[data-field="prix"]', 'td.prix-total'];
-  const selFrais = ['#fraisInscription', '#frais', '.frais-inscription', '[data-field="frais"]', 'td.frais'];
-  const selReste = ['#resteAPayer', '#reste', '.reste-a-payer', '[data-field="reste"]', 'td.reste'];
-
-  const selCode = ['#parcelleCode', '[data-field="code"]', '.parcelle-code'];
-  const selType = ['#parcelleType', '[data-field="type"]', '.parcelle-type'];
-  const selSection = ['#parcelleSection', '[data-field="section"]', '.parcelle-section'];
-  const selLot = ['#parcelleLot', '[data-field="lot"]', '.parcelle-lot'];
-  const selSurface = ['#parcelleSurface', '[data-field="surface"]', '.parcelle-surface', '#surface'];
-
-  // Injection
-  setText(selCode, code, code);
-  setText(selType, type, type);
-  setText(selSection, section, section);
-  setText(selLot, lot, lot);
-  // surface: afficher "X m²"
-  const surfaceTxt = surface ? (new Intl.NumberFormat('fr-FR').format(Math.round(surface)) + ' m²') : '';
-  setText(selSurface, surfaceTxt, surface);
-
-  setText(selPricePerM2, fmt(pricePerM2), pricePerM2);
-  setText(selPriceTotal, fmt(priceTotal), priceTotal);
-  setText(selFrais, fmt(frais), frais);
-  setText(selReste, fmt(reste), reste);
-
-  // Mettre à jour champs cachés/inputs nommés si présents (valeurs brutes pour envoi au serveur)
-  const inputMap = {
-    'code': code,
-    'type': type,
-    'section': section,
-    'lot': lot,
-    'surface': surface,
-    'pricePerM2': pricePerM2,
-    'priceTotal': priceTotal,
-    'fraisInscription': frais,
-    'resteAPayer': reste,
-    'currency': 'GNF'
-  };
-  Object.keys(inputMap).forEach(name => {
-    document.querySelectorAll('input[name="'+name+'"], input#'+name+', textarea[name="'+name+'"]').forEach(inp=>{
-      try { inp.value = String(inputMap[name]); } catch(e){}
-    });
-  });
-
-  // Nettoyage optionnel : laisser la donnée pour debug ou la supprimer pour sécurité
-  // sessionStorage.removeItem('selectedParcel');
-
-  // Rapport console succinct
-  console.info('selectedParcel injecté dans paiement:', {
-    code, type, section, lot, surface,
-    pricePerM2, priceTotal, frais, reste, currency: 'GNF'
-  });
-
-});
-</script>
+<script>document.addEventListener('DOMContentLoaded', function(){  const FCFA_TO_GNF = 15.1515151515;  const FRAIS_INSCRIPTION_GNF = 1000000;  // Récupère l'objet sélectionné (sessionStorage preferred)  let raw = sessionStorage.getItem('selectedParcel') || localStorage.getItem('selectedParcel') || sessionStorage.getItem('parcelleChoisie') || localStorage.getItem('parcelleChoisie');  if(!raw) return;  let parcel;  try { parcel = JSON.parse(raw); } catch(e) { console.warn('selectedParcel JSON invalide'); return; }  // utilitaire parse amount (gère "2 500 FCFA", "2500", "3,634,325 FCFA", "12 345 GNF")  function parseAmountToGnf(v){    if(v === null || typeof v === 'undefined') return 0;    if(typeof v === 'number') return Math.round(v);    const s = String(v).trim();    // detect tokens    const hasFCFA = /fcfa|cfa/i.test(s);    const hasGNF  = /gnf/i.test(s);    // remove spaces and non-numeric (keep dot and comma)    let num = s.replace(/\s/g,'').replace(/,/g,'.').replace(/[^\d\.\-]/g,'');    num = num === '' ? '0' : num;    const n = parseFloat(num) || 0;    if(hasFCFA) return Math.round(n * FCFA_TO_GNF);    if(hasGNF) return Math.round(n);    // no token: assume GNF    return Math.round(n);  }  // Valeurs attendues  const code = parcel.code || parcel.id || '';  const type = parcel.type || '';  const section = parcel.section || parcel.zone || '';  const lot = parcel.lot || '';  const surface = Number(parcel.surface || parcel.superficie || 0);  // normaliser prix/m2 et prix total en GNF  const pricePerM2 = parseAmountToGnf(parcel.pricePerM2 || parcel.prixUnitaire || parcel.pricePerM2 || parcel.prix_m2 || 0);  const priceTotal  = parseAmountToGnf(parcel.priceTotal || parcel.price || parcel.total || Math.round(surface * pricePerM2));  const frais = FRAIS_INSCRIPTION_GNF;  const reste = Math.round(priceTotal + frais);  // formatage FR avec espace milliers et suffixe GNF  const fmt = (n) => new Intl.NumberFormat('fr-FR').format(Math.round(n)) + ' GNF';  // injecter dans le tableau PRIX & PAIEMENT — rechercher éléments probables  const setText = (selectorList, text, rawValueForInput) => {    selectorList.forEach(sel => {      document.querySelectorAll(sel).forEach(el => {        if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'){          // mettre valeur brute (numérique) sans suffixe          el.value = (typeof rawValueForInput !== 'undefined') ? String(rawValueForInput) : String(text).replace(/\s?GNF/,'').replace(/\s/g,'');        } else {          el.textContent = text;        }      });    });  };  // Selecteurs ciblés (ajoutez ceux présents dans votre page)  const selPricePerM2 = ['#prixM2', '#parcellePrixM2', '.prix-m2', '[data-field="prixUnitaire"]', 'td.prix-m2'];  const selPriceTotal = ['#prixTotal', '#parcellePrixTotal', '.prix-total', '[data-field="prix"]', 'td.prix-total'];  const selFrais = ['#fraisInscription', '#frais', '.frais-inscription', '[data-field="frais"]', 'td.frais'];  const selReste = ['#resteAPayer', '#reste', '.reste-a-payer', '[data-field="reste"]', 'td.reste'];  const selCode = ['#parcelleCode', '[data-field="code"]', '.parcelle-code'];  const selType = ['#parcelleType', '[data-field="type"]', '.parcelle-type'];  const selSection = ['#parcelleSection', '[data-field="section"]', '.parcelle-section'];  const selLot = ['#parcelleLot', '[data-field="lot"]', '.parcelle-lot'];  const selSurface = ['#parcelleSurface', '[data-field="surface"]', '.parcelle-surface', '#surface'];  // Injection  setText(selCode, code, code);  setText(selType, type, type);  setText(selSection, section, section);  setText(selLot, lot, lot);  // surface: afficher "X m²"  const surfaceTxt = surface ? (new Intl.NumberFormat('fr-FR').format(Math.round(surface)) + ' m²') : '';  setText(selSurface, surfaceTxt, surface);  setText(selPricePerM2, fmt(pricePerM2), pricePerM2);  setText(selPriceTotal, fmt(priceTotal), priceTotal);  setText(selFrais, fmt(frais), frais);  setText(selReste, fmt(reste), reste);  // Mettre à jour champs cachés/inputs nommés si présents (valeurs brutes pour envoi au serveur)  const inputMap = {    'code': code,    'type': type,    'section': section,    'lot': lot,    'surface': surface,    'pricePerM2': pricePerM2,    'priceTotal': priceTotal,    'fraisInscription': frais,    'resteAPayer': reste,    'currency': 'GNF'  };  Object.keys(inputMap).forEach(name => {    document.querySelectorAll('input[name="'+name+'"], input#'+name+', textarea[name="'+name+'"]').forEach(inp=>{      try { inp.value = String(inputMap[name]); } catch(e){}    });  });  // Nettoyage optionnel : laisser la donnée pour debug ou la supprimer pour sécurité  // sessionStorage.removeItem('selectedParcel');  // Rapport console succinct  console.info('selectedParcel injecté dans paiement:', {    code, type, section, lot, surface,    pricePerM2, priceTotal, frais, reste, currency: 'GNF'  });});</script>
 <!-- Fin script injection selectedParcel -->
 </body>
 </html>

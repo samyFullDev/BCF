@@ -1,329 +1,183 @@
 ﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>BCF - Identification</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="logo-BCF.png" type="image/png">
-  <link rel="stylesheet" href="BCF-theme.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    /* Grid responsive formulaire Identification */
-    .identification-wrapper{
-      max-width:1000px;
-      margin:2rem auto 3.5rem;
-      padding:0 1.1rem;
-    }
-    .identification-wrapper h1{
-      margin:0 0 1.4rem;
-      font-size:clamp(1.55rem,1.3rem + 1.2vw,2rem);
-      line-height:1.15;
-      color:#0f3d2e;
-      font-weight:700;
-    }
-    form#identificationForm{
-      background:#ffffff;
-      border:1px solid #e2ece6;
-      border-radius:18px;
-      padding:1.6rem 1.5rem 2.1rem;
-      box-shadow:0 6px 24px -10px rgba(0,0,0,.08);
-    }
-    .form-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:1rem 1.25rem;
-    }
-    @media (max-width:768px){
-      .form-grid{grid-template-columns:1fr;}
-      form#identificationForm{padding:1.25rem 1.05rem 1.9rem;}
-    }
-    .fg-item{display:flex;flex-direction:column;min-width:0;}
-    .fg-item.full-span{grid-column:1 / -1;}
-    .fg-item label{
-      font-size:.78rem;
-      font-weight:600;
-      letter-spacing:.5px;
-      margin:0 0 .4rem;
-      color:#1e3d31;
-    }
-    .fg-item input,
-    .fg-item select{
-      width:100%;
-      padding:.78rem .9rem;
-      border:1px solid #d5e1dc;
-      border-radius:12px;
-      background:#fff;
-      font-size:.85rem;
-      font-family:inherit;
-      box-sizing:border-box;
-      transition:.25s;
-    }
-    .fg-item input:focus,
-    .fg-item select:focus{
-      outline:2px solid #169c4a;
-      border-color:#169c4a;
-    }
-    /* Message erreur déjà existant */
-    #formError{margin-bottom:1.1rem;}
-    /* Actions */
-    .form-actions{
-      margin-top:1.6rem;
-      display:flex;
-      gap:1rem;
-      flex-wrap:wrap;
-      justify-content:flex-start;
-    }
-    .form-actions button{
-      background:#007a33;
-      color:#fff;
-      border:none;
-      padding:.9rem 1.35rem;
-      font-size:.9rem;
-      font-weight:600;
-      border-radius:40px;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:.45rem;
-      max-width:400px;
-      transition:.25s;
-    }
-    .form-actions button:hover{background:#00923c;}
-    @media (max-width:768px){
-      .form-actions{flex-direction:column;align-items:center;}
-      .form-actions button{width:90%;}
-    }
-  </style>
+<meta charset="UTF-8">
+<title>BCF - Identification</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="logo-bcf.png" type="image/png">
+<link rel="stylesheet" href="BCF-theme.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>    /* Grid responsive formulaire Identification */    .identification-wrapper{      max-width:1000px;      margin:2rem auto 3.5rem;      padding:0 1.1rem;    }    .identification-wrapper h1{      margin:0 0 1.4rem;      font-size:clamp(1.55rem,1.3rem + 1.2vw,2rem);      line-height:1.15;      color:#0f3d2e;      font-weight:700;    }    form#identificationForm{      background:#ffffff;      border:1px solid #e2ece6;      border-radius:18px;      padding:1.6rem 1.5rem 2.1rem;      box-shadow:0 6px 24px -10px rgba(0,0,0,.08);    }    .form-grid{      display:grid;      grid-template-columns:repeat(2,1fr);      gap:1rem 1.25rem;    }    @media (max-width:768px){      .form-grid{grid-template-columns:1fr;}      form#identificationForm{padding:1.25rem 1.05rem 1.9rem;}    }    .fg-item{display:flex;flex-direction:column;min-width:0;}    .fg-item.full-span{grid-column:1 / -1;}    .fg-item label{      font-size:.78rem;      font-weight:600;      letter-spacing:.5px;      margin:0 0 .4rem;      color:#1e3d31;    }    .fg-item input,    .fg-item select{      width:100%;      padding:.78rem .9rem;      border:1px solid #d5e1dc;      border-radius:12px;      background:#fff;      font-size:.85rem;      font-family:inherit;      box-sizing:border-box;      transition:.25s;    }    .fg-item input:focus,    .fg-item select:focus{      outline:2px solid #169c4a;      border-color:#169c4a;    }    /* Message erreur déjà existant */    #formError{margin-bottom:1.1rem;}    /* Actions */    .form-actions{      margin-top:1.6rem;      display:flex;      gap:1rem;      flex-wrap:wrap;      justify-content:flex-start;    }    .form-actions button{      background:#007a33;      color:#fff;      border:none;      padding:.9rem 1.35rem;      font-size:.9rem;      font-weight:600;      border-radius:40px;      cursor:pointer;      display:inline-flex;      align-items:center;      justify-content:center;      gap:.45rem;      max-width:400px;      transition:.25s;    }    .form-actions button:hover{background:#00923c;}    @media (max-width:768px){      .form-actions{flex-direction:column;align-items:center;}      .form-actions button{width:90%;}    }  </style>
 </head>
 <body>
-  <!-- Header unifié (déjà utilisé sur les autres pages) -->
-  <header class="site-header">
-    <div class="nav-shell">
-      <div class="nav-left">
-        <a href="index.html" class="nav-logo"><img src="logo-BCF.png" alt="BCF"></a>
-        <button id="navToggle" class="nav-toggle" aria-label="Menu" aria-expanded="false">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-      </div>
-      <nav id="navMain" class="nav-main" aria-label="Navigation principale">
-        <ul class="nav-links" id="navMenu">
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="conditions.html">Conditions</a></li>
-          <li><a href="souscrire.html">Souscription</a></li>
-          <li><a href="type-parcelle.html">Parcelles</a></li>
-          <li><a href="paiement.html">Paiement</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li class="nav-mobile-cta" style="display:none;">
-            <a class="nav-cta" href="identification.html"><i class="fa-solid fa-pen-to-square"></i> Souscrire</a>
-          </li>
-        </ul>
-      </nav>
-      <div class="nav-right">
-        <a class="nav-cta" href="identification.html">
-          <i class="fa-solid fa-pen-to-square"></i> Souscrire
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <div class="identification-wrapper">
-    <h1>Identification du souscripteur</h1>
-
-    <form id="identificationForm" novalidate>
-      <div id="formError" class="form-error" style="display:none;">
-        ⚠️ Veuillez remplir tous les champs avant de continuer.
-      </div>
-
-      <div class="form-grid">
-        <div class="fg-item">
-          <label for="nom">Nom</label>
-          <input id="nom" name="nom" required class="form-input">
-        </div>
-        <div class="fg-item">
-          <label for="prenom">Prénom</label>
-          <input id="prenom" name="prenom" required class="form-input">
-        </div>
-
-        <div class="fg-item">
-          <label for="date_naissance">Date de naissance</label>
-            <input type="date" id="date_naissance" name="date_naissance" required class="form-input">
-        </div>
-        <div class="fg-item">
-          <label for="lieu_naissance">Lieu de naissance</label>
-          <input id="lieu_naissance" name="lieu_naissance" required class="form-input">
-        </div>
-
-        <div class="fg-item">
-          <label for="nationalite">Nationalité</label>
-          <input id="nationalite" name="nationalite" required class="form-input">
-        </div>
-        <div class="fg-item">
-          <label for="type_document">Type de document</label>
-          <select id="type_document" name="type_document" required class="form-input">
-            <option value="" disabled selected>Choisir</option>
-            <option>Carte d'identité</option>
-            <option>Passeport</option>
-            <option>Permis de conduire</option>
-          </select>
-        </div>
-
-        <div class="fg-item">
-          <label for="numero_piece">Numéro de pièce</label>
-          <input id="numero_piece" name="numero_piece" required class="form-input">
-        </div>
-        <div class="fg-item">
-          <label for="date_etablissement">Date d’établissement</label>
-          <input type="date" id="date_etablissement" name="date_etablissement" required class="form-input">
-        </div>
-
-        <div class="fg-item">
-          <label for="lieu_etablissement">Lieu d’établissement</label>
-          <input id="lieu_etablissement" name="lieu_etablissement" required class="form-input">
-        </div>
-        <div class="fg-item">
-          <label for="telephone">Téléphone</label>
-          <input id="telephone" name="telephone" required class="form-input" pattern="^\\+?[0-9\\s]{8,20}$" placeholder="(+224) 613 07 92 46">
-        </div>
-
-        <div class="fg-item">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required class="form-input">
-        </div>
-        <div class="fg-item">
-          <label for="profession">Profession</label>
-          <input id="profession" name="profession" required class="form-input">
-        </div>
-
-        <div class="fg-item">
-          <label for="pays">Pays</label>
-          <!-- Remplacé : champ fixe "Guinée" en lecture seule, mise en forme identique -->
-          <input id="pays" name="pays" required class="form-input" value="Guinée" readonly>
-        </div>
-        <div class="fg-item">
-          <label for="adresse_region">Région / Département</label>
-          <input id="adresse_region" name="adresse_region" required class="form-input">
-        </div>
-
-        <div class="fg-item">
-          <label for="adresse_ville">Ville</label>
-          <input id="adresse_ville" name="adresse_ville" required class="form-input">
-        </div>
-
-        <div class="fg-item full-span">
-          <div class="form-actions">
-            <button type="submit" class="nav-cta">
-              Continuer
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-
-  <!-- Footer unifié (réutiliser ton footer global) -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-col footer-brand">
-        <a href="index.html" class="footer-logo">
-          <img src="logo-BCF.png" alt="Logo BCF">
-          <span>BCF</span>
-        </a>
-        <p class="footer-text">Plateforme de sélection et de gestion des parcelles dans les opérations d’aménagement foncier.</p>
-        <a class="footer-wa-btn" href="https://wa.me/224613079246?text=Bonjour%2C%20je%20souhaite%20une%20assistance."
-           target="_blank" rel="noopener">
-          <i class="fa-brands fa-whatsapp"></i> Assistance WhatsApp
-        </a>
-      </div>
-      <div class="footer-col">
-        <h4>Navigation</h4>
-        <div class="footer-links">
-          <a href="index.html">Accueil</a>
-          <a href="conditions.html">Conditions</a>
-          <a href="souscrire.html">Souscription</a>
-          <a href="type-parcelle.html">Parcelles</a>
-          <a href="paiement.html">Paiement</a>
-          <a href="contact.html">Contact</a>
-        </div>
-      </div>
-      <div class="footer-col footer-contact">
-        <h4>Contact</h4>
-        <p>Boulevard Léon M’Ba<br>Cotonou – Bénin</p>
-        <p class="tel">(+224) 613 07 92 46</p>
-        <p>contact@BCF.bj</p>
-        <div class="footer-hours">Lun - Ven : 08h00 - 17h30</div>
-      </div>
-      <div class="footer-col">
-        <h4>Réseaux sociaux</h4>
-        <div class="social-links">
-          <a href="https://www.facebook.com/share/1CVRTsV4wS/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook BCF">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">© 2025 BCF. Tous droits réservés.</div>
-  </footer>
-
-  <script>
-  // Header burger
-  (function(){
-    const t=document.getElementById('navToggle');
-    const nav=document.getElementById('navMain');
-    const menu=document.getElementById('navMenu');
-    if(!t||!nav) return;
-    const close=()=>{nav.classList.remove('open');t.setAttribute('aria-expanded','false');};
-    t.addEventListener('click',()=>{const o=nav.classList.toggle('open');t.setAttribute('aria-expanded',o?'true':'false');});
-    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{if(window.matchMedia('(max-width:768px)').matches) close();}));
-    window.addEventListener('resize',()=>{if(window.innerWidth>768) close();});
-  })();
-  // Protection conditions acceptées
-  (function(){
-    if(localStorage.getItem('conditionsAccepted')!=='true'){
-      window.location.replace('conditions.html');
-    }
-  })();
-  // Validation stricte (réutilise ton script si déjà présent)
-  (function(){
-    const form=document.getElementById('identificationForm');
-    if(!form) return;
-    const errorBox=document.getElementById('formError');
-    const fields=[...form.querySelectorAll('input[required],select[required]')];
-    function validate(){
-      let ok=true;
-      fields.forEach(el=>{
-        const v=(el.value||'').trim();
-        let valid=v!==''; 
-        if(valid && el.type==='email'){valid=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);}
-        if(valid && el.id==='telephone'){valid=/^\+?[0-9\s]{8,20}$/.test(v);}
-        if(!valid){el.classList.add('invalid');ok=false;} else el.classList.remove('invalid');
-      });
-      if(!ok){
-        errorBox.style.display='flex';
-        errorBox.textContent='⚠️ Veuillez remplir tous les champs avant de continuer.';
-      } else {
-        errorBox.style.display='none';
-      }
-      return ok;
-    }
-    form.addEventListener('submit',e=>{
-      e.preventDefault();
-      if(!validate()) return;
-      const data={};
-      fields.forEach(f=>data[f.id]=f.value.trim());
-      data.adresse_pays=data.pays;
-      data.adresse_complete=[data.adresse_ville,data.adresse_region,data.pays].filter(Boolean).join(', ');
-      localStorage.setItem('userData',JSON.stringify(data));
-      localStorage.setItem('identificationValid','true');
-      window.location.href='type-parcelle.html';
-    });
-    form.addEventListener('input',e=>{
-      if(e.target.classList.contains('invalid')){
-        e.target.classList.remove('invalid');
-        if(!form.querySelector('.invalid')) errorBox.style.display='none';
-      }
-    });
-  })();
-  </script>
+<!-- Header unifié (déjà utilisé sur les autres pages) -->
+<header class="site-header">
+<div class="nav-shell">
+<div class="nav-left">
+<a href="index.html" class="nav-logo">
+<img src="logo-bcf.png" alt="BCF">
+</a>
+<button id="navToggle" class="nav-toggle" aria-label="Menu" aria-expanded="false">
+<i class="fa-solid fa-bars">
+</i>
+</button>
+</div>
+<nav id="navMain" class="nav-main" aria-label="Navigation principale">
+<ul class="nav-links" id="navMenu">
+<li>
+<a href="index.html">Accueil</a>
+</li>
+<li>
+<a href="conditions.html">Conditions</a>
+</li>
+<li>
+<a href="souscrire.html">Souscription</a>
+</li>
+<li>
+<a href="type-parcelle.html">Parcelles</a>
+</li>
+<li>
+<a href="paiement.html">Paiement</a>
+</li>
+<li>
+<a href="contact.html">Contact</a>
+</li>
+<li class="nav-mobile-cta" style="display:none;">
+<a class="nav-cta" href="identification.html">
+<i class="fa-solid fa-pen-to-square">
+</i> Souscrire</a>
+</li>
+</ul>
+</nav>
+<div class="nav-right">
+<a class="nav-cta" href="identification.html">
+<i class="fa-solid fa-pen-to-square">
+</i> Souscrire        </a>
+</div>
+</div>
+</header>
+<div class="identification-wrapper">
+<h1>Identification du souscripteur</h1>
+<form id="identificationForm" novalidate>
+<div id="formError" class="form-error" style="display:none;">        ?? Veuillez remplir tous les champs avant de continuer.      </div>
+<div class="form-grid">
+<div class="fg-item">
+<label for="nom">Nom</label>
+<input id="nom" name="nom" required class="form-input">
+</div>
+<div class="fg-item">
+<label for="prenom">Prénom</label>
+<input id="prenom" name="prenom" required class="form-input">
+</div>
+<div class="fg-item">
+<label for="date_naissance">Date de naissance</label>
+<input type="date" id="date_naissance" name="date_naissance" required class="form-input">
+</div>
+<div class="fg-item">
+<label for="lieu_naissance">Lieu de naissance</label>
+<input id="lieu_naissance" name="lieu_naissance" required class="form-input">
+</div>
+<div class="fg-item">
+<label for="nationalite">Nationalité</label>
+<input id="nationalite" name="nationalite" required class="form-input">
+</div>
+<div class="fg-item">
+<label for="type_document">Type de document</label>
+<select id="type_document" name="type_document" required class="form-input">
+<option value="" disabled selected>Choisir</option>
+<option>Carte d'identité</option>
+<option>Passeport</option>
+<option>Permis de conduire</option>
+</select>
+</div>
+<div class="fg-item">
+<label for="numero_piece">Numéro de pièce</label>
+<input id="numero_piece" name="numero_piece" required class="form-input">
+</div>
+<div class="fg-item">
+<label for="date_etablissement">Date d’établissement</label>
+<input type="date" id="date_etablissement" name="date_etablissement" required class="form-input">
+</div>
+<div class="fg-item">
+<label for="lieu_etablissement">Lieu d’établissement</label>
+<input id="lieu_etablissement" name="lieu_etablissement" required class="form-input">
+</div>
+<div class="fg-item">
+<label for="telephone">Téléphone</label>
+<input id="telephone" name="telephone" required class="form-input" pattern="^\\+?[0-9\\s]{8,20}$" placeholder="(+224) 613 07 92 46">
+</div>
+<div class="fg-item">
+<label for="email">Email</label>
+<input type="email" id="email" name="email" required class="form-input">
+</div>
+<div class="fg-item">
+<label for="profession">Profession</label>
+<input id="profession" name="profession" required class="form-input">
+</div>
+<div class="fg-item">
+<label for="pays">Pays</label>
+<!-- Remplacé : champ fixe "Guinée" en lecture seule, mise en forme identique -->
+<input id="pays" name="pays" required class="form-input" value="Guinée" readonly>
+</div>
+<div class="fg-item">
+<label for="adresse_region">Région / Département</label>
+<input id="adresse_region" name="adresse_region" required class="form-input">
+</div>
+<div class="fg-item">
+<label for="adresse_ville">Ville</label>
+<input id="adresse_ville" name="adresse_ville" required class="form-input">
+</div>
+<div class="fg-item full-span">
+<div class="form-actions">
+<button type="submit" class="nav-cta">              Continuer            </button>
+</div>
+</div>
+</div>
+</form>
+</div>
+<!-- Footer unifié (réutiliser ton footer global) -->
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-col footer-brand">
+<a href="index.html" class="footer-logo">
+<img src="logo-bcf.png" alt="Logo BCF">
+<span>BCF</span>
+</a>
+<p class="footer-text">Plateforme de sélection et de gestion des parcelles dans les opérations d’aménagement foncier.</p>
+<a class="footer-wa-btn" href="https://wa.me/224613079246?text=Bonjour%2C%20je%20souhaite%20une%20assistance."           target="_blank" rel="noopener">
+<i class="fa-brands fa-whatsapp">
+</i> Assistance WhatsApp        </a>
+</div>
+<div class="footer-col">
+<h4>Navigation</h4>
+<div class="footer-links">
+<a href="index.html">Accueil</a>
+<a href="conditions.html">Conditions</a>
+<a href="souscrire.html">Souscription</a>
+<a href="type-parcelle.html">Parcelles</a>
+<a href="paiement.html">Paiement</a>
+<a href="contact.html">Contact</a>
+</div>
+</div>
+<div class="footer-col footer-contact">
+<h4>Contact</h4>
+<p>Boulevard Léon M’Ba<br>Cotonou – Bénin</p>
+<p class="tel">(+224) 613 07 92 46</p>
+<p>contact@BCF.bj</p>
+<div class="footer-hours">Lun - Ven : 08h00 - 17h30</div>
+</div>
+<div class="footer-col">
+<h4>Réseaux sociaux</h4>
+<div class="social-links">
+<a href="https://www.facebook.com/share/1CVRTsV4wS/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook BCF">
+<i class="fa-brands fa-facebook-f">
+</i>
+</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">© 2025 BCF. Tous droits réservés.</div>
+</footer>
+<script>  // Header burger  (function(){    const t=document.getElementById('navToggle');    const nav=document.getElementById('navMain');    const menu=document.getElementById('navMenu');    if(!t||!nav) return;    const close=()=>{nav.classList.remove('open');t.setAttribute('aria-expanded','false');};    t.addEventListener('click',()=>{const o=nav.classList.toggle('open');t.setAttribute('aria-expanded',o?'true':'false');});    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{if(window.matchMedia('(max-width:768px)').matches) close();}));    window.addEventListener('resize',()=>{if(window.innerWidth>768) close();});  })();  // Protection conditions acceptées  (function(){    if(localStorage.getItem('conditionsAccepted')!=='true'){      window.location.replace('conditions.html');    }  })();  // Validation stricte (réutilise ton script si déjà présent)  (function(){    const form=document.getElementById('identificationForm');    if(!form) return;    const errorBox=document.getElementById('formError');    const fields=[...form.querySelectorAll('input[required],select[required]')];    function validate(){      let ok=true;      fields.forEach(el=>{        const v=(el.value||'').trim();        let valid=v!=='';         if(valid && el.type==='email'){valid=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);}        if(valid && el.id==='telephone'){valid=/^\+?[0-9\s]{8,20}$/.test(v);}        if(!valid){el.classList.add('invalid');ok=false;} else el.classList.remove('invalid');      });      if(!ok){        errorBox.style.display='flex';        errorBox.textContent='?? Veuillez remplir tous les champs avant de continuer.';      } else {        errorBox.style.display='none';      }      return ok;    }    form.addEventListener('submit',e=>{      e.preventDefault();      if(!validate()) return;      const data={};      fields.forEach(f=>data[f.id]=f.value.trim());      data.adresse_pays=data.pays;      data.adresse_complete=[data.adresse_ville,data.adresse_region,data.pays].filter(Boolean).join(', ');      localStorage.setItem('userData',JSON.stringify(data));      localStorage.setItem('identificationValid','true');      window.location.href='type-parcelle.html';    });    form.addEventListener('input',e=>{      if(e.target.classList.contains('invalid')){        e.target.classList.remove('invalid');        if(!form.querySelector('.invalid')) errorBox.style.display='none';      }    });  })();  </script>
 </body>
 </html>

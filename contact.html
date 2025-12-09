@@ -1,320 +1,197 @@
 ﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contactez le Bureau de la Conservation Foncière (BCF) en Guinée : adresse à Kaloum, téléphone, email et horaires officiels.">
-    <title>BCF - Bureau de la Conservation Foncière | Contact Guinée</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="BCF-theme.css">
-    <link rel="stylesheet" href="BCF-buttons.css">
-    <link rel="icon" href="logo-BCF.png" type="image/png">
-    <script>
-        // Fonction pour formater les nombres
-        function formatNumber(number) {
-            return new Intl.NumberFormat('fr-FR').format(number);
-        }
-    </script>
-    <style>
-      header img{height:50px;width:auto;}
-      .page-title{font-size:2rem;font-weight:700;color:#0a6600;}
-      @media (max-width:768px){.page-title{text-align:center;font-size:1.6rem;}}
-      .btn{background:#006400;color:#fff;padding:10px 20px;border-radius:6px;font-weight:700;display:inline-flex;align-items:center;gap:.5rem;transition:.3s;}
-      .btn:hover{background:#228B22;}
-      .btn-outline{background:transparent;border:2px solid #006400;color:#006400;}
-      .btn-outline:hover{background:#006400;color:#fff;}
-      .site-footer{background:#111827;color:#d1d5db;padding:2.5rem 1rem;margin-top:4rem;}
-      .site-footer a{color:#d1d5db;}
-      .site-footer a:hover{color:#fff;}
-      .gradient-bg {
-    background: linear-gradient(135deg, #8B6914 0%, #6B4F0F 100%);
-}
-
-.BCF-green {
-    background-color: #8B6914;
-}
-
-.BCF-green-hover:hover {
-    background-color: #6B4F0F;
-}
-
-.header-scroll {
-    transition: background-color 0.3s ease;
-}
-
-/* Écran de chargement */
-.loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.95);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease;
-}
-
-.loader-container {
-    text-align: center;
-}
-
-.loader {
-    width: 80px;
-    height: 80px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #8B6914;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-
-
-.loading-text {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #8B6914;
-}
-
-.loading-dots:after {
-    content: '';
-    animation: dots 1.5s infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes dots {
-    0%, 20% { content: ''; }
-    40% { content: '.'; }
-    60% { content: '..'; }
-    80%, 100% { content: '...'; }
-}
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Contactez le Bureau de la Conservation Foncière (BCF) en Guinée : adresse à Kaloum, téléphone, email et horaires officiels.">
+<title>BCF - Bureau de la Conservation Foncière | Contact Guinée</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer>
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="BCF-theme.css">
+<link rel="stylesheet" href="BCF-buttons.css">
+<link rel="icon" href="logo-bcf.png" type="image/png">
+<script>        // Fonction pour formater les nombres        function formatNumber(number) {            return new Intl.NumberFormat('fr-FR').format(number);        }    </script>
+<style>      header img{height:50px;width:auto;}      .page-title{font-size:2rem;font-weight:700;color:#0a6600;}      @media (max-width:768px){.page-title{text-align:center;font-size:1.6rem;}}      .btn{background:#006400;color:#fff;padding:10px 20px;border-radius:6px;font-weight:700;display:inline-flex;align-items:center;gap:.5rem;transition:.3s;}      .btn:hover{background:#228B22;}      .btn-outline{background:transparent;border:2px solid #006400;color:#006400;}      .btn-outline:hover{background:#006400;color:#fff;}      .site-footer{background:#111827;color:#d1d5db;padding:2.5rem 1rem;margin-top:4rem;}      .site-footer a{color:#d1d5db;}      .site-footer a:hover{color:#fff;}      .gradient-bg {    background: linear-gradient(135deg, #8B6914 0%, #6B4F0F 100%);}.BCF-green {    background-color: #8B6914;}.BCF-green-hover:hover {    background-color: #6B4F0F;}.header-scroll {    transition: background-color 0.3s ease;}/* Écran de chargement */.loading-screen {    position: fixed;    top: 0;    left: 0;    width: 100%;    height: 100%;    background-color: rgba(255, 255, 255, 0.95);    display: flex;    justify-content: center;    align-items: center;    z-index: 9999;    transition: opacity 0.5s ease;}.loader-container {    text-align: center;}.loader {    width: 80px;    height: 80px;    border: 5px solid #f3f3f3;    border-top: 5px solid #8B6914;    border-radius: 50%;    animation: spin 1s linear infinite;}.loading-text {    margin-top: 20px;    font-size: 18px;    color: #8B6914;}.loading-dots:after {    content: '';    animation: dots 1.5s infinite;}@keyframes spin {    0% { transform: rotate(0deg); }    100% { transform: rotate(360deg); }}@keyframes dots {    0%, 20% { content: ''; }    40% { content: '.'; }    60% { content: '..'; }    80%, 100% { content: '...'; }}    </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Écran de chargement -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="loader-container">
-        <div class="loader"></div>
-           
-        </div>
-    </div>
-
-    <header class="site-header">
-  <div class="nav-shell">
-    <div class="nav-left">
-      <a href="index.html" class="nav-logo">
-        <img src="logo-BCF.png" alt="BCF">
-      </a>
-      <button id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-    </div>
-    <nav id="navMain" class="nav-main" aria-label="Navigation principale">
-      <ul class="nav-links" id="navMenu">
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="conditions.html">Conditions</a></li>
-        <li><a href="souscrire.html">Souscription</a></li>
-        <li><a href="type-parcelle.html">Parcelles</a></li>
-        <li><a href="paiement.html">Paiement</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li class="nav-mobile-cta" style="display:none;">
-          <a class="nav-cta" href="identification.html"><i class="fa-solid fa-pen-to-square"></i> Souscrire</a>
-        </li>
-      </ul>
-    </nav>
-    <div class="nav-right">
-      <a class="nav-cta" href="identification.html">
-        <i class="fa-solid fa-pen-to-square"></i> Souscrire
-      </a>
-    </div>
-  </div>
+<!-- Écran de chargement -->
+<div id="loading-screen" class="loading-screen">
+<div class="loader-container">
+<div class="loader">
+</div>
+</div>
+</div>
+<header class="site-header">
+<div class="nav-shell">
+<div class="nav-left">
+<a href="index.html" class="nav-logo">
+<img src="logo-bcf.png" alt="BCF">
+</a>
+<button id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+<i class="fa-solid fa-bars">
+</i>
+</button>
+</div>
+<nav id="navMain" class="nav-main" aria-label="Navigation principale">
+<ul class="nav-links" id="navMenu">
+<li>
+<a href="index.html">Accueil</a>
+</li>
+<li>
+<a href="conditions.html">Conditions</a>
+</li>
+<li>
+<a href="souscrire.html">Souscription</a>
+</li>
+<li>
+<a href="type-parcelle.html">Parcelles</a>
+</li>
+<li>
+<a href="paiement.html">Paiement</a>
+</li>
+<li>
+<a href="contact.html">Contact</a>
+</li>
+<li class="nav-mobile-cta" style="display:none;">
+<a class="nav-cta" href="identification.html">
+<i class="fa-solid fa-pen-to-square">
+</i> Souscrire</a>
+</li>
+</ul>
+</nav>
+<div class="nav-right">
+<a class="nav-cta" href="identification.html">
+<i class="fa-solid fa-pen-to-square">
+</i> Souscrire      </a>
+</div>
+</div>
 </header>
-
-    <div class="h-20"></div>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const header = document.querySelector('header');
-            
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50) {
-                    header.style.backgroundColor = 'rgba(139, 105, 20, 0.95)';
-                } else {
-                    header.style.backgroundColor = '#8B6914';
-                }
-            });
-
-            function toggleMenu() {
-                if (mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.remove('hidden');
-                } else {
-                    mobileMenu.classList.add('hidden');
-                }
-            }
-
-            mobileMenuButton.addEventListener('click', toggleMenu);
-        });
-        
-        // Gestion de l'écran de chargement
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.getElementById('loading-screen');
-            
-            // S'assurer que l'écran de chargement est visible au début
-            loadingScreen.style.display = 'flex';
-            loadingScreen.style.opacity = '1';
-
-            // Attendre que tout soit chargé
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                    }, 500);
-                }, 500);
-            });
-        });
-    </script>
-
-    <main class="py-12">
-      <div class="max-w-6xl mx-auto px-4">
-        <div class="text-center mb-10">
-          <p class="uppercase text-sm tracking-[0.2em] text-green-700 font-semibold">Contact officiel</p>
-          <h1 class="page-title mb-3">Restons en lien avec le BCF</h1>
-          <p class="text-gray-600 max-w-3xl mx-auto">Nos équipes répondent à vos demandes de titres fonciers, attestations et questions réglementaires depuis nos bureaux de Kaloum, Conakry. Choisissez le canal le plus pratique pour vous.</p>
-        </div>
-
-        <div class="grid gap-6 md:grid-cols-3">
-          <article class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            <h2 class="text-lg font-semibold text-green-800 mb-3">Adresse</h2>
-            <p class="text-gray-700">Avenue de la République<br>Angle ORABANK Ex UIBG – Almamya<br>BP 846, Kaloum — Conakry</p>
-            <a class="btn btn-outline mt-4" href="https://www.openstreetmap.org/?mlat=9.6412&mlon=-13.5784#map=16/9.6412/-13.5784" target="_blank" rel="noopener">Voir sur la carte</a>
-          </article>
-
-          <article class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            <h2 class="text-lg font-semibold text-green-800 mb-3">Coordonnées</h2>
-            <ul class="space-y-2 text-gray-700">
-              <li><strong>Téléphone :</strong> (+224) 613 07 92 46</li>
-              <li><strong>Email :</strong> <a class="text-green-700" href="mailto:contact@bcf.gov.gn">contact@bcf.gov.gn</a></li>
-              <li><strong>WhatsApp :</strong> <a class="text-green-700" href="https://wa.me/224613079246" target="_blank" rel="noopener">+224 613 07 92 46</a></li>
-            </ul>
-            <a class="btn mt-4" href="https://wa.me/224613079246?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20mon%20dossier" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Discuter sur WhatsApp</a>
-          </article>
-
-          <article class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            <h2 class="text-lg font-semibold text-green-800 mb-3">Horaires</h2>
-            <ul class="space-y-2 text-gray-700">
-              <li><strong>Lundi — Vendredi :</strong> 08h00 – 17h30</li>
-              <li><strong>Samedi :</strong> Sur rendez-vous</li>
-              <li><strong>Dimanche :</strong> Fermé</li>
-            </ul>
-            <p class="mt-4 text-sm text-gray-500">Préparez votre numéro de dossier ou votre code de parcelle pour accélérer la prise en charge.</p>
-          </article>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-6 mt-10">
-          <section class="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
-            <h2 class="text-xl font-semibold text-green-800 mb-4">Formulaire rapide</h2>
-            <p class="text-gray-600 mb-4">Envoyez-nous votre question et une équipe du BCF vous recontacte sous 24h ouvrées.</p>
-            <form class="grid gap-4" id="contactForm">
-              <input class="border border-gray-200 rounded-lg p-3" type="text" name="nom" placeholder="Nom complet" required>
-              <input class="border border-gray-200 rounded-lg p-3" type="email" name="email" placeholder="Adresse email" required>
-              <input class="border border-gray-200 rounded-lg p-3" type="tel" name="telephone" placeholder="Téléphone" required>
-              <textarea class="border border-gray-200 rounded-lg p-3 min-h-[120px]" name="message" placeholder="Votre message" required></textarea>
-              <button type="submit" class="btn justify-center">Envoyer</button>
-            </form>
-          </section>
-
-          <section class="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
-            <h2 class="text-xl font-semibold text-green-800 mb-4">Localisation</h2>
-            <p class="text-gray-600 mb-4">Nos bureaux sont situés à proximité de l'ORABANK Almamya. Présentez-vous avec votre pièce d'identité pour accéder aux services.</p>
-            <div class="aspect-video rounded-xl overflow-hidden border border-gray-200">
-              <iframe title="BCF Conakry" src="https://www.openstreetmap.org/export/embed.html?bbox=-13.5835,9.638,-13.5725,9.6445&layer=mapnik&marker=9.6412,-13.5784" style="width:100%;height:100%;border:0;" loading="lazy"></iframe>
-            </div>
-          </section>
-        </div>
-
-        <div class="text-center mt-10">
-          <div class="flex flex-wrap gap-4 justify-center">
-            <a href="souscrire.html" class="btn"><i class="fa-solid fa-pen-to-square"></i> Démarrer une demande</a>
-            <a href="conditions.html" class="btn btn-outline"><i class="fa-solid fa-file-lines"></i> Consulter les conditions</a>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- Footer unifié BCF -->
+<div class="h-20">
+</div>
+<script>        document.addEventListener('DOMContentLoaded', function() {            const mobileMenuButton = document.getElementById('mobile-menu-button');            const mobileMenu = document.getElementById('mobile-menu');            const header = document.querySelector('header');                        window.addEventListener('scroll', function() {                if (window.scrollY > 50) {                    header.style.backgroundColor = 'rgba(139, 105, 20, 0.95)';                } else {                    header.style.backgroundColor = '#8B6914';                }            });            function toggleMenu() {                if (mobileMenu.classList.contains('hidden')) {                    mobileMenu.classList.remove('hidden');                } else {                    mobileMenu.classList.add('hidden');                }            }            mobileMenuButton.addEventListener('click', toggleMenu);        });                // Gestion de l'écran de chargement        document.addEventListener('DOMContentLoaded', function() {            const loadingScreen = document.getElementById('loading-screen');                        // S'assurer que l'écran de chargement est visible au début            loadingScreen.style.display = 'flex';            loadingScreen.style.opacity = '1';            // Attendre que tout soit chargé            window.addEventListener('load', function() {                setTimeout(function() {                    loadingScreen.style.opacity = '0';                    setTimeout(() => {                        loadingScreen.style.display = 'none';                    }, 500);                }, 500);            });        });    </script>
+<main class="py-12">
+<div class="max-w-6xl mx-auto px-4">
+<div class="text-center mb-10">
+<p class="uppercase text-sm tracking-[0.2em] text-green-700 font-semibold">Contact officiel</p>
+<h1 class="page-title mb-3">Restons en lien avec le BCF</h1>
+<p class="text-gray-600 max-w-3xl mx-auto">Nos équipes répondent à vos demandes de titres fonciers, attestations et questions réglementaires depuis nos bureaux de Kaloum, Conakry. Choisissez le canal le plus pratique pour vous.</p>
+</div>
+<div class="grid gap-6 md:grid-cols-3">
+<article class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+<h2 class="text-lg font-semibold text-green-800 mb-3">Adresse</h2>
+<p class="text-gray-700">Avenue de la République<br>Angle ORABANK Ex UIBG – Almamya<br>BP 846, Kaloum — Conakry</p>
+<a class="btn btn-outline mt-4" href="https://www.openstreetmap.org/?mlat=9.6412&mlon=-13.5784#map=16/9.6412/-13.5784" target="_blank" rel="noopener">Voir sur la carte</a>
+</article>
+<article class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+<h2 class="text-lg font-semibold text-green-800 mb-3">Coordonnées</h2>
+<ul class="space-y-2 text-gray-700">
+<li>
+<strong>Téléphone :</strong> (+224) 613 07 92 46</li>
+<li>
+<strong>Email :</strong>
+<a class="text-green-700" href="mailto:contact@bcf.gov.gn">contact@bcf.gov.gn</a>
+</li>
+<li>
+<strong>WhatsApp :</strong>
+<a class="text-green-700" href="https://wa.me/224613079246" target="_blank" rel="noopener">+224 613 07 92 46</a>
+</li>
+</ul>
+<a class="btn mt-4" href="https://wa.me/224613079246?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20mon%20dossier" target="_blank" rel="noopener">
+<i class="fa-brands fa-whatsapp">
+</i> Discuter sur WhatsApp</a>
+</article>
+<article class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+<h2 class="text-lg font-semibold text-green-800 mb-3">Horaires</h2>
+<ul class="space-y-2 text-gray-700">
+<li>
+<strong>Lundi — Vendredi :</strong> 08h00 – 17h30</li>
+<li>
+<strong>Samedi :</strong> Sur rendez-vous</li>
+<li>
+<strong>Dimanche :</strong> Fermé</li>
+</ul>
+<p class="mt-4 text-sm text-gray-500">Préparez votre numéro de dossier ou votre code de parcelle pour accélérer la prise en charge.</p>
+</article>
+</div>
+<div class="grid md:grid-cols-2 gap-6 mt-10">
+<section class="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+<h2 class="text-xl font-semibold text-green-800 mb-4">Formulaire rapide</h2>
+<p class="text-gray-600 mb-4">Envoyez-nous votre question et une équipe du BCF vous recontacte sous 24h ouvrées.</p>
+<form class="grid gap-4" id="contactForm">
+<input class="border border-gray-200 rounded-lg p-3" type="text" name="nom" placeholder="Nom complet" required>
+<input class="border border-gray-200 rounded-lg p-3" type="email" name="email" placeholder="Adresse email" required>
+<input class="border border-gray-200 rounded-lg p-3" type="tel" name="telephone" placeholder="Téléphone" required>
+<textarea class="border border-gray-200 rounded-lg p-3 min-h-[120px]" name="message" placeholder="Votre message" required>
+</textarea>
+<button type="submit" class="btn justify-center">Envoyer</button>
+</form>
+</section>
+<section class="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+<h2 class="text-xl font-semibold text-green-800 mb-4">Localisation</h2>
+<p class="text-gray-600 mb-4">Nos bureaux sont situés à proximité de l'ORABANK Almamya. Présentez-vous avec votre pièce d'identité pour accéder aux services.</p>
+<div class="aspect-video rounded-xl overflow-hidden border border-gray-200">
+<iframe title="BCF Conakry" src="https://www.openstreetmap.org/export/embed.html?bbox=-13.5835,9.638,-13.5725,9.6445&layer=mapnik&marker=9.6412,-13.5784" style="width:100%;height:100%;border:0;" loading="lazy">
+</iframe>
+</div>
+</section>
+</div>
+<div class="text-center mt-10">
+<div class="flex flex-wrap gap-4 justify-center">
+<a href="souscrire.html" class="btn">
+<i class="fa-solid fa-pen-to-square">
+</i> Démarrer une demande</a>
+<a href="conditions.html" class="btn btn-outline">
+<i class="fa-solid fa-file-lines">
+</i> Consulter les conditions</a>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer unifié BCF -->
 <footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-col footer-brand">
-      <a href="index.html" class="footer-logo">
-        <img src="logo-BCF.png" alt="Logo BCF">
-        <span>BCF</span>
-      </a>
-      <p class="footer-text">
-        Plateforme de sélection et de gestion des parcelles dans les opérations d’aménagement foncier.
-      </p>
-      <a class="footer-wa-btn"
-        href="https://wa.me/224613079246?text=Bonjour%2C%20je%20souhaite%20une%20assistance."
-         target="_blank" rel="noopener">
-        <i class="fa-brands fa-whatsapp"></i> Assistance WhatsApp
-      </a>
-    </div>
-
-    <div class="footer-col">
-      <h4>Navigation</h4>
-      <div class="footer-links">
-        <a href="index.html">Accueil</a>
-        <a href="conditions.html">Conditions</a>
-        <a href="souscrire.html">Souscription</a>
-        <a href="type-parcelle.html">Parcelles</a>
-        <a href="paiement.html">Paiement</a>
-        <a href="contact.html">Contact</a>
-      </div>
-    </div>
-
-    <div class="footer-col footer-contact">
-      <h4>Contact</h4>
-      <p>Avenue de la République, Angle ORABANK Ex UIBG – Almamya<br>BP 846, Kaloum – Conakry (Guinée)</p>
-      <p class="tel">(+224) 613 07 92 46</p>
-      <p>contact@bcf.gov.gn</p>
-      <div class="footer-hours">Lun - Ven : 08h00 - 17h30</div>
-    </div>
-
-    <div class="footer-col">
-      <h4>Réseaux sociaux</h4>
-      <div class="social-links">
-        <a href="https://www.facebook.com/share/1CVRTsV4wS/?mibextid=wwXIfr"
-           target="_blank" rel="noopener" aria-label="Facebook BCF">
-          <i class="fa-brands fa-facebook-f"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    © 2025 BCF. Tous droits réservés.
-  </div>
+<div class="footer-inner">
+<div class="footer-col footer-brand">
+<a href="index.html" class="footer-logo">
+<img src="logo-bcf.png" alt="Logo BCF">
+<span>BCF</span>
+</a>
+<p class="footer-text">        Plateforme de sélection et de gestion des parcelles dans les opérations d’aménagement foncier.      </p>
+<a class="footer-wa-btn"        href="https://wa.me/224613079246?text=Bonjour%2C%20je%20souhaite%20une%20assistance."         target="_blank" rel="noopener">
+<i class="fa-brands fa-whatsapp">
+</i> Assistance WhatsApp      </a>
+</div>
+<div class="footer-col">
+<h4>Navigation</h4>
+<div class="footer-links">
+<a href="index.html">Accueil</a>
+<a href="conditions.html">Conditions</a>
+<a href="souscrire.html">Souscription</a>
+<a href="type-parcelle.html">Parcelles</a>
+<a href="paiement.html">Paiement</a>
+<a href="contact.html">Contact</a>
+</div>
+</div>
+<div class="footer-col footer-contact">
+<h4>Contact</h4>
+<p>Avenue de la République, Angle ORABANK Ex UIBG – Almamya<br>BP 846, Kaloum – Conakry (Guinée)</p>
+<p class="tel">(+224) 613 07 92 46</p>
+<p>contact@bcf.gov.gn</p>
+<div class="footer-hours">Lun - Ven : 08h00 - 17h30</div>
+</div>
+<div class="footer-col">
+<h4>Réseaux sociaux</h4>
+<div class="social-links">
+<a href="https://www.facebook.com/share/1CVRTsV4wS/?mibextid=wwXIfr"           target="_blank" rel="noopener" aria-label="Facebook BCF">
+<i class="fa-brands fa-facebook-f">
+</i>
+</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">    © 2025 BCF. Tous droits réservés.  </div>
 </footer>
-
-    <script>
-        // Empêcher la perte des données lors du rafraîchissement
-        window.addEventListener('beforeunload', function (e) {
-            // Si on est dans le processus de souscription (étapes 1 à 6)
-            const currentEtape = parseInt(localStorage.getItem('currentEtape') || '0');
-            if (currentEtape > 0 && currentEtape < 7) {
-                return;
-            }
-        });
-    </script>
+<script>        // Empêcher la perte des données lors du rafraîchissement        window.addEventListener('beforeunload', function (e) {            // Si on est dans le processus de souscription (étapes 1 à 6)            const currentEtape = parseInt(localStorage.getItem('currentEtape') || '0');            if (currentEtape > 0 && currentEtape < 7) {                return;            }        });    </script>
 </body>
 </html>

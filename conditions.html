@@ -1,326 +1,135 @@
 ﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>BCF - Conditions</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" href="logo-BCF.png" type="image/png">
-  <link rel="stylesheet" href="BCF-theme.css">
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    main.conditions-page{
-      max-width:1100px;
-      margin:0 auto;
-      padding:2.2rem 1.2rem 3.5rem;
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-      line-height:1.45rem;
-      color:#21322c;
-    }
-    main.conditions-page h1{
-      font-size:1.9rem;
-      margin:0 0 1.2rem;
-      line-height:1.15;
-      color:#0f3d2e;
-      font-weight:700;
-    }
-    main.conditions-page h2{
-      font-size:1.25rem;
-      margin:2.2rem 0 .9rem;
-      font-weight:650;
-      color:#134a36;
-    }
-    .cond-intro{
-      background:#f4f9f6;
-      border:1px solid #d9e7e0;
-      padding:1rem 1.1rem;
-      border-radius:14px;
-      font-size:.9rem;
-      margin:0 0 1.6rem;
-    }
-    .conditions-list{
-      margin:.5rem 0 1.2rem;
-      padding-left:1.05rem;
-      display:grid;
-      gap:.55rem;
-      font-size:.9rem;
-    }
-    .conditions-list li{
-      list-style:disc;
-    }
-    .conditions-actions{
-      margin:2.2rem 0 0;
-      display:flex;
-      flex-wrap:wrap;
-      gap:.9rem;
-      align-items:center;
-      justify-content:flex-start;
-    }
-    .conditions-actions button,
-    .conditions-actions a{
-      border:none;
-      cursor:pointer;
-      font-size:.85rem;
-      font-weight:600;
-      padding:.75rem 1.15rem;
-      line-height:1;
-      border-radius:38px;
-      display:inline-flex;
-      align-items:center;
-      gap:.45rem;
-      text-decoration:none;
-      transition:.25s;
-      white-space:nowrap;
-    }
-    .btn-prev{background:#e8efec;color:#123729;}
-    .btn-prev:hover{background:#d9e6e2;}
-    .btn-home{background:#e8efec;color:#193c2e;}
-    .btn-home:hover{background:#d9e6e2;}
-    .btn-accept{background:#007a33;color:#fff;box-shadow:0 4px 14px -4px rgba(0,122,51,.45);}
-    .btn-accept:hover{background:#00923c;}
-    .btn-next{background:#134a36;color:#fff;box-shadow:0 3px 10px -4px rgba(0,0,0,.25);}
-    .btn-next:hover{background:#0f3d2e;}
-    .btn-next:disabled{
-      background:#b8c7c1;
-      cursor:not-allowed;
-      box-shadow:none;
-      color:#ffffff;
-    }
-    .legal-block{
-      background:#ffffff;
-      border:1px solid #e2e8e5;
-      padding:1.05rem 1.15rem 1.2rem;
-      border-radius:14px;
-      box-shadow:0 4px 12px -6px rgba(0,0,0,.06);
-      margin:0 0 1.4rem;
-      font-size:.88rem;
-    }
-    .legal-block h3{
-      margin:.2rem 0 .8rem;
-      font-size:1rem;
-      font-weight:650;
-      color:#173c2e;
-    }
-    .note-important{
-      background:#fff3d9;
-      border:1px solid #f0d08b;
-      padding:.85rem 1rem;
-      border-radius:12px;
-      font-size:.8rem;
-      font-weight:600;
-      color:#5a4104;
-      margin:1.4rem 0 0;
-    }
-    @media (max-width:760px){
-      main.conditions-page{padding:1.7rem 1.05rem 3rem;}
-      main.conditions-page h1{font-size:1.55rem;}
-      .conditions-actions{
-        flex-direction:column;
-        align-items:stretch;
-      }
-      .conditions-actions button,
-      .conditions-actions a{
-        width:100%;
-        justify-content:center;
-        font-size:.88rem;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<title>BCF - Conditions</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="icon" href="logo-bcf.png" type="image/png">
+<link rel="stylesheet" href="BCF-theme.css">
+<link rel="stylesheet"        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>    main.conditions-page{      max-width:1100px;      margin:0 auto;      padding:2.2rem 1.2rem 3.5rem;      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;      line-height:1.45rem;      color:#21322c;    }    main.conditions-page h1{      font-size:1.9rem;      margin:0 0 1.2rem;      line-height:1.15;      color:#0f3d2e;      font-weight:700;    }    main.conditions-page h2{      font-size:1.25rem;      margin:2.2rem 0 .9rem;      font-weight:650;      color:#134a36;    }    .cond-intro{      background:#f4f9f6;      border:1px solid #d9e7e0;      padding:1rem 1.1rem;      border-radius:14px;      font-size:.9rem;      margin:0 0 1.6rem;    }    .conditions-list{      margin:.5rem 0 1.2rem;      padding-left:1.05rem;      display:grid;      gap:.55rem;      font-size:.9rem;    }    .conditions-list li{      list-style:disc;    }    .conditions-actions{      margin:2.2rem 0 0;      display:flex;      flex-wrap:wrap;      gap:.9rem;      align-items:center;      justify-content:flex-start;    }    .conditions-actions button,    .conditions-actions a{      border:none;      cursor:pointer;      font-size:.85rem;      font-weight:600;      padding:.75rem 1.15rem;      line-height:1;      border-radius:38px;      display:inline-flex;      align-items:center;      gap:.45rem;      text-decoration:none;      transition:.25s;      white-space:nowrap;    }    .btn-prev{background:#e8efec;color:#123729;}    .btn-prev:hover{background:#d9e6e2;}    .btn-home{background:#e8efec;color:#193c2e;}    .btn-home:hover{background:#d9e6e2;}    .btn-accept{background:#007a33;color:#fff;box-shadow:0 4px 14px -4px rgba(0,122,51,.45);}    .btn-accept:hover{background:#00923c;}    .btn-next{background:#134a36;color:#fff;box-shadow:0 3px 10px -4px rgba(0,0,0,.25);}    .btn-next:hover{background:#0f3d2e;}    .btn-next:disabled{      background:#b8c7c1;      cursor:not-allowed;      box-shadow:none;      color:#ffffff;    }    .legal-block{      background:#ffffff;      border:1px solid #e2e8e5;      padding:1.05rem 1.15rem 1.2rem;      border-radius:14px;      box-shadow:0 4px 12px -6px rgba(0,0,0,.06);      margin:0 0 1.4rem;      font-size:.88rem;    }    .legal-block h3{      margin:.2rem 0 .8rem;      font-size:1rem;      font-weight:650;      color:#173c2e;    }    .note-important{      background:#fff3d9;      border:1px solid #f0d08b;      padding:.85rem 1rem;      border-radius:12px;      font-size:.8rem;      font-weight:600;      color:#5a4104;      margin:1.4rem 0 0;    }    @media (max-width:760px){      main.conditions-page{padding:1.7rem 1.05rem 3rem;}      main.conditions-page h1{font-size:1.55rem;}      .conditions-actions{        flex-direction:column;        align-items:stretch;      }      .conditions-actions button,      .conditions-actions a{        width:100%;        justify-content:center;        font-size:.88rem;      }    }  </style>
 </head>
 <body>
-  <!-- Header unifié -->
-  <header class="site-header">
-    <div class="nav-shell">
-      <div class="nav-left">
-        <a href="index.html" class="nav-logo">
-          <img src="logo-BCF.png" alt="BCF">
-        </a>
-        <button id="navToggle" class="nav-toggle" aria-label="Menu" aria-expanded="false">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-      </div>
-      <nav id="navMain" class="nav-main" aria-label="Navigation principale">
-        <ul class="nav-links" id="navMenu">
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="conditions.html">Conditions</a></li>
-          <li><a href="souscrire.html">Souscription</a></li>
-          <li><a href="type-parcelle.html">Parcelles</a></li>
-          <li><a href="paiement.html">Paiement</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li class="nav-mobile-cta" style="display:none;">
-            <a class="nav-cta" href="identification.html"><i class="fa-solid fa-pen-to-square"></i> Souscrire</a>
-          </li>
-        </ul>
-      </nav>
-      <div class="nav-right">
-        <a class="nav-cta" href="identification.html">
-          <i class="fa-solid fa-pen-to-square"></i> Souscrire
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <main class="conditions-page">
-    <h1>Conditions de l'opération</h1>
-
-    <div class="cond-intro">
-      Merci de lire attentivement les conditions ci‑dessous avant de poursuivre votre souscription. L’acceptation est obligatoire pour continuer.
-    </div>
-
-    <h2>Conditions générales</h2>
-    <ul class="conditions-list">
-      <li>La procédure d'immatriculation foncière s'effectue conformément au droit foncier domanial de la République de Guinée.</li>
-      <li>Les frais d'inscription (1 000 000 GNF) correspondent aux frais de dossier et ne sont pas remboursables.</li>
-      <li>La validation finale de la parcelle est soumise aux vérifications cadastrales et administratives locales.</li>
-      <li>Toute falsification de documents entraîne l'annulation de la demande et des poursuites selon la législation guinéenne.</li>
-    </ul>
-
-    <div class="legal-block">
-      <h3>Protection des données</h3>
-      <p>Les données collectées sont utilisées uniquement dans le cadre des procédures d’aménagement foncier et de la gestion des parcelles. Elles ne sont pas cédées à des tiers sans autorisation légale.</p>
-      <p>Vous pouvez exercer vos droits de consultation ou rectification en contactant le service compétent.</p>
-    </div>
-
-    <div class="legal-block">
-      <h3>Engagement du souscripteur</h3>
-      <p>En acceptant les conditions, vous vous engagez à fournir tout complément d’information ou document requis et à respecter les délais de procédure communiqués.</p>
-      <p>Le non‑respect des obligations peut entraîner la suspension ou l’annulation de la demande sans restitution des frais d’inscription.</p>
-    </div>
-
-    <div class="note-important">
-      Important : l’acceptation des conditions est nécessaire pour accéder à l’étape de sélection des parcelles.
-    </div>
-
-    <div class="accept-conditions-box">
-      <input type="checkbox" id="acceptConditions">
-      <label for="acceptConditions">J’ai lu et j’accepte les conditions générales de l’opération.</label>
-    </div>
-
-    <div class="conditions-actions">
-      <a href="index.html" class="btn-home">Accueil</a>
-      <button type="button" class="btn-prev" onclick="history.back()">← Précédent</button>
-      <button type="button" class="btn-next" id="btnNext" disabled>Suivant →</button>
-    </div>
-  </main>
-
-  <!-- Footer unifié BCF -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-col footer-brand">
-        <a href="index.html" class="footer-logo">
-          <img src="logo-BCF.png" alt="Logo BCF">
-          <span>BCF</span>
-        </a>
-        <p class="footer-text">
-          Plateforme de sélection et de gestion des parcelles dans les opérations d’aménagement foncier.
-        </p>
-          <a class="footer-wa-btn"
-            href="https://wa.me/224613079246?text=Bonjour%2C%20je%20souhaite%20une%20assistance."
-           target="_blank" rel="noopener">
-          <i class="fa-brands fa-whatsapp"></i> Assistance WhatsApp
-        </a>
-      </div>
-      <div class="footer-col">
-        <h4>Navigation</h4>
-        <div class="footer-links">
-          <a href="index.html">Accueil</a>
-          <a href="conditions.html">Conditions</a>
-            <a href="souscrire.html">Souscription</a>
-          <a href="type-parcelle.html">Parcelles</a>
-          <a href="paiement.html">Paiement</a>
-          <a href="contact.html">Contact</a>
-        </div>
-      </div>
-      <div class="footer-col footer-contact">
-        <h4>Contact</h4>
-        <p>Boulevard Léon M’Ba<br>Cotonou – Bénin</p>
-        <p class="tel">(+224) 613 07 92 46</p>
-        <p>contact@BCF.bj</p>
-        <div class="footer-hours">Lun - Ven : 08h00 - 17h30</div>
-      </div>
-      <div class="footer-col">
-        <h4>Réseaux sociaux</h4>
-        <div class="social-links">
-          <a href="https://www.facebook.com/share/1CVRTsV4wS/?mibextid=wwXIfr"
-             target="_blank" rel="noopener" aria-label="Facebook BCF">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      © 2025 BCF. Tous droits réservés.
-    </div>
-  </footer>
-
-  <script>
-  (function(){
-    const toggle = document.getElementById('navToggle');
-    const navMain = document.getElementById('navMain');
-    const navMenu = document.getElementById('navMenu');
-    if(toggle){
-      const close = ()=>{
-        navMain.classList.remove('open');
-        toggle.setAttribute('aria-expanded','false');
-      };
-      toggle.addEventListener('click',()=>{
-        const open = navMain.classList.toggle('open');
-        toggle.setAttribute('aria-expanded',open?'true':'false');
-      });
-      navMenu.querySelectorAll('a').forEach(a=>{
-        a.addEventListener('click',()=>{
-          if(window.matchMedia('(max-width:768px)').matches) close();
-        });
-      });
-      window.addEventListener('resize',()=>{if(window.innerWidth>768) close();});
-    }
-  })();
-
-  // Acceptation conditions
-  (function(){
-    const acceptBtn = document.getElementById('btnAccept');
-    const nextBtn = document.getElementById('btnNext');
-    if(!acceptBtn || !nextBtn) return;
-    acceptBtn.addEventListener('click', ()=>{
-      localStorage.setItem('conditionsAccepted','true');
-      acceptBtn.textContent='✔ Conditions acceptées';
-      acceptBtn.disabled=true;
-      nextBtn.disabled=false;
-      nextBtn.focus();
-    });
-    nextBtn.addEventListener('click', ()=>{
-      if(nextBtn.disabled) return;
-      window.location.href='souscrire.html';
-    });
-  })();
-
-  // Validation acceptation
-  (function(){
-    const chk = document.getElementById('acceptConditions');
-    const nextBtn = document.getElementById('btnNext');
-    if(!chk || !nextBtn) return;
-
-    // Si accepté précédemment
-    if(localStorage.getItem('conditionsAccepted')==='true'){
-      chk.checked = true;
-      nextBtn.disabled = false;
-    }
-
-    chk.addEventListener('change', ()=>{
-      nextBtn.disabled = !chk.checked;
-      if(chk.checked){
-        localStorage.setItem('conditionsAccepted','true');
-      } else {
-        localStorage.removeItem('conditionsAccepted');
-      }
-    });
-
-    nextBtn.addEventListener('click', ()=>{
-      if(nextBtn.disabled) return;
-      window.location.href='identification.html';
-    });
-  })();
-  </script>
+<!-- Header unifié -->
+<header class="site-header">
+<div class="nav-shell">
+<div class="nav-left">
+<a href="index.html" class="nav-logo">
+<img src="logo-bcf.png" alt="BCF">
+</a>
+<button id="navToggle" class="nav-toggle" aria-label="Menu" aria-expanded="false">
+<i class="fa-solid fa-bars">
+</i>
+</button>
+</div>
+<nav id="navMain" class="nav-main" aria-label="Navigation principale">
+<ul class="nav-links" id="navMenu">
+<li>
+<a href="index.html">Accueil</a>
+</li>
+<li>
+<a href="conditions.html">Conditions</a>
+</li>
+<li>
+<a href="souscrire.html">Souscription</a>
+</li>
+<li>
+<a href="type-parcelle.html">Parcelles</a>
+</li>
+<li>
+<a href="paiement.html">Paiement</a>
+</li>
+<li>
+<a href="contact.html">Contact</a>
+</li>
+<li class="nav-mobile-cta" style="display:none;">
+<a class="nav-cta" href="identification.html">
+<i class="fa-solid fa-pen-to-square">
+</i> Souscrire</a>
+</li>
+</ul>
+</nav>
+<div class="nav-right">
+<a class="nav-cta" href="identification.html">
+<i class="fa-solid fa-pen-to-square">
+</i> Souscrire        </a>
+</div>
+</div>
+</header>
+<main class="conditions-page">
+<h1>Conditions de l'opération</h1>
+<div class="cond-intro">      Merci de lire attentivement les conditions ci-dessous avant de poursuivre votre souscription. L’acceptation est obligatoire pour continuer.    </div>
+<h2>Conditions générales</h2>
+<ul class="conditions-list">
+<li>La procédure d'immatriculation foncière s'effectue conformément au droit foncier domanial de la République de Guinée.</li>
+<li>Les frais d'inscription (1 000 000 GNF) correspondent aux frais de dossier et ne sont pas remboursables.</li>
+<li>La validation finale de la parcelle est soumise aux vérifications cadastrales et administratives locales.</li>
+<li>Toute falsification de documents entraîne l'annulation de la demande et des poursuites selon la législation guinéenne.</li>
+</ul>
+<div class="legal-block">
+<h3>Protection des données</h3>
+<p>Les données collectées sont utilisées uniquement dans le cadre des procédures d’aménagement foncier et de la gestion des parcelles. Elles ne sont pas cédées à des tiers sans autorisation légale.</p>
+<p>Vous pouvez exercer vos droits de consultation ou rectification en contactant le service compétent.</p>
+</div>
+<div class="legal-block">
+<h3>Engagement du souscripteur</h3>
+<p>En acceptant les conditions, vous vous engagez à fournir tout complément d’information ou document requis et à respecter les délais de procédure communiqués.</p>
+<p>Le non-respect des obligations peut entraîner la suspension ou l’annulation de la demande sans restitution des frais d’inscription.</p>
+</div>
+<div class="note-important">      Important : l’acceptation des conditions est nécessaire pour accéder à l’étape de sélection des parcelles.    </div>
+<div class="accept-conditions-box">
+<input type="checkbox" id="acceptConditions">
+<label for="acceptConditions">J’ai lu et j’accepte les conditions générales de l’opération.</label>
+</div>
+<div class="conditions-actions">
+<a href="index.html" class="btn-home">Accueil</a>
+<button type="button" class="btn-prev" onclick="history.back()">? Précédent</button>
+<button type="button" class="btn-next" id="btnNext" disabled>Suivant ?</button>
+</div>
+</main>
+<!-- Footer unifié BCF -->
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-col footer-brand">
+<a href="index.html" class="footer-logo">
+<img src="logo-bcf.png" alt="Logo BCF">
+<span>BCF</span>
+</a>
+<p class="footer-text">          Plateforme de sélection et de gestion des parcelles dans les opérations d’aménagement foncier.        </p>
+<a class="footer-wa-btn"            href="https://wa.me/224613079246?text=Bonjour%2C%20je%20souhaite%20une%20assistance."           target="_blank" rel="noopener">
+<i class="fa-brands fa-whatsapp">
+</i> Assistance WhatsApp        </a>
+</div>
+<div class="footer-col">
+<h4>Navigation</h4>
+<div class="footer-links">
+<a href="index.html">Accueil</a>
+<a href="conditions.html">Conditions</a>
+<a href="souscrire.html">Souscription</a>
+<a href="type-parcelle.html">Parcelles</a>
+<a href="paiement.html">Paiement</a>
+<a href="contact.html">Contact</a>
+</div>
+</div>
+<div class="footer-col footer-contact">
+<h4>Contact</h4>
+<p>Boulevard Léon M’Ba<br>Cotonou – Bénin</p>
+<p class="tel">(+224) 613 07 92 46</p>
+<p>contact@BCF.bj</p>
+<div class="footer-hours">Lun - Ven : 08h00 - 17h30</div>
+</div>
+<div class="footer-col">
+<h4>Réseaux sociaux</h4>
+<div class="social-links">
+<a href="https://www.facebook.com/share/1CVRTsV4wS/?mibextid=wwXIfr"             target="_blank" rel="noopener" aria-label="Facebook BCF">
+<i class="fa-brands fa-facebook-f">
+</i>
+</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">      © 2025 BCF. Tous droits réservés.    </div>
+</footer>
+<script>  (function(){    const toggle = document.getElementById('navToggle');    const navMain = document.getElementById('navMain');    const navMenu = document.getElementById('navMenu');    if(toggle){      const close = ()=>{        navMain.classList.remove('open');        toggle.setAttribute('aria-expanded','false');      };      toggle.addEventListener('click',()=>{        const open = navMain.classList.toggle('open');        toggle.setAttribute('aria-expanded',open?'true':'false');      });      navMenu.querySelectorAll('a').forEach(a=>{        a.addEventListener('click',()=>{          if(window.matchMedia('(max-width:768px)').matches) close();        });      });      window.addEventListener('resize',()=>{if(window.innerWidth>768) close();});    }  })();  // Acceptation conditions  (function(){    const acceptBtn = document.getElementById('btnAccept');    const nextBtn = document.getElementById('btnNext');    if(!acceptBtn || !nextBtn) return;    acceptBtn.addEventListener('click', ()=>{      localStorage.setItem('conditionsAccepted','true');      acceptBtn.textContent='? Conditions acceptées';      acceptBtn.disabled=true;      nextBtn.disabled=false;      nextBtn.focus();    });    nextBtn.addEventListener('click', ()=>{      if(nextBtn.disabled) return;      window.location.href='souscrire.html';    });  })();  // Validation acceptation  (function(){    const chk = document.getElementById('acceptConditions');    const nextBtn = document.getElementById('btnNext');    if(!chk || !nextBtn) return;    // Si accepté précédemment    if(localStorage.getItem('conditionsAccepted')==='true'){      chk.checked = true;      nextBtn.disabled = false;    }    chk.addEventListener('change', ()=>{      nextBtn.disabled = !chk.checked;      if(chk.checked){        localStorage.setItem('conditionsAccepted','true');      } else {        localStorage.removeItem('conditionsAccepted');      }    });    nextBtn.addEventListener('click', ()=>{      if(nextBtn.disabled) return;      window.location.href='identification.html';    });  })();  </script>
 </body>
 </html>
-
