@@ -83,8 +83,8 @@
 </div>
 <div class="conditions-actions">
 <a href="index.html" class="btn-home">Accueil</a>
-<button type="button" class="btn-prev" onclick="history.back()">? Précédent</button>
-<button type="button" class="btn-next" id="btnNext" disabled>Suivant ?</button>
+<button type="button" class="btn-prev" onclick="history.back()">Précédent</button>
+<button type="button" class="btn-next" id="btnNext" disabled>Suivant</button>
 </div>
 </main>
 <!-- Footer unifié BCF -->
@@ -113,9 +113,9 @@
 </div>
 <div class="footer-col footer-contact">
 <h4>Contact</h4>
-<p>Boulevard Léon M’Ba<br>Cotonou – Bénin</p>
+<p>Kaloum<br>Conakry – Guinée</p>
 <p class="tel">(+224) 613 07 92 46</p>
-<p>contact@BCF.bj</p>
+<p>contact@BCF.gn</p>
 <div class="footer-hours">Lun - Ven : 08h00 - 17h30</div>
 </div>
 <div class="footer-col">
@@ -130,6 +130,59 @@
 </div>
 <div class="footer-bottom">      © 2025 BCF. Tous droits réservés.    </div>
 </footer>
-<script>  (function(){    const toggle = document.getElementById('navToggle');    const navMain = document.getElementById('navMain');    const navMenu = document.getElementById('navMenu');    if(toggle){      const close = ()=>{        navMain.classList.remove('open');        toggle.setAttribute('aria-expanded','false');      };      toggle.addEventListener('click',()=>{        const open = navMain.classList.toggle('open');        toggle.setAttribute('aria-expanded',open?'true':'false');      });      navMenu.querySelectorAll('a').forEach(a=>{        a.addEventListener('click',()=>{          if(window.matchMedia('(max-width:768px)').matches) close();        });      });      window.addEventListener('resize',()=>{if(window.innerWidth>768) close();});    }  })();  // Acceptation conditions  (function(){    const acceptBtn = document.getElementById('btnAccept');    const nextBtn = document.getElementById('btnNext');    if(!acceptBtn || !nextBtn) return;    acceptBtn.addEventListener('click', ()=>{      localStorage.setItem('conditionsAccepted','true');      acceptBtn.textContent='? Conditions acceptées';      acceptBtn.disabled=true;      nextBtn.disabled=false;      nextBtn.focus();    });    nextBtn.addEventListener('click', ()=>{      if(nextBtn.disabled) return;      window.location.href='souscrire.html';    });  })();  // Validation acceptation  (function(){    const chk = document.getElementById('acceptConditions');    const nextBtn = document.getElementById('btnNext');    if(!chk || !nextBtn) return;    // Si accepté précédemment    if(localStorage.getItem('conditionsAccepted')==='true'){      chk.checked = true;      nextBtn.disabled = false;    }    chk.addEventListener('change', ()=>{      nextBtn.disabled = !chk.checked;      if(chk.checked){        localStorage.setItem('conditionsAccepted','true');      } else {        localStorage.removeItem('conditionsAccepted');      }    });    nextBtn.addEventListener('click', ()=>{      if(nextBtn.disabled) return;      window.location.href='identification.html';    });  })();  </script>
+<script>
+(function(){
+	const toggle = document.getElementById('navToggle');
+	const navMain = document.getElementById('navMain');
+	const navMenu = document.getElementById('navMenu');
+	if(toggle && navMain && navMenu){
+		const close = ()=>{
+			navMain.classList.remove('open');
+			toggle.setAttribute('aria-expanded','false');
+		};
+		toggle.addEventListener('click',()=>{
+			const open = navMain.classList.toggle('open');
+			toggle.setAttribute('aria-expanded',open?'true':'false');
+		});
+		navMenu.querySelectorAll('a').forEach(a=>{
+			a.addEventListener('click',()=>{
+				if(window.matchMedia('(max-width:768px)').matches) close();
+			});
+		});
+		window.addEventListener('resize',()=>{if(window.innerWidth>768) close();});
+	}
+})();
+
+document.addEventListener('DOMContentLoaded', ()=>{
+	const chk = document.getElementById('acceptConditions');
+	const nextBtn = document.getElementById('btnNext');
+	if(!chk || !nextBtn) return;
+
+	const syncState = () => {
+		const enabled = chk.checked;
+		nextBtn.disabled = !enabled;
+		nextBtn.setAttribute('aria-disabled', nextBtn.disabled ? 'true' : 'false');
+	};
+
+	if(localStorage.getItem('conditionsAccepted')==='true'){
+		chk.checked = true;
+	}
+	syncState();
+
+	chk.addEventListener('change', ()=>{
+		syncState();
+		if(chk.checked){
+			localStorage.setItem('conditionsAccepted','true');
+		} else {
+			localStorage.removeItem('conditionsAccepted');
+		}
+	});
+
+	nextBtn.addEventListener('click', ()=>{
+		if(nextBtn.disabled) return;
+		window.location.href='identification.html';
+	});
+});
+</script>
 </body>
 </html>

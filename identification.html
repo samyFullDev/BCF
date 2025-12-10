@@ -59,7 +59,7 @@
 <div class="identification-wrapper">
 <h1>Identification du souscripteur</h1>
 <form id="identificationForm" novalidate>
-<div id="formError" class="form-error" style="display:none;">        ?? Veuillez remplir tous les champs avant de continuer.      </div>
+<div id="formError" class="form-error" style="display:none;">Merci de vérifier les informations manquantes.</div>
 <div class="form-grid">
 <div class="fg-item">
 <label for="nom">Nom</label>
@@ -104,7 +104,7 @@
 </div>
 <div class="fg-item">
 <label for="telephone">Téléphone</label>
-<input id="telephone" name="telephone" required class="form-input" pattern="^\\+?[0-9\\s]{8,20}$" placeholder="(+224) 613 07 92 46">
+<input id="telephone" name="telephone" required class="form-input" pattern="^[+0-9() -]{8,20}$" title="Utilisez uniquement des chiffres, espaces, +, -, ()" placeholder=" 613 07 92 46">
 </div>
 <div class="fg-item">
 <label for="email">Email</label>
@@ -161,9 +161,9 @@
 </div>
 <div class="footer-col footer-contact">
 <h4>Contact</h4>
-<p>Boulevard Léon M’Ba<br>Cotonou – Bénin</p>
+<p>Kaloum<br>Conakry – Guinée</p>
 <p class="tel">(+224) 613 07 92 46</p>
-<p>contact@BCF.bj</p>
+<p>contact@BCF.gn</p>
 <div class="footer-hours">Lun - Ven : 08h00 - 17h30</div>
 </div>
 <div class="footer-col">
@@ -178,6 +178,100 @@
 </div>
 <div class="footer-bottom">© 2025 BCF. Tous droits réservés.</div>
 </footer>
-<script>  // Header burger  (function(){    const t=document.getElementById('navToggle');    const nav=document.getElementById('navMain');    const menu=document.getElementById('navMenu');    if(!t||!nav) return;    const close=()=>{nav.classList.remove('open');t.setAttribute('aria-expanded','false');};    t.addEventListener('click',()=>{const o=nav.classList.toggle('open');t.setAttribute('aria-expanded',o?'true':'false');});    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{if(window.matchMedia('(max-width:768px)').matches) close();}));    window.addEventListener('resize',()=>{if(window.innerWidth>768) close();});  })();  // Protection conditions acceptées  (function(){    if(localStorage.getItem('conditionsAccepted')!=='true'){      window.location.replace('conditions.html');    }  })();  // Validation stricte (réutilise ton script si déjà présent)  (function(){    const form=document.getElementById('identificationForm');    if(!form) return;    const errorBox=document.getElementById('formError');    const fields=[...form.querySelectorAll('input[required],select[required]')];    function validate(){      let ok=true;      fields.forEach(el=>{        const v=(el.value||'').trim();        let valid=v!=='';         if(valid && el.type==='email'){valid=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);}        if(valid && el.id==='telephone'){valid=/^\+?[0-9\s]{8,20}$/.test(v);}        if(!valid){el.classList.add('invalid');ok=false;} else el.classList.remove('invalid');      });      if(!ok){        errorBox.style.display='flex';        errorBox.textContent='?? Veuillez remplir tous les champs avant de continuer.';      } else {        errorBox.style.display='none';      }      return ok;    }    form.addEventListener('submit',e=>{      e.preventDefault();      if(!validate()) return;      const data={};      fields.forEach(f=>data[f.id]=f.value.trim());      data.adresse_pays=data.pays;      data.adresse_complete=[data.adresse_ville,data.adresse_region,data.pays].filter(Boolean).join(', ');      localStorage.setItem('userData',JSON.stringify(data));      localStorage.setItem('identificationValid','true');      window.location.href='type-parcelle.html';    });    form.addEventListener('input',e=>{      if(e.target.classList.contains('invalid')){        e.target.classList.remove('invalid');        if(!form.querySelector('.invalid')) errorBox.style.display='none';      }    });  })();  </script>
+<script>
+// Navigation burger
+(function navToggle(){
+	const toggle = document.getElementById('navToggle');
+	const navMain = document.getElementById('navMain');
+	const navMenu = document.getElementById('navMenu');
+	if(!toggle || !navMain || !navMenu) return;
+	const close = () => {
+		navMain.classList.remove('open');
+		toggle.setAttribute('aria-expanded','false');
+	};
+	toggle.addEventListener('click', ()=>{
+		const open = navMain.classList.toggle('open');
+		toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+	});
+	navMenu.querySelectorAll('a').forEach(link => {
+		link.addEventListener('click', ()=>{
+			if(window.matchMedia('(max-width:768px)').matches) close();
+		});
+	});
+	window.addEventListener('resize', ()=>{
+		if(window.innerWidth > 768) close();
+	});
+})();
+
+// Protéger l'étape si les conditions n'ont pas été validées
+(function enforceConditions(){
+	if(localStorage.getItem('conditionsAccepted') !== 'true'){
+		window.location.replace('conditions.html');
+	}
+})();
+
+// Validation et sauvegarde de l'identification
+(function identificationForm(){
+	const form = document.getElementById('identificationForm');
+	if(!form) return;
+	const errorBox = document.getElementById('formError');
+	const fields = [...form.querySelectorAll('input[required],select[required]')];
+	const phonePattern = /^[+0-9() -]{8,20}$/;
+
+	const setErrorVisibility = (show, message) => {
+		if(!errorBox) return;
+		errorBox.style.display = show ? 'flex' : 'none';
+		if(show && message) errorBox.textContent = message;
+	};
+
+	const validate = () => {
+		let ok = true;
+		fields.forEach(el => {
+			const value = (el.value || '').trim();
+			let valid = value !== '';
+			if(valid && el.type === 'email'){
+				valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value);
+			}
+			if(valid && el.id === 'telephone'){
+				valid = phonePattern.test(value);
+			}
+			if(!valid){
+				el.classList.add('invalid');
+				ok = false;
+			} else {
+				el.classList.remove('invalid');
+			}
+		});
+		setErrorVisibility(!ok, 'Merci de vérifier les informations manquantes.');
+		return ok;
+	};
+
+	form.addEventListener('submit', evt => {
+		evt.preventDefault();
+		if(!validate()) return;
+		const data = {};
+		fields.forEach(field => {
+			data[field.id] = field.value.trim();
+		});
+		data.adresse_pays = data.pays;
+		data.adresse_complete = [data.adresse_ville, data.adresse_region, data.pays]
+			.filter(Boolean)
+			.join(', ');
+		localStorage.setItem('userData', JSON.stringify(data));
+		localStorage.setItem('identificationValid', 'true');
+		window.location.href = 'type-parcelle.html';
+	});
+
+	form.addEventListener('input', event => {
+		const target = event.target;
+		if(target.classList.contains('invalid')){
+			target.classList.remove('invalid');
+			if(!form.querySelector('.invalid')){
+				setErrorVisibility(false);
+			}
+		}
+	});
+})();
+</script>
 </body>
 </html>
