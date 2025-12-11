@@ -315,14 +315,15 @@
 
       // update modal payment amount and whatsapp link
       const pmAmountEl = document.getElementById('pmAmount');
-      if(pmAmountEl) pmAmountEl.textContent = formatGnf(reste);
+      const payAmountModal = FRAIS_INSCRIPTION_GNF; // montant fixe à afficher
+      if(pmAmountEl) pmAmountEl.textContent = formatGnf(payAmountModal);
 
       // build WhatsApp template (user phone + montant + code)
       const phone = (user.telephone || '').replace(/\s+/g,'');
       const beneficiary = '+224613079246'; // lien wa to this number for capture sending (keep as-is or modify)
       const msgParts = [
         "Je viens d'effectuer le paiement Orange Money pour la souscription.",
-        `Montant: ${formatGnf(reste)}.`,
+        `Montant: ${formatGnf(payAmountModal)}.`,
         (code ? `Réf parcelle: ${code}.` : ''),
         "Voici ma capture :"
       ];
@@ -423,10 +424,9 @@
 
       function openPaymentModal(){
         if(!paymentModal) return;
-        // update amount display from recap
-        const recap = window.__paiementRecap || {};
+        // Montant affiché : toujours 1 000 000 GNF (frais inscription)
         const pmAmountEl = document.getElementById('pmAmount');
-        if(pmAmountEl && recap.reste !== undefined) pmAmountEl.textContent = formatGnf(recap.reste);
+        if(pmAmountEl) pmAmountEl.textContent = formatGnf(FRAIS_INSCRIPTION_GNF);
         paymentModal.classList.add('open');
         paymentModal.setAttribute('aria-hidden','false');
         document.body.style.overflow = 'hidden';
